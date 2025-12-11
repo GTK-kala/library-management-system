@@ -6,46 +6,36 @@ import { BookOpen, User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "member",
-    showPassword: false,
-    showConfirmPassword: false,
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const value = { name, email, role, password };
 
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
+    try {
+      const url = "http://localhost:3001/api/signup";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(value),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.message);
+      } else {
+        toast.success(data.message);
+      }
+    } catch (error) {
+      toast.error("Signup failed. Please try again.");
     }
-
-    if (formData.password.length < 6) {
-      toast.error("Password must be at least 6 characters");
-      return;
-    }
-
-    setLoading(true);
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    toast.success("Registration successful! Please login.");
-    navigate("/login");
-    setLoading(false);
   };
 
   return (
@@ -77,7 +67,7 @@ const Register = () => {
 
           {/* Form */}
           <div className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
               {/* Name */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -92,8 +82,7 @@ const Register = () => {
                   <input
                     type="text"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
+                    onChange={(e) => setName(e.target.value)}
                     className="w-full px-12 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Enter your full name"
                     required
@@ -115,8 +104,7 @@ const Register = () => {
                   <input
                     type="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-12 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="you@example.com"
                     required
@@ -135,15 +123,14 @@ const Register = () => {
                 </label>
                 <select
                   name="role"
-                  value={formData.role}
-                  onChange={handleChange}
+                  onChange={(e) => setRole(e.target.value)}
                   className="w-full px-4 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="member">Member</option>
                   <option value="admin">Administrator</option>
                 </select>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                  {formData.role === "admin"
+                  {role === "admin"
                     ? "Admin accounts can manage books and users"
                     : "Member accounts can borrow books and view their history"}
                 </p>
@@ -161,64 +148,19 @@ const Register = () => {
                 <div className="relative">
                   <Lock className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
-                    type={formData.showPassword ? "text" : "password"}
+                    type={showPassword ? "text" : "password"}
                     name="password"
-                    value={formData.password}
-                    onChange={handleChange}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full px-12 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Create a password (min. 6 characters)"
                     required
                   />
                   <button
                     type="button"
-                    onClick={() =>
-                      setFormData({
-                        ...formData,
-                        showPassword: !formData.showPassword,
-                      })
-                    }
+                    onClick={() => setShowPassword(true)}
                     className="absolute transform -translate-y-1/2 right-4 top-1/2"
                   >
-                    {formData.showPassword ? (
-                      <EyeOff className="w-5 h-5 text-gray-400" />
-                    ) : (
-                      <Eye className="w-5 h-5 text-gray-400" />
-                    )}
-                  </button>
-                </div>
-              </motion.div>
-
-              {/* Confirm Password */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 }}
-              >
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Confirm Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
-                  <input
-                    type={formData.showConfirmPassword ? "text" : "password"}
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className="w-full px-12 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Confirm your password"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFormData({
-                        ...formData,
-                        showConfirmPassword: !formData.showConfirmPassword,
-                      })
-                    }
-                    className="absolute transform -translate-y-1/2 right-4 top-1/2"
-                  >
-                    {formData.showConfirmPassword ? (
+                    {showPassword ? (
                       <EyeOff className="w-5 h-5 text-gray-400" />
                     ) : (
                       <Eye className="w-5 h-5 text-gray-400" />

@@ -109,3 +109,13 @@
 * {
   @apply transition-colors duration-300;
 }
+
+/* Ensure main content has proper padding */
+main {
+  min-height: calc(100vh - 4rem);
+}
+
+/* For pages without navbar */
+.no-navbar main {
+  min-height: 100vh;
+}

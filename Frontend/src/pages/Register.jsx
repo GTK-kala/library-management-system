@@ -49,7 +49,7 @@ const Register = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="relative flex items-center justify-center min-h-screen mt-20 overflow-hidden bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Animated Background */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute bg-blue-500 rounded-full top-20 left-10 w-72 h-72 mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -64,26 +64,7 @@ const Register = () => {
       >
         <div className="overflow-hidden border shadow-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl border-white/20 dark:border-gray-700/20">
           {/* Header */}
-          <div className="relative p-8 text-center bg-gradient-to-r from-blue-500/10 to-purple-500/10 dark:from-blue-900/20 dark:to-purple-900/20">
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 3 }}
-              className="inline-block"
-            >
-              <div className="w-20 h-20 p-4 mx-auto shadow-xl rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500">
-                <BookOpen className="w-12 h-12 text-white" />
-              </div>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mt-6 text-3xl font-bold text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text"
-            >
-              Join LibraryHub
-            </motion.h1>
-
+          <div className="relative p-3 pb-5 text-center bg-gradient-to-r from-blue-500/10 to-purple-500/10 dark:from-blue-900/20 dark:to-purple-900/20">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

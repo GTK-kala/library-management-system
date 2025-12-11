@@ -96,7 +96,7 @@ const Navbar = () => {
                       {isActive && (
                         <motion.div
                           layoutId="navbar-indicator"
-                          className="absolute bottom-0 w-1/2 h-1 transform -translate-x-1/2 rounded-full left-1/2 bg-gradient-to-r from-primary-500 to-blue-500"
+                          className="absolute bottom-0 w-1/2 h-1 transform -translate-x-1/2 rounded-full left-1/2"
                         />
                       )}
                     </Link>

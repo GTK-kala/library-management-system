@@ -30,8 +30,15 @@ const Register = () => {
       const data = await res.json();
       if (!res.ok) {
         toast.error(data.message);
+        setName("");
+        setEmail("");
+        setPassword("");
       } else {
         toast.success(data.message);
+        setName("");
+        setEmail("");
+        setPassword("");
+        navigate("/dashboard");
       }
     } catch (error) {
       toast.error("Signup failed. Please try again.");
@@ -74,13 +81,18 @@ const Register = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="name"
+                  className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
                   Full Name
                 </label>
                 <div className="relative">
                   <User className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
+                    id="name"
                     type="text"
+                    value={name}
                     name="name"
                     onChange={(e) => setName(e.target.value)}
                     className="w-full px-12 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -96,13 +108,18 @@ const Register = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
                   Email Address
                 </label>
                 <div className="relative">
                   <Mail className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
+                    id="email"
                     type="email"
+                    value={email}
                     name="email"
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-12 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -118,11 +135,16 @@ const Register = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
               >
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="type"
+                  className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
                   Account Type
                 </label>
                 <select
+                  id="type"
                   name="role"
+                  value={role}
                   onChange={(e) => setRole(e.target.value)}
                   className="w-full px-4 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
@@ -142,12 +164,17 @@ const Register = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 }}
               >
-                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="password"
+                  className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
                   Password
                 </label>
                 <div className="relative">
                   <Lock className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
+                    id="password"
+                    value={password}
                     type={showPassword ? "text" : "password"}
                     name="password"
                     onChange={(e) => setPassword(e.target.value)}

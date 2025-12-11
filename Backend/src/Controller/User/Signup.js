@@ -22,14 +22,15 @@ export const SignUpUser = (req, res) => {
         result: result,
       });
     }
-
+    const membership_id =
+      "MEM-" + Math.random().toString(36).substring(2, 10).toUpperCase();
     const hashedPassword = bcrypt.hashSync(password, 8);
     const sql2 =
-      "INSERT INTO users (name, email, role, password) VALUES (?, ?, ? , ?)";
+      "INSERT INTO users (name, email, role, password, membership_id) VALUES (?, ?, ? , ? , ?)";
 
     connection.query(
       sql2,
-      [name, email, userRole, hashedPassword],
+      [name, email, userRole, hashedPassword, membership_id],
       (err, result) => {
         if (err) {
           console.log(err);

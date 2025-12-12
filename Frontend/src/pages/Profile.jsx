@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
@@ -17,6 +18,7 @@ import {
 const Profile = () => {
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [id, setId] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [formData, setFormData] = useState({
@@ -31,6 +33,28 @@ const Profile = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const HandleChange = async (e) => {
+    e.preventDefault();
+    const url = `http://localhost:3001/api/user/edit/${id}`;
+    try {
+      const res = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ name, email }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.message);
+      } else {
+        toast.success(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSave = () => {
@@ -78,18 +102,26 @@ const Profile = () => {
     onTimeReturns: 22,
     favoriteGenre: "Fiction",
   };
-  useEffect(async () => {
+  useEffect(() => {
     const id = localStorage.getItem("id");
-    console.log(id);
-    try {
-      const url = `http://localhost:3001/api/user/${id}`;
-      const res = await fetch(url);
-      if (!res.ok) {
+    const FetchData = async () => {
+      try {
+        const url = `http://localhost:3001/api/user/${id}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (!res.ok) {
+          toast.error(data.message);
+        } else {
+          setId(data.id);
+          setName(data.name);
+          setEmail(data.email);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+    };
+    FetchData();
+  }, [id, name, email]);
   return (
     <div className="min-h-screen px-4 pt-20 pb-8">
       <div className="container mx-auto">
@@ -127,7 +159,7 @@ const Profile = () => {
                   {isEditing ? (
                     <>
                       <Save className="w-4 h-4" />
-                      <span>Save Changes</span>
+                      <span onClick={(e) => HandleChange(e)}>Save Changes</span>
                     </>
                   ) : (
                     <>

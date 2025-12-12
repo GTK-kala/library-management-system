@@ -20,7 +20,7 @@ import {
 
 const Navbar = () => {
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, Logout } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -176,7 +176,7 @@ const Navbar = () => {
                         <span>Profile</span>
                       </Link>
                       <button
-                        onClick={logout}
+                        onClick={() => Logout()}
                         className="flex items-center w-full p-3 space-x-3 text-red-600 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-dark-surface dark:text-red-400"
                       >
                         <LogOut className="w-5 h-5" />

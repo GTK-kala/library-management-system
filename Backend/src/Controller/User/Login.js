@@ -40,6 +40,7 @@ export const Login = (req, res) => {
 
     return res.status(200).cookie("token", token, cookie).json({
       message: "Login successful",
+      user: user,
     });
   });
 };

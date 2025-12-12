@@ -1,16 +1,15 @@
-import axios from "axios";
 import toast from "react-hot-toast";
-import { createContext, use, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
-  const [user, setUser] = useState(false);
-  const [admin, setAdmin] = useState(false);
-  const [login, setLogin] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -18,16 +17,13 @@ export const AuthProvider = ({ children }) => {
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const value = { email, password };
+
     try {
-      const url = "http://localhost:3001/api/login";
-      const res = await fetch(url, {
+      const res = await fetch("http://localhost:3001/api/login", {
         method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(value),
+        headers: { "content-type": "application/json" },
         credentials: "include",
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
@@ -35,35 +31,37 @@ export const AuthProvider = ({ children }) => {
       if (!res.ok) {
         toast.error(data.message);
       } else {
-        HandleLogin();
-        toast.success(data.message);
+        setUser(data.user);
+        navigate("/dashboard");
       }
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
+      setEmail("");
+      setPassword("");
     }
-    setEmail("");
-    setPassword("");
   };
 
-  const HandleLogin = () => {
-    setLogin(true);
+  const Logout = () => {
+    navigate("login");
   };
 
   const value = {
-    user,
-    login,
-    admin,
     email,
     password,
     loading,
     showPassword,
+    user,
+    Logout,
+    setUser,
+    isAdmin: user?.role === "admin",
     setEmail,
-    setLoading,
     setPassword,
-    HandleSubmit,
+    setLoading,
     setShowPassword,
+    HandleSubmit,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

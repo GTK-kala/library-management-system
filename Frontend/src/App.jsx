@@ -18,16 +18,16 @@ import Profile from "./pages/Profile";
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router>
+    <Router>
+      <ThemeProvider>
+        <AuthProvider>
           <div className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
             <Navbar />
+
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
 
-              {/* Protected Routes */}
               <Route
                 path="/dashboard"
                 element={
@@ -85,9 +85,9 @@ const App = () => {
               }}
             />
           </div>
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </Router>
   );
 };
 

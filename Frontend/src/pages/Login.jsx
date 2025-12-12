@@ -1,12 +1,10 @@
-import { easeIn, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import { BookOpen, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
-  const navigate = useNavigate();
   const {
-    login,
     email,
     loading,
     password,
@@ -17,11 +15,6 @@ const Login = () => {
     showPassword,
     setShowPassword,
   } = useAuth();
-
-  if (login) {
-    navigate("/dashboard");
-    console.log("hello");
-  }
 
   return (
     <div className="relative flex items-center justify-center min-h-screen mt-16 overflow-hidden bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -99,11 +92,7 @@ const Login = () => {
                   />
                   <button
                     type="button"
-                    onClick={() =>
-                      setShowPassword({
-                        showPassword: !showPassword,
-                      })
-                    }
+                    onClick={() => setShowPassword(!showPassword)}
                     className="absolute transform -translate-y-1/2 right-4 top-1/2"
                   >
                     {showPassword ? (

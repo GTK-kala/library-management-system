@@ -1,9 +1,8 @@
-// src/pages/Register.jsx
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { BookOpen, User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { BookOpen, User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 const Register = () => {
   const [name, setName] = useState("");

@@ -1,39 +1,39 @@
-// src/pages/Login.jsx
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useAuth } from "../context/AuthContext";
-import { BookOpen, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
+import { easeIn, motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import { BookOpen, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    showPassword: false,
-  });
-  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+    const value = { email, password };
     try {
-      const result = await login(formData.email, formData.password);
-      if (result.success) {
-        toast.success("Welcome back! 🎉");
-        navigate("/dashboard");
+      const url = "http://localhost:3001/api/login";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(value),
+        credentials: "include",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message);
       } else {
-        toast.error(result.message || "Login failed");
+        navigate("/dashboard");
       }
     } catch (error) {
       toast.error("An error occurred");
@@ -87,8 +87,8 @@ const Login = () => {
                   <input
                     type="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-12 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="you@example.com"
                     required
@@ -108,10 +108,10 @@ const Login = () => {
                 <div className="relative">
                   <Lock className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
-                    type={formData.showPassword ? "text" : "password"}
+                    type={showPassword ? "text" : "password"}
                     name="password"
-                    value={formData.password}
-                    onChange={handleChange}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full px-12 py-3 transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Enter your password"
                     required
@@ -119,14 +119,13 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() =>
-                      setFormData({
-                        ...formData,
-                        showPassword: !formData.showPassword,
+                      setShowPassword({
+                        showPassword: !showPassword,
                       })
                     }
                     className="absolute transform -translate-y-1/2 right-4 top-1/2"
                   >
-                    {formData.showPassword ? (
+                    {showPassword ? (
                       <EyeOff className="w-5 h-5 text-gray-400" />
                     ) : (
                       <Eye className="w-5 h-5 text-gray-400" />

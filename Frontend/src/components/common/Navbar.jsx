@@ -1,9 +1,9 @@
 // src/components/Navbar.jsx
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
+import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
   BookOpen,
@@ -19,11 +19,11 @@ import {
 } from "lucide-react";
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isDarkMode, toggleDarkMode } = useTheme();
-  const { user, logout } = useAuth();
   const location = useLocation();
+  const { user, logout } = useAuth();
+  const { isDarkMode, toggleDarkMode } = useTheme();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {

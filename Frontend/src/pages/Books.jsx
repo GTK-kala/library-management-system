@@ -1,6 +1,6 @@
 // src/pages/Books.jsx
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import {
   Search,
   Filter,
@@ -17,13 +17,13 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Books = () => {
+  const booksPerPage = 12;
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState("all");
   const [viewMode, setViewMode] = useState("grid");
   const [currentPage, setCurrentPage] = useState(1);
-  const booksPerPage = 12;
+  const [selectedGenre, setSelectedGenre] = useState("all");
 
   const genres = [
     "all",

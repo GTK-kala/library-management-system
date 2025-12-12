@@ -1,7 +1,6 @@
-// src/pages/Dashboard.jsx
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   BookOpen,
   Users,
@@ -17,8 +16,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
-  const [recentBooks, setRecentBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [recentBooks, setRecentBooks] = useState([]);
 
   // Mock data for demonstration
   useEffect(() => {

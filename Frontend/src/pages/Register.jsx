@@ -17,24 +17,27 @@ const Register = () => {
     e.preventDefault();
     const value = { name, email, role, password };
 
-    try {
-      const url = "http://localhost:3001/api/signup";
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(value),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
-      } else {
-        toast.success(data.message);
-        navigate("/login");
+    if (password.length < 5) {
+      toast.error("password length is small");
+    } else {
+      try {
+        const url = "http://localhost:3001/api/register";
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(value),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          toast.error(data.message);
+        } else {
+          navigate("/login");
+        }
+      } catch (error) {
+        toast.error("Register failed. Please try again.");
       }
-    } catch (error) {
-      toast.error("Signup failed. Please try again.");
     }
     setName("");
     setEmail("");

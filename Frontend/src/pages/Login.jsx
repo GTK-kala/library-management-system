@@ -1,48 +1,27 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
 import { easeIn, motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { BookOpen, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
-  const { login } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const {
+    login,
+    email,
+    loading,
+    password,
+    setEmail,
+    setLoading,
+    setPassword,
+    HandleSubmit,
+    showPassword,
+    setShowPassword,
+  } = useAuth();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const value = { email, password };
-    try {
-      const url = "http://localhost:3001/api/login";
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(value),
-        credentials: "include",
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast.error(data.message);
-      } else {
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      toast.error("An error occurred");
-    } finally {
-      setLoading(false);
-    }
-    setEmail("");
-    setPassword("");
-  };
+  if (login) {
+    navigate("/dashboard");
+    console.log("hello");
+  }
 
   return (
     <div className="relative flex items-center justify-center min-h-screen mt-16 overflow-hidden bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -74,7 +53,7 @@ const Login = () => {
 
           {/* Form */}
           <div className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={(e) => HandleSubmit(e)} className="space-y-6">
               {/* Email */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}

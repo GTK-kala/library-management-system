@@ -1,57 +1,69 @@
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import toast from "react-hot-toast";
+import { createContext, use, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [user, setUser] = useState(false);
+  const [admin, setAdmin] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  // Mock user for now (we'll replace with real API later)
-  const login = async (email, password) => {
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const value = { email, password };
+    try {
+      const url = "http://localhost:3001/api/login";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(value),
+        credentials: "include",
+      });
 
-    const mockUser = {
-      id: 1,
-      name: email === "admin@library.com" ? "Admin User" : "Member User",
-      email,
-      role: email === "admin@library.com" ? "admin" : "member",
-      membership_id:
-        email === "admin@library.com" ? "LIB2024001" : "LIB2024002",
-    };
+      const data = await res.json();
 
-    localStorage.setItem("user", JSON.stringify(mockUser));
-    localStorage.setItem("token", "mock-jwt-token");
-    setUser(mockUser);
-    setLoading(false);
-
-    return { success: true, user: mockUser };
-  };
-
-  const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setUser(null);
-  };
-
-  // Check if user is logged in on mount
-  useState(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      if (!res.ok) {
+        toast.error(data.message);
+      } else {
+        HandleLogin();
+        toast.success(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-  });
+    setEmail("");
+    setPassword("");
+  };
+
+  const HandleLogin = () => {
+    setLogin(true);
+  };
 
   const value = {
     user,
-    loading,
     login,
-    logout,
-    isAdmin: user?.role === "admin",
+    admin,
+    email,
+    password,
+    loading,
+    showPassword,
+    setEmail,
+    setLoading,
+    setPassword,
+    HandleSubmit,
+    setShowPassword,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

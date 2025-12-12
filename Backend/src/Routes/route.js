@@ -7,6 +7,6 @@ import { Login } from "../Controller/User/Login.js";
 import { SignUpUser } from "../Controller/User/Signup.js";
 
 route.post("/login", Login);
-route.post("/signup", SignUpUser);
+route.post("/register", SignUpUser);
 
 export default route;

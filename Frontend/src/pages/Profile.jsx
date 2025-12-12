@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
   User,
@@ -17,6 +17,8 @@ import {
 const Profile = () => {
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
@@ -32,7 +34,6 @@ const Profile = () => {
   };
 
   const handleSave = () => {
-    // Save profile logic here
     setIsEditing(false);
   };
 
@@ -77,7 +78,18 @@ const Profile = () => {
     onTimeReturns: 22,
     favoriteGenre: "Fiction",
   };
-
+  useEffect(async () => {
+    const id = localStorage.getItem("id");
+    console.log(id);
+    try {
+      const url = `http://localhost:3001/api/user/${id}`;
+      const res = await fetch(url);
+      if (!res.ok) {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
   return (
     <div className="min-h-screen px-4 pt-20 pb-8">
       <div className="container mx-auto">
@@ -149,7 +161,7 @@ const Profile = () => {
                 </div>
 
                 {/* Form Fields */}
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <form className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div>
                     <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Full Name
@@ -229,7 +241,7 @@ const Profile = () => {
                       </div>
                     )}
                   </div>
-                </div>
+                </form>
               </div>
             </div>
 

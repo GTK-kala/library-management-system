@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
         toast.error(data.message);
       } else {
         setUser(data.user);
+        localStorage.setItem("id", data.user.id);
         navigate("/dashboard");
       }
     } catch (error) {

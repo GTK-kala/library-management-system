@@ -40,7 +40,7 @@ const Profile = () => {
     const url = `http://localhost:3001/api/user/edit/${id}`;
     try {
       const res = await fetch(url, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "content-type": "application/json",
         },

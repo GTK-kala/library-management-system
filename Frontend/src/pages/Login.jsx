@@ -40,6 +40,8 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
+    setEmail("");
+    setPassword("");
   };
 
   return (

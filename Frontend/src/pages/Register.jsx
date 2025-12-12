@@ -29,19 +29,16 @@ const Register = () => {
       const data = await res.json();
       if (!res.ok) {
         toast.error(data.message);
-        setName("");
-        setEmail("");
-        setPassword("");
       } else {
         toast.success(data.message);
-        setName("");
-        setEmail("");
-        setPassword("");
-        navigate("/dashboard");
+        navigate("/login");
       }
     } catch (error) {
       toast.error("Signup failed. Please try again.");
     }
+    setName("");
+    setEmail("");
+    setPassword("");
   };
 
   return (

@@ -5,8 +5,6 @@ export const SignUpUser = (req, res) => {
   const { name, email, role, password } = req.body;
   const userRole = role || "member";
 
-  console.log(req.body);
-
   const sql1 = "SELECT * FROM users WHERE email = ?";
 
   connection.query(sql1, [email], (err, result) => {

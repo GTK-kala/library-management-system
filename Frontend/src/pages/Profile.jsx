@@ -22,8 +22,6 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [formData, setFormData] = useState({
-    name: user?.name || "",
-    email: user?.email || "",
     phone: "+1 (555) 123-4567",
     address: "123 Library St, Book City",
   });
@@ -35,22 +33,25 @@ const Profile = () => {
     });
   };
 
-  const HandleChange = async (e) => {
-    e.preventDefault();
+  const HandleChange = async () => {
+    const id = localStorage.getItem("id");
+    const value = { name, email };
     const url = `http://localhost:3001/api/user/edit/${id}`;
     try {
       const res = await fetch(url, {
-        method: "PATCH",
+        method: "PUT",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify(value),
       });
       const data = await res.json();
       if (!res.ok) {
         toast.error(data.message);
       } else {
         toast.success(data.message);
+        // setName(data.result.name);
+        // setEmail(data.result.email);
       }
     } catch (error) {
       console.log(error);
@@ -58,6 +59,7 @@ const Profile = () => {
   };
 
   const handleSave = () => {
+    HandleChange();
     setIsEditing(false);
   };
 
@@ -109,19 +111,20 @@ const Profile = () => {
         const url = `http://localhost:3001/api/user/${id}`;
         const res = await fetch(url);
         const data = await res.json();
+        const Data = data.result;
         if (!res.ok) {
           toast.error(data.message);
         } else {
-          setId(data.id);
-          setName(data.name);
-          setEmail(data.email);
+          setId(data.result.id);
+          setName(data.result.name);
+          setEmail(data.result.email);
         }
       } catch (error) {
         console.log(error);
       }
     };
     FetchData();
-  }, [id, name, email]);
+  }, []);
   return (
     <div className="min-h-screen px-4 pt-20 pb-8">
       <div className="container mx-auto">
@@ -159,7 +162,7 @@ const Profile = () => {
                   {isEditing ? (
                     <>
                       <Save className="w-4 h-4" />
-                      <span onClick={(e) => HandleChange(e)}>Save Changes</span>
+                      <span>Save Changes</span>
                     </>
                   ) : (
                     <>
@@ -202,14 +205,14 @@ const Profile = () => {
                       <input
                         type="text"
                         name="name"
-                        value={formData.name}
-                        onChange={handleChange}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         className="w-full px-4 py-3 border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 rounded-xl dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     ) : (
                       <div className="flex items-center p-3 space-x-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
                         <User className="w-5 h-5 text-gray-400" />
-                        <span>{formData.name}</span>
+                        <span>{name}</span>
                       </div>
                     )}
                   </div>
@@ -222,14 +225,14 @@ const Profile = () => {
                       <input
                         type="email"
                         name="email"
-                        value={formData.email}
-                        onChange={handleChange}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="w-full px-4 py-3 border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 rounded-xl dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     ) : (
                       <div className="flex items-center p-3 space-x-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
                         <Mail className="w-5 h-5 text-gray-400" />
-                        <span>{formData.email}</span>
+                        <span>{email}</span>
                       </div>
                     )}
                   </div>

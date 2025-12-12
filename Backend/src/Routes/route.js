@@ -10,7 +10,7 @@ import { UpDateUser } from "../Controller/User/UpDateUser.js";
 
 route.post("/login", Login);
 route.get("/user/:id", GetUser);
-route.patch("/user/edit", UpDateUser);
+route.put("/user/edit/:id", UpDateUser);
 route.post("/register", SignUpUser);
 
 export default route;

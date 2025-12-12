@@ -12,7 +12,8 @@ export const GetUser = (req, res) => {
       console.log("no user found");
     } else {
       res.status(200).json({
-        result: result,
+        message: "user Data",
+        result: result[0],
       });
     }
   });

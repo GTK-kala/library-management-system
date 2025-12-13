@@ -290,7 +290,7 @@ const Profile = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex items-center justify-between p-4 transition-colors rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    className="flex items-center justify-between p-4 transition-colors rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 hover:cursor-pointer"
                   >
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500">
@@ -374,7 +374,7 @@ const Profile = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex items-center p-4 space-x-4 rounded-xl bg-gray-50 dark:bg-gray-700"
+                    className="flex items-center p-4 space-x-4 hover:cursor-pointer rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100"
                   >
                     <div
                       className={`h-12 w-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}

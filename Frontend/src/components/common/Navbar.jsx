@@ -77,7 +77,7 @@ const Navbar = () => {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-3"
+              className="flex items-center space-x-3 hover:cursor-pointer"
             >
               <div className="relative">
                 <div className="absolute rounded-lg -inset-1 bg-gradient-to-r from-primary-500 to-blue-500 blur opacity-30 animate-pulse-slow"></div>

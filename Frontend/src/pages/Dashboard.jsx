@@ -128,6 +128,7 @@ const Dashboard = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
+              className="hover:cursor-pointer hover:translate-x-5"
             >
               <div className="p-6 transition-shadow duration-300 bg-white shadow-lg dark:bg-gray-800 rounded-2xl hover:shadow-xl">
                 <div className="flex items-start justify-between mb-4">
@@ -212,7 +213,7 @@ const Dashboard = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
                         whileHover={{ x: 5 }}
-                        className="flex items-center p-4 space-x-4 transition-colors rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700"
+                        className="flex items-center p-4 space-x-4 transition-colors rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:cursor-pointer"
                       >
                         <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500">
                           <BookOpen className="w-6 h-6 text-white" />

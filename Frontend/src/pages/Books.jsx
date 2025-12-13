@@ -178,7 +178,7 @@ const Books = () => {
       whileHover={{ y: -5 }}
       className="overflow-hidden transition-all duration-300 bg-white shadow-lg dark:bg-gray-800 rounded-2xl hover:shadow-xl"
     >
-      <div className="p-6">
+      <div className="p-6 hover:cursor-pointer">
         {/* Book Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center justify-center h-14 w-14 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500">

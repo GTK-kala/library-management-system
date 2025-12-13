@@ -5,16 +5,18 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
-import { ThemeProvider } from "./context/ThemeContext";
-import { AuthProvider } from "./context/AuthContext";
-import PrivateRoute from "./components/common/PrivateRoute";
-import Navbar from "./components/common/Navbar";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
 import Books from "./pages/Books";
 import Profile from "./pages/Profile";
+import Register from "./pages/Register";
+import { Toaster } from "react-hot-toast";
+import Dashboard from "./pages/Dashboard";
+import Layout from "./components/common/Layout";
+import Navbar from "./components/common/Navbar";
+import AdminDashboard from "./pages/AdminDashboard";
+import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import PrivateRoute from "./components/common/PrivateRoute";
 
 const App = () => {
   return (
@@ -34,6 +36,16 @@ const App = () => {
                   <PrivateRoute>
                     <Dashboard />
                   </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <Layout showNavbar={true}>
+                    <PrivateRoute adminOnly>
+                      <AdminDashboard />
+                    </PrivateRoute>
+                  </Layout>
                 }
               />
 

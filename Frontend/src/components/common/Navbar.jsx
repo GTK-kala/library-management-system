@@ -42,7 +42,7 @@ const Navbar = () => {
         }
       };
       FetchData();
-    }, 100);
+    }, 50);
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -85,9 +85,7 @@ const Navbar = () => {
                   <BookOpen className="w-6 h-6 text-white" />
                 </div>
               </div>
-              <span className="text-2xl font-bold gradient-text">
-                LibraFlow
-              </span>
+              <span className="text-2xl font-bold gradient-text">Library</span>
             </motion.div>
 
             {/* Desktop Navigation */}

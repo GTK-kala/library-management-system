@@ -115,9 +115,9 @@ const Profile = () => {
         if (!res.ok) {
           toast.error(data.message);
         } else {
-          setId(data.result.id);
-          setName(data.result.name);
-          setEmail(data.result.email);
+          setId(Data.id);
+          setName(Data.name);
+          setEmail(Data.email);
         }
       } catch (error) {
         console.log(error);

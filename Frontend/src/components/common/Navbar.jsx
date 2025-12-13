@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
@@ -21,11 +20,30 @@ import {
 const Navbar = () => {
   const location = useLocation();
   const { user, Logout } = useAuth();
+  const [Data, setData] = useState([]);
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    setInterval(() => {
+      const id = localStorage.getItem("id");
+      const FetchData = async () => {
+        try {
+          const url = `http://localhost:3001/api/user/${id}`;
+          const res = await fetch(url);
+          const data = await res.json();
+          const Data = data.result;
+          if (res.ok) {
+            setData(Data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      FetchData();
+    }, 100);
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -149,14 +167,14 @@ const Navbar = () => {
                   <button className="flex items-center p-2 space-x-3 transition-colors rounded-xl hover:bg-gray-100 dark:hover:bg-dark-surface">
                     <div className="relative">
                       <div className="flex items-center justify-center w-10 h-10 font-bold text-white rounded-full bg-gradient-to-r from-primary-500 to-blue-500">
-                        {user.name?.charAt(0).toUpperCase()}
+                        {Data.name?.charAt(0).toUpperCase()}
                       </div>
                       <div className="absolute w-4 h-4 bg-green-500 border-2 border-white rounded-full -bottom-1 -right-1 dark:border-dark-bg"></div>
                     </div>
                     <div className="hidden text-left lg:block">
-                      <p className="font-semibold">{user.name}</p>
+                      <p className="font-semibold">{Data.name}</p>
                       <p className="text-sm text-gray-500 capitalize dark:text-gray-400">
-                        {user.role}
+                        {Data.role}
                       </p>
                     </div>
                   </button>

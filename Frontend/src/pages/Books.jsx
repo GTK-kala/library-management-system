@@ -1,6 +1,7 @@
 // src/pages/Books.jsx
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { genres, mockBooks } from "../assets/Data/data";
 import {
   Search,
   Filter,
@@ -24,128 +25,6 @@ const Books = () => {
   const [viewMode, setViewMode] = useState("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState("all");
-
-  const genres = [
-    "all",
-    "Fiction",
-    "Non-Fiction",
-    "Science",
-    "Technology",
-    "Biography",
-    "History",
-    "Fantasy",
-  ];
-
-  const mockBooks = [
-    {
-      id: 1,
-      title: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      genre: "Fiction",
-      rating: 4.5,
-      available: true,
-      year: 1925,
-    },
-    {
-      id: 2,
-      title: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      genre: "Fiction",
-      rating: 4.8,
-      available: true,
-      year: 1960,
-    },
-    {
-      id: 3,
-      title: "1984",
-      author: "George Orwell",
-      genre: "Science Fiction",
-      rating: 4.7,
-      available: false,
-      year: 1949,
-    },
-    {
-      id: 4,
-      title: "Pride and Prejudice",
-      author: "Jane Austen",
-      genre: "Fiction",
-      rating: 4.6,
-      available: true,
-      year: 1813,
-    },
-    {
-      id: 5,
-      title: "The Hobbit",
-      author: "J.R.R. Tolkien",
-      genre: "Fantasy",
-      rating: 4.9,
-      available: true,
-      year: 1937,
-    },
-    {
-      id: 6,
-      title: "The Catcher in the Rye",
-      author: "J.D. Salinger",
-      genre: "Fiction",
-      rating: 4.2,
-      available: true,
-      year: 1951,
-    },
-    {
-      id: 7,
-      title: "The Da Vinci Code",
-      author: "Dan Brown",
-      genre: "Mystery",
-      rating: 4.1,
-      available: true,
-      year: 2003,
-    },
-    {
-      id: 8,
-      title: "The Alchemist",
-      author: "Paulo Coelho",
-      genre: "Fiction",
-      rating: 4.3,
-      available: true,
-      year: 1988,
-    },
-    {
-      id: 9,
-      title: "Sapiens",
-      author: "Yuval Noah Harari",
-      genre: "Non-Fiction",
-      rating: 4.7,
-      available: true,
-      year: 2011,
-    },
-    {
-      id: 10,
-      title: "Atomic Habits",
-      author: "James Clear",
-      genre: "Self Help",
-      rating: 4.8,
-      available: true,
-      year: 2018,
-    },
-    {
-      id: 11,
-      title: "The Silent Patient",
-      author: "Alex Michaelides",
-      genre: "Mystery",
-      rating: 4.5,
-      available: false,
-      year: 2019,
-    },
-    {
-      id: 12,
-      title: "Project Hail Mary",
-      author: "Andy Weir",
-      genre: "Science Fiction",
-      rating: 4.9,
-      available: true,
-      year: 2021,
-    },
-  ];
 
   useEffect(() => {
     // Simulate API call

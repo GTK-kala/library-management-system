@@ -1,104 +1,42 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { statCards } from "../assets/Data/data";
 import {
   BookOpen,
   Users,
   Clock,
   TrendingUp,
   ArrowUpRight,
-  BookMarked,
   Calendar,
-  AlertCircle,
 } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Dashboard = () => {
-  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recentBooks, setRecentBooks] = useState([]);
 
-  // Mock data for demonstration
   useEffect(() => {
-    setTimeout(() => {
-      setStats({
-        totalBooks: 1247,
-        activeMembers: 423,
-        booksBorrowed: 187,
-        overdueBooks: 23,
-        weeklyGrowth: 12.5,
-      });
+    setLoading(false);
 
-      setRecentBooks([
-        {
-          id: 1,
-          title: "The Silent Patient",
-          author: "Alex Michaelides",
-          borrowed: "2 days ago",
-          genre: "Mystery",
-        },
-        {
-          id: 2,
-          title: "Project Hail Mary",
-          author: "Andy Weir",
-          borrowed: "1 week ago",
-          genre: "Science Fiction",
-        },
-        {
-          id: 3,
-          title: "Atomic Habits",
-          author: "James Clear",
-          borrowed: "3 days ago",
-          genre: "Self Help",
-        },
-        {
-          id: 4,
-          title: "The Midnight Library",
-          author: "Matt Haig",
-          borrowed: "Just now",
-          genre: "Fiction",
-        },
-      ]);
-
-      setLoading(false);
-    }, 1500);
+    const FetchBooks = async () => {
+      try {
+        const url = "http://localhost:3001/api/books";
+        const res = await fetch(url);
+        const data = await res.json();
+        const Data = data.result;
+        if (!res.ok) {
+          console.log(Data);
+        } else {
+          setRecentBooks(Data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    FetchBooks();
   }, []);
-
-  const statCards = [
-    {
-      title: "Total Books",
-      value: stats?.totalBooks,
-      icon: BookOpen,
-      color: "from-blue-500 to-cyan-500",
-      change: "+5.2%",
-      trend: "up",
-    },
-    {
-      title: "Active Members",
-      value: stats?.activeMembers,
-      icon: Users,
-      color: "from-green-500 to-emerald-500",
-      change: "+12.1%",
-      trend: "up",
-    },
-    {
-      title: "Books Borrowed",
-      value: stats?.booksBorrowed,
-      icon: BookMarked,
-      color: "from-purple-500 to-pink-500",
-      change: "+8.3%",
-      trend: "up",
-    },
-    {
-      title: "Overdue Books",
-      value: stats?.overdueBooks,
-      icon: AlertCircle,
-      color: "from-orange-500 to-red-500",
-      change: "-3.2%",
-      trend: "down",
-    },
-  ];
 
   return (
     <div className="min-h-screen px-4 pt-20 pb-8">

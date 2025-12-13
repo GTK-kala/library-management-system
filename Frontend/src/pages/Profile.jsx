@@ -5,12 +5,10 @@ import { useAuth } from "../context/AuthContext";
 import {
   User,
   Mail,
-  Calendar,
   BookOpen,
   Clock,
   Edit,
   Save,
-  X,
   Award,
   TrendingUp,
 } from "lucide-react";

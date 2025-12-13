@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   BarChart,
   Bar,
@@ -13,261 +13,35 @@ import {
   PieChart,
   Pie,
   Cell,
-  LineChart,
-  Line,
   AreaChart,
   Area,
 } from "recharts";
 import {
-  Users,
   BookOpen,
-  Clock,
-  TrendingUp,
-  DollarSign,
-  AlertCircle,
+  BarChart3,
   Download,
   Filter,
-  Calendar,
-  BarChart3,
   PieChart as PieChartIcon,
   Eye,
   Edit,
-  Trash2,
-  Plus,
   CheckCircle,
-  XCircle,
 } from "lucide-react";
+import {
+  Books,
+  monthlyData,
+  genreDistribution,
+  statusData,
+  activity,
+  quickActions,
+  statCard,
+} from "../assets/Data/data";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const AdminDashboard = () => {
-  const [stats, setStats] = useState(null);
-  const [recentActivities, setRecentActivities] = useState([]);
-  const [popularBooks, setPopularBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Mock data for charts
-  const monthlyData = [
-    { month: "Jan", books: 120, members: 45, revenue: 1200 },
-    { month: "Feb", books: 150, members: 52, revenue: 1500 },
-    { month: "Mar", books: 180, members: 61, revenue: 1800 },
-    { month: "Apr", books: 210, members: 75, revenue: 2100 },
-    { month: "May", books: 240, members: 82, revenue: 2400 },
-    { month: "Jun", books: 280, members: 95, revenue: 2800 },
-  ];
-
-  const genreDistribution = [
-    { name: "Fiction", value: 35, color: "#3b82f6" },
-    { name: "Non-Fiction", value: 25, color: "#10b981" },
-    { name: "Science", value: 15, color: "#8b5cf6" },
-    { name: "Technology", value: 12, color: "#f59e0b" },
-    { name: "Biography", value: 8, color: "#ef4444" },
-    { name: "Other", value: 5, color: "#6b7280" },
-  ];
-
-  const statusData = [
-    { name: "Available", value: 65, color: "#10b981" },
-    { name: "Borrowed", value: 25, color: "#3b82f6" },
-    { name: "Reserved", value: 8, color: "#f59e0b" },
-    { name: "Overdue", value: 2, color: "#ef4444" },
-  ];
-
-  // Mock data for demonstration
-  useEffect(() => {
-    setTimeout(() => {
-      setStats({
-        totalBooks: 1247,
-        totalMembers: 423,
-        activeBorrows: 187,
-        overdueBooks: 23,
-        todayReturns: 15,
-        revenue: 12450,
-        newMembers: 28,
-        reservations: 42,
-      });
-
-      setRecentActivities([
-        {
-          id: 1,
-          type: "borrow",
-          user: "John Doe",
-          book: "The Great Gatsby",
-          time: "10:30 AM",
-          status: "success",
-        },
-        {
-          id: 2,
-          type: "return",
-          user: "Jane Smith",
-          book: "1984",
-          time: "11:15 AM",
-          status: "success",
-        },
-        {
-          id: 3,
-          type: "reservation",
-          user: "Bob Johnson",
-          book: "Atomic Habits",
-          time: "12:00 PM",
-          status: "pending",
-        },
-        {
-          id: 4,
-          type: "member",
-          user: "Alice Brown",
-          action: "New registration",
-          time: "1:45 PM",
-          status: "success",
-        },
-        {
-          id: 5,
-          type: "overdue",
-          user: "Charlie Wilson",
-          book: "The Hobbit",
-          time: "2:30 PM",
-          status: "warning",
-        },
-        {
-          id: 6,
-          type: "book",
-          action: "New book added",
-          title: "Project Hail Mary",
-          time: "3:15 PM",
-          status: "success",
-        },
-      ]);
-
-      setPopularBooks([
-        {
-          id: 1,
-          title: "The Silent Patient",
-          author: "Alex Michaelides",
-          borrows: 124,
-          rating: 4.5,
-        },
-        {
-          id: 2,
-          title: "Project Hail Mary",
-          author: "Andy Weir",
-          borrows: 112,
-          rating: 4.9,
-        },
-        {
-          id: 3,
-          title: "Atomic Habits",
-          author: "James Clear",
-          borrows: 98,
-          rating: 4.8,
-        },
-        {
-          id: 4,
-          title: "The Midnight Library",
-          author: "Matt Haig",
-          borrows: 87,
-          rating: 4.4,
-        },
-        {
-          id: 5,
-          title: "Klara and the Sun",
-          author: "Kazuo Ishiguro",
-          borrows: 76,
-          rating: 4.3,
-        },
-      ]);
-
-      setLoading(false);
-    }, 1500);
-  }, []);
-
-  const statCards = [
-    {
-      title: "Total Books",
-      value: stats?.totalBooks,
-      icon: BookOpen,
-      color: "from-blue-500 to-cyan-500",
-      change: "+12%",
-      description: "From last month",
-    },
-    {
-      title: "Active Members",
-      value: stats?.totalMembers,
-      icon: Users,
-      color: "from-green-500 to-emerald-500",
-      change: "+8%",
-      description: "New registrations",
-    },
-    {
-      title: "Books Borrowed",
-      value: stats?.activeBorrows,
-      icon: TrendingUp,
-      color: "from-purple-500 to-pink-500",
-      change: "+15%",
-      description: "Currently borrowed",
-    },
-    {
-      title: "Overdue Books",
-      value: stats?.overdueBooks,
-      icon: AlertCircle,
-      color: "from-orange-500 to-red-500",
-      change: "-3%",
-      description: "Require attention",
-    },
-    {
-      title: "Today Returns",
-      value: stats?.todayReturns,
-      icon: Clock,
-      color: "from-indigo-500 to-blue-500",
-      change: "+20%",
-      description: "Due today",
-    },
-    {
-      title: "Total Revenue",
-      value: `$${stats?.revenue?.toLocaleString()}`,
-      icon: DollarSign,
-      color: "from-yellow-500 to-orange-500",
-      change: "+18%",
-      description: "This month",
-    },
-  ];
-
-  const quickActions = [
-    {
-      label: "Add New Book",
-      icon: Plus,
-      color: "bg-blue-500",
-      path: "/admin/books/add",
-    },
-    {
-      label: "Manage Members",
-      icon: Users,
-      color: "bg-green-500",
-      path: "/admin/members",
-    },
-    {
-      label: "View Reports",
-      icon: BarChart3,
-      color: "bg-purple-500",
-      path: "/admin/reports",
-    },
-    {
-      label: "Generate Report",
-      icon: Download,
-      color: "bg-orange-500",
-      path: "/admin/export",
-    },
-    {
-      label: "Manage Fines",
-      icon: DollarSign,
-      color: "bg-yellow-500",
-      path: "/admin/fines",
-    },
-    {
-      label: "Calendar View",
-      icon: Calendar,
-      color: "bg-pink-500",
-      path: "/admin/calendar",
-    },
-  ];
+  const [popularBooks, setPopularBooks] = useState(Books);
+  const [recentActivities, setRecentActivities] = useState(activity);
 
   const getActivityIcon = (type) => {
     switch (type) {
@@ -301,6 +75,9 @@ const AdminDashboard = () => {
     }
   };
 
+  useEffect(() => {
+    setLoading(true);
+  });
   return (
     <div className="min-h-screen pt-20 pb-8 px-4">
       <div className="container mx-auto">
@@ -334,7 +111,7 @@ const AdminDashboard = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
-          {statCards.map((stat, index) => (
+          {statCard.map((stat, index) => (
             <motion.div
               key={stat.title}
               initial={{ opacity: 0, scale: 0.9 }}

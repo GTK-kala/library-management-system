@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { BookOpen, User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 const Register = () => {
   const [name, setName] = useState("");

@@ -26,23 +26,21 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    setInterval(() => {
-      const id = localStorage.getItem("id");
-      const FetchData = async () => {
-        try {
-          const url = `http://localhost:3001/api/user/${id}`;
-          const res = await fetch(url);
-          const data = await res.json();
-          const Data = data.result;
-          if (res.ok) {
-            setData(Data);
-          }
-        } catch (error) {
-          console.log(error);
+    const id = localStorage.getItem("id");
+    const FetchData = async () => {
+      try {
+        const url = `http://localhost:3001/api/user/${id}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const Data = data.result;
+        if (res.ok) {
+          setData(Data);
         }
-      };
-      FetchData();
-    }, 50);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    FetchData();
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);

@@ -14,10 +14,10 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  ///////// SUBMIT DATA WHEN USER IS LOGIN ///////////
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const res = await fetch("http://localhost:3001/api/login", {
         method: "POST",
@@ -45,25 +45,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /////// LOGOUT THE ACCOUNT WHEN USER CLICK LOGOUT BUTTON //////
   const Logout = () => {
     setUser(null);
     navigate("/login");
   };
 
   const value = {
-    email,
-    password,
-    loading,
-    showPassword,
     user,
+    email,
+    loading,
+    password,
+    showPassword,
     Logout,
     setUser,
-    isAdmin: user?.role === "admin",
     setEmail,
-    setPassword,
     setLoading,
-    setShowPassword,
+    setPassword,
     HandleSubmit,
+    setShowPassword,
+    isAdmin: user?.role === "admin",
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -9,6 +9,9 @@ import {
   TrendingUp,
   ArrowUpRight,
   Calendar,
+  DollarSign,
+  BarChart3,
+  Eye,
 } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -16,7 +19,10 @@ import "react-loading-skeleton/dist/skeleton.css";
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [recentBooks, setRecentBooks] = useState([]);
+  const [stats, setStats] = useState(null);
+  const [upcomingReturns, setUpcomingReturns] = useState([]);
 
+  // Fetch all data on component mount
   useEffect(() => {
     setLoading(false);
 
@@ -37,6 +43,19 @@ const Dashboard = () => {
     };
     FetchBooks();
   }, []);
+
+  // Calculate due date text
+  const getDueDateText = (dueDate) => {
+    const today = new Date();
+    const due = new Date(dueDate);
+    const diffTime = due - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) return "Today";
+    if (diffDays === 1) return "Tomorrow";
+    if (diffDays < 7) return `In ${diffDays} days`;
+    return due.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  };
 
   return (
     <div className="min-h-screen px-4 pt-20 pb-8">
@@ -66,9 +85,9 @@ const Dashboard = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
-              className="hover:cursor-pointer hover:translate-x-5"
+              whileHover={{ y: -5 }}
             >
-              <div className="p-6 transition-shadow duration-300 bg-white shadow-lg dark:bg-gray-800 rounded-2xl hover:shadow-xl">
+              <div className="p-6 transition-all duration-300 bg-white shadow-lg dark:bg-gray-800 rounded-2xl hover:shadow-xl">
                 <div className="flex items-start justify-between mb-4">
                   <div
                     className={`p-3 rounded-xl bg-gradient-to-br ${stat.color}`}
@@ -107,7 +126,7 @@ const Dashboard = () => {
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {/* Recent Activity */}
+          {/* Recent Books */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -115,7 +134,7 @@ const Dashboard = () => {
           >
             <div className="p-6 bg-white shadow-lg dark:bg-gray-800 rounded-2xl">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold">Recent Activity</h2>
+                <h2 className="text-xl font-bold">Recent Books</h2>
                 <Link
                   to="/books"
                   className="text-blue-600 dark:text-blue-400 hover:underline"
@@ -124,54 +143,82 @@ const Dashboard = () => {
                 </Link>
               </div>
 
-              <div className="space-y-4">
-                {loading
-                  ? Array(4)
-                      .fill(0)
-                      .map((_, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center p-4 space-x-4"
-                        >
-                          <Skeleton circle width={48} height={48} />
-                          <div className="flex-1">
-                            <Skeleton width={200} height={20} />
-                            <Skeleton
-                              width={150}
-                              height={16}
-                              className="mt-2"
-                            />
-                          </div>
-                        </div>
-                      ))
-                  : recentBooks.map((book, index) => (
-                      <motion.div
-                        key={book.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        whileHover={{ x: 5 }}
-                        className="flex items-center p-4 space-x-4 transition-colors rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:cursor-pointer"
-                      >
-                        <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500">
-                          <BookOpen className="w-6 h-6 text-white" />
-                        </div>
+              {loading ? (
+                <div className="space-y-4">
+                  {Array(4)
+                    .fill(0)
+                    .map((_, i) => (
+                      <div key={i} className="flex items-center p-4 space-x-4">
+                        <Skeleton circle width={48} height={48} />
                         <div className="flex-1">
-                          <h4 className="font-semibold">{book.title}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            {book.author}
-                          </p>
-                          <span className="px-2 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-blue-900/30 dark:text-blue-300">
+                          <Skeleton width={200} height={20} />
+                          <Skeleton width={150} height={16} className="mt-2" />
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              ) : recentBooks.length > 0 ? (
+                <div className="space-y-4">
+                  {recentBooks.map((book, index) => (
+                    <motion.div
+                      key={book.id || index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ x: 5 }}
+                      className="flex items-center p-4 space-x-4 transition-all duration-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                      <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500">
+                        <BookOpen className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold">{book.title}</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          by {book.author}
+                        </p>
+                        {book.genre && (
+                          <span className="inline-block px-2 py-1 mt-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-blue-900/30 dark:text-blue-300">
                             {book.genre}
                           </span>
+                        )}
+                      </div>
+                      <div className="text-right">
+                        <div className="flex items-center space-x-2">
+                          <Eye className="w-4 h-4 text-gray-400" />
+                          <Link
+                            to={`/books/${book.id}`}
+                            className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                          >
+                            View
+                          </Link>
                         </div>
-                        <div className="flex items-center space-x-2 text-sm text-gray-500">
-                          <Clock className="w-4 h-4" />
-                          <span>{book.borrowed}</span>
-                        </div>
-                      </motion.div>
-                    ))}
-              </div>
+                        {book.available_copies !== undefined && (
+                          <div className="mt-2">
+                            <div className="text-xl font-bold text-green-600 dark:text-green-400">
+                              {book.available_copies}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              Available
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-8 text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                    <BookOpen className="w-8 h-8 text-gray-400" />
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    No books available
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                    Add some books to get started
+                  </p>
+                </div>
+              )}
             </div>
           </motion.div>
 
@@ -188,36 +235,55 @@ const Dashboard = () => {
                     label: "Add New Book",
                     icon: BookOpen,
                     color: "bg-blue-500",
+                    link: "/books/add",
                   },
                   {
                     label: "Manage Members",
                     icon: Users,
                     color: "bg-green-500",
+                    link: "/admin/members",
                   },
                   {
                     label: "View Calendar",
                     icon: Calendar,
                     color: "bg-purple-500",
+                    link: "/admin/calendar",
                   },
                   {
                     label: "Generate Reports",
-                    icon: TrendingUp,
+                    icon: BarChart3,
                     color: "bg-orange-500",
+                    link: "/admin/reports",
                   },
                 ].map((action, index) => (
-                  <motion.button
+                  <motion.div
                     key={action.label}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center w-full p-4 space-x-3 transition-colors rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
                   >
-                    <div
-                      className={`${action.color} h-10 w-10 rounded-lg flex items-center justify-center`}
-                    >
-                      <action.icon className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="font-medium">{action.label}</span>
-                  </motion.button>
+                    {action.link ? (
+                      <Link
+                        to={action.link}
+                        className="flex items-center w-full p-4 space-x-3 transition-colors rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
+                      >
+                        <div
+                          className={`${action.color} h-10 w-10 rounded-lg flex items-center justify-center`}
+                        >
+                          <action.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="font-medium">{action.label}</span>
+                      </Link>
+                    ) : (
+                      <button className="flex items-center w-full p-4 space-x-3 transition-colors rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <div
+                          className={`${action.color} h-10 w-10 rounded-lg flex items-center justify-center`}
+                        >
+                          <action.icon className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="font-medium">{action.label}</span>
+                      </button>
+                    )}
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -225,34 +291,107 @@ const Dashboard = () => {
             {/* Upcoming Returns */}
             <div className="p-6 bg-white shadow-lg dark:bg-gray-800 rounded-2xl">
               <h2 className="mb-6 text-xl font-bold">Upcoming Returns</h2>
-              <div className="space-y-4">
-                {[
-                  { title: "The Hobbit", due: "Tomorrow", user: "John Doe" },
-                  { title: "Dune", due: "In 2 days", user: "Jane Smith" },
-                  { title: "1984", due: "In 3 days", user: "Bob Johnson" },
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-900/20 dark:to-purple-900/20"
-                  >
-                    <div>
-                      <h4 className="font-semibold">{item.title}</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {item.user}
-                      </p>
-                    </div>
-                    <span className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full dark:bg-blue-900/30 dark:text-blue-300">
-                      {item.due}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
+              {upcomingReturns.length > 0 ? (
+                <div className="space-y-4">
+                  {upcomingReturns.map((item, index) => (
+                    <motion.div
+                      key={item.id || index}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-900/20 dark:to-purple-900/20"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold truncate">
+                          {item.book_title}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                          {item.member_name}
+                        </p>
+                      </div>
+                      <span className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full dark:bg-blue-900/30 dark:text-blue-300 whitespace-nowrap ml-2">
+                        {getDueDateText(item.due_date)}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-6 text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-gray-400" />
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    No upcoming returns
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                    All books are returned on time
+                  </p>
+                </div>
+              )}
             </div>
           </motion.div>
         </div>
+
+        {/* Additional Stats Row */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Today's Returns */}
+            <div className="p-6 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl shadow-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-blue-100">Today's Returns</p>
+                  <h3 className="mt-2 text-3xl font-bold text-white">
+                    {loading ? (
+                      <Skeleton width={60} />
+                    ) : (
+                      stats?.todayReturns || 15
+                    )}
+                  </h3>
+                </div>
+                <Calendar className="w-10 h-10 text-white opacity-80" />
+              </div>
+            </div>
+
+            {/* Monthly Revenue */}
+            <div className="p-6 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl shadow-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-green-100">Monthly Revenue</p>
+                  <h3 className="mt-2 text-3xl font-bold text-white">
+                    {loading ? (
+                      <Skeleton width={100} />
+                    ) : (
+                      `$${stats?.revenue?.toLocaleString() || 0}`
+                    )}
+                  </h3>
+                </div>
+                <DollarSign className="w-10 h-10 text-white opacity-80" />
+              </div>
+            </div>
+
+            {/* New Members */}
+            <div className="p-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl shadow-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-purple-100">New Members (30d)</p>
+                  <h3 className="mt-2 text-3xl font-bold text-white">
+                    {loading ? (
+                      <Skeleton width={50} />
+                    ) : (
+                      stats?.newMembers || 28
+                    )}
+                  </h3>
+                </div>
+                <TrendingUp className="w-10 h-10 text-white opacity-80" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

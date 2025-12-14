@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Books from "./pages/Books";
+import AddBook from "./pages/AddBook";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import { Toaster } from "react-hot-toast";
@@ -57,7 +58,17 @@ const App = () => {
                   </PrivateRoute>
                 }
               />
-
+              <Route
+                path="/books/add"
+                element={
+                  <>
+                    <Navbar />
+                    <PrivateRoute adminOnly={true}>
+                      <AddBook />
+                    </PrivateRoute>
+                  </>
+                }
+              />
               <Route
                 path="/profile"
                 element={

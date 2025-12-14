@@ -12,6 +12,8 @@ import {
   Clock,
 } from "lucide-react";
 
+//////////////////////////////////////////////////////
+
 // DASHBOARD PAGE DATA
 export const statCards = [
   {
@@ -172,7 +174,7 @@ export const mockBooks = [
   },
 ];
 
-///////////////
+//////////////////////////////////////////////////////
 
 // ADMIN DASHBOARD DATA
 export const monthlyData = [
@@ -372,3 +374,48 @@ export const statCard = [
     description: "This month",
   },
 ];
+
+//////////////////////////////////////////////////////
+
+//PROFILE DATA
+export const borrowingHistory = [
+  {
+    id: 1,
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    borrowed: "2024-01-15",
+    returned: "2024-01-29",
+    status: "returned",
+  },
+  {
+    id: 2,
+    title: "1984",
+    author: "George Orwell",
+    borrowed: "2024-01-20",
+    due: "2024-02-03",
+    status: "borrowed",
+  },
+  {
+    id: 3,
+    title: "To Kill a Mockingbird",
+    author: "Harper Lee",
+    borrowed: "2023-12-10",
+    returned: "2023-12-24",
+    status: "returned",
+  },
+  {
+    id: 4,
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    borrowed: "2023-11-05",
+    returned: "2023-11-19",
+    status: "returned",
+  },
+];
+
+export const stats = {
+  totalBorrowed: 24,
+  currentlyBorrowed: 2,
+  onTimeReturns: 22,
+  favoriteGenre: "Fiction",
+};

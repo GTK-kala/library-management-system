@@ -1,4 +1,3 @@
-// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: "class",
@@ -83,6 +82,6 @@ export default {
       },
     },
   },
-  // Remove plugins section or keep it empty
+
   plugins: [],
 };

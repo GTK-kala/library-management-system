@@ -39,9 +39,9 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const AdminDashboard = () => {
+  const popularBooks = Books;
+  const recentActivities = activity;
   const [loading, setLoading] = useState(true);
-  const [popularBooks, setPopularBooks] = useState(Books);
-  const [recentActivities, setRecentActivities] = useState(activity);
 
   const getActivityIcon = (type) => {
     switch (type) {
@@ -76,7 +76,7 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(false);
   });
   return (
     <div className="min-h-screen pt-20 pb-8 px-4">

@@ -12,6 +12,7 @@ import {
   Award,
   TrendingUp,
 } from "lucide-react";
+import { borrowingHistory, stats } from "../assets/Data/data";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -48,8 +49,6 @@ const Profile = () => {
         toast.error(data.message);
       } else {
         toast.success(data.message);
-        // setName(data.result.name);
-        // setEmail(data.result.email);
       }
     } catch (error) {
       console.log(error);
@@ -61,47 +60,6 @@ const Profile = () => {
     setIsEditing(false);
   };
 
-  const borrowingHistory = [
-    {
-      id: 1,
-      title: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      borrowed: "2024-01-15",
-      returned: "2024-01-29",
-      status: "returned",
-    },
-    {
-      id: 2,
-      title: "1984",
-      author: "George Orwell",
-      borrowed: "2024-01-20",
-      due: "2024-02-03",
-      status: "borrowed",
-    },
-    {
-      id: 3,
-      title: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      borrowed: "2023-12-10",
-      returned: "2023-12-24",
-      status: "returned",
-    },
-    {
-      id: 4,
-      title: "The Hobbit",
-      author: "J.R.R. Tolkien",
-      borrowed: "2023-11-05",
-      returned: "2023-11-19",
-      status: "returned",
-    },
-  ];
-
-  const stats = {
-    totalBorrowed: 24,
-    currentlyBorrowed: 2,
-    onTimeReturns: 22,
-    favoriteGenre: "Fiction",
-  };
   useEffect(() => {
     const id = localStorage.getItem("id");
     const FetchData = async () => {
@@ -176,12 +134,12 @@ const Profile = () => {
                 <div className="flex items-center space-x-6">
                   <div className="relative">
                     <div className="flex items-center justify-center w-24 h-24 text-3xl font-bold text-white rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500">
-                      {user?.name?.charAt(0).toUpperCase()}
+                      {name?.charAt(0).toUpperCase()}
                     </div>
                     <div className="absolute w-8 h-8 bg-green-500 border-4 border-white rounded-full -bottom-2 -right-2 dark:border-gray-800"></div>
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold">{user?.name}</h3>
+                    <h3 className="text-2xl font-bold">{name}</h3>
                     <div className="flex items-center mt-2 space-x-4">
                       <span className="px-3 py-1 text-blue-600 bg-blue-100 rounded-full dark:bg-blue-900/30 dark:text-blue-300">
                         {user?.role}

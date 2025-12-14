@@ -27,6 +27,7 @@ export const Login = (req, res) => {
       {
         id: user.id,
         email: user.email,
+        role: user.role,
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_Expire }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
+import { languages, genre } from "../assets/Data/data";
 import {
   ArrowLeft,
   Upload,
@@ -39,37 +40,6 @@ const AddBook = () => {
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [authors, setAuthors] = useState([""]);
-
-  const genres = [
-    "Fiction",
-    "Non-Fiction",
-    "Science Fiction",
-    "Fantasy",
-    "Mystery",
-    "Thriller",
-    "Romance",
-    "Biography",
-    "History",
-    "Science",
-    "Technology",
-    "Self-Help",
-    "Business",
-    "Poetry",
-    "Drama",
-  ];
-
-  const languages = [
-    "English",
-    "Spanish",
-    "French",
-    "German",
-    "Chinese",
-    "Japanese",
-    "Arabic",
-    "Hindi",
-    "Russian",
-    "Portuguese",
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -133,33 +103,43 @@ const AddBook = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  ////// API CALL TO THE BACKEND
+  const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+    const id = localStorage.getItem("id");
+    const bookData = {
+      ...formData,
+      authors: authors.filter((author) => author.trim() !== ""),
+      genres: selectedGenres,
+      coverImage: coverPreview,
+      availableCopies: formData.totalCopies,
+    };
+    console.log(bookData);
     try {
-      // Prepare data for API
-      const bookData = {
-        ...formData,
-        authors: authors.filter((author) => author.trim() !== ""),
-        genres: selectedGenres,
-        coverImage: coverPreview,
-        availableCopies: formData.totalCopies,
-      };
-
-      // Show success message
-      toast.success("Book added successfully!", {
-        duration: 4000,
-        icon: "📚",
+      const url = `http://localhost:3001/api/book/add/${id}`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(bookData),
+        credentials: "include",
       });
 
-      // Reset form after successful submission
-      setTimeout(() => {
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
         resetForm();
-        navigate("/books");
-      }, 2000);
+        toast.success("Book added successfully!", {
+          duration: 4000,
+          icon: "📚",
+        });
+      }
     } catch (error) {
-      toast.error(error.message || "Failed to add book");
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -185,8 +165,8 @@ const AddBook = () => {
   };
 
   return (
-    <div className="min-h-screen pt-20 pb-8 px-4">
-      <div className="container mx-auto max-w-4xl">
+    <div className="min-h-screen px-4 pt-20 pb-8">
+      <div className="container max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -197,12 +177,12 @@ const AddBook = () => {
             <div className="flex items-center space-x-4">
               <Link
                 to="/dashboard"
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="p-2 transition-colors bg-gray-100 rounded-lg dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
               >
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="w-5 h-5" />
               </Link>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                <h1 className="mb-2 text-3xl font-bold text-transparent md:text-4xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                   Add New Book
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
@@ -224,9 +204,9 @@ const AddBook = () => {
                         : "bg-gray-200 dark:bg-gray-700 text-gray-500"
                     }`}
                   >
-                    {index === 0 ? <Check className="h-5 w-5" /> : index + 1}
+                    {index === 0 ? <Check className="w-5 h-5" /> : index + 1}
                   </div>
-                  <span className="ml-2 font-medium hidden md:inline">
+                  <span className="hidden ml-2 font-medium md:inline">
                     {step}
                   </span>
                   {index < 3 && (
@@ -244,8 +224,8 @@ const AddBook = () => {
           </div>
         </motion.div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <form onSubmit={(e) => HandleSubmit(e)}>
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {/* Left Column - Cover Image */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -253,9 +233,9 @@ const AddBook = () => {
               className="lg:col-span-1"
             >
               {/* Cover Image Upload */}
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
-                <h2 className="text-xl font-bold mb-6 flex items-center">
-                  <ImageIcon className="h-5 w-5 mr-2" />
+              <div className="p-6 mb-6 bg-white shadow-lg dark:bg-gray-800 rounded-2xl">
+                <h2 className="flex items-center mb-6 text-xl font-bold">
+                  <ImageIcon className="w-5 h-5 mr-2" />
                   Book Cover
                 </h2>
 
@@ -273,11 +253,11 @@ const AddBook = () => {
                         <img
                           src={coverPreview}
                           alt="Book cover preview"
-                          className="w-full h-full object-cover"
+                          className="object-cover w-full h-full"
                         />
                       ) : (
-                        <div className="text-center p-6">
-                          <BookOpen className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                        <div className="p-6 text-center">
+                          <BookOpen className="w-12 h-12 mx-auto mb-4 text-gray-400" />
                           <p className="text-gray-500 dark:text-gray-400">
                             No cover image
                           </p>
@@ -293,9 +273,9 @@ const AddBook = () => {
                       <button
                         type="button"
                         onClick={() => setCoverPreview(null)}
-                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                        className="absolute p-2 text-white transition-colors bg-red-500 rounded-full top-2 right-2 hover:bg-red-600"
                       >
-                        <X className="h-4 w-4" />
+                        <X className="w-4 h-4" />
                       </button>
                     )}
                   </div>
@@ -306,18 +286,18 @@ const AddBook = () => {
                       <input
                         type="file"
                         accept="image/*"
-                        onChange={handleCoverUpload}
+                        onChange={(e) => handleCoverUpload(e)}
                         className="hidden"
                         id="cover-upload"
                       />
-                      <div className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-shadow cursor-pointer text-center font-medium">
+                      <div className="w-full px-4 py-3 font-medium text-center text-white transition-shadow cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-lg">
                         <div className="flex items-center justify-center space-x-2">
-                          <Upload className="h-5 w-5" />
+                          <Upload className="w-5 h-5" />
                           <span>Upload Cover Image</span>
                         </div>
                       </div>
                     </label>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+                    <p className="mt-2 text-xs text-center text-gray-500 dark:text-gray-400">
                       JPEG, PNG, or WebP (max 5MB)
                     </p>
                   </div>
@@ -325,8 +305,8 @@ const AddBook = () => {
               </div>
 
               {/* Quick Stats */}
-              <div className="bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl shadow-lg p-6 text-white">
-                <h3 className="font-bold mb-4">Quick Stats</h3>
+              <div className="p-6 text-white shadow-lg bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl">
+                <h3 className="mb-4 font-bold">Quick Stats</h3>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span>Books in Library</span>
@@ -356,23 +336,23 @@ const AddBook = () => {
               animate={{ opacity: 1, x: 0 }}
               className="lg:col-span-2"
             >
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
-                <h2 className="text-xl font-bold mb-6">Book Information</h2>
+              <div className="p-6 mb-6 bg-white shadow-lg dark:bg-gray-800 rounded-2xl">
+                <h2 className="mb-6 text-xl font-bold">Book Information</h2>
 
                 <div className="space-y-6">
                   {/* Title */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Book Title *
                     </label>
                     <div className="relative">
-                      <BookOpen className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <BookOpen className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                       <input
                         type="text"
                         name="title"
                         value={formData.title}
-                        onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        onChange={(e) => handleChange(e)}
+                        className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Enter book title"
                         required
                       />
@@ -387,10 +367,10 @@ const AddBook = () => {
                       </label>
                       <button
                         type="button"
-                        onClick={handleAddAuthor}
-                        className="text-sm text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                        onClick={() => handleAddAuthor()}
+                        className="flex items-center text-sm text-blue-600 dark:text-blue-400 hover:underline"
                       >
-                        <Plus className="h-4 w-4 mr-1" />
+                        <Plus className="w-4 h-4 mr-1" />
                         Add Author
                       </button>
                     </div>
@@ -401,15 +381,15 @@ const AddBook = () => {
                           key={index}
                           className="flex items-center space-x-3"
                         >
-                          <div className="flex-1 relative">
-                            <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                          <div className="relative flex-1">
+                            <User className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                             <input
                               type="text"
                               value={author}
                               onChange={(e) =>
                                 handleAuthorChange(index, e.target.value)
                               }
-                              className="w-full pl-12 pr-10 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                              className="w-full py-3 pl-12 pr-10 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               placeholder={`Author ${index + 1} name`}
                               required={index === 0}
                             />
@@ -418,9 +398,9 @@ const AddBook = () => {
                             <button
                               type="button"
                               onClick={() => handleRemoveAuthor(index)}
-                              className="p-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl transition-colors"
+                              className="p-3 text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl"
                             >
-                              <X className="h-5 w-5" />
+                              <X className="w-5 h-5" />
                             </button>
                           )}
                         </div>
@@ -429,19 +409,19 @@ const AddBook = () => {
                   </div>
 
                   {/* ISBN & Genre */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         ISBN *
                       </label>
                       <div className="relative">
-                        <Hash className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <Hash className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                         <input
                           type="text"
                           name="isbn"
                           value={formData.isbn}
-                          onChange={handleChange}
-                          className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          onChange={(e) => handleChange(e)}
+                          className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Enter ISBN"
                           required
                         />
@@ -449,17 +429,17 @@ const AddBook = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Primary Genre
                       </label>
                       <select
                         name="genre"
                         value={formData.genre}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        onChange={(e) => handleChange(e)}
+                        className="w-full px-4 py-3 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       >
                         <option value="">Select a genre</option>
-                        {genres.map((genre) => (
+                        {genre.map((genre) => (
                           <option key={genre} value={genre}>
                             {genre}
                           </option>
@@ -470,11 +450,11 @@ const AddBook = () => {
 
                   {/* Additional Genres */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                    <label className="block mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Additional Genres
                     </label>
                     <div className="flex flex-wrap gap-2">
-                      {genres.map((genre) => (
+                      {genre.map((genre) => (
                         <button
                           key={genre}
                           type="button"
@@ -486,10 +466,10 @@ const AddBook = () => {
                           }`}
                         >
                           <div className="flex items-center space-x-2">
-                            <Tag className="h-4 w-4" />
+                            <Tag className="w-4 h-4" />
                             <span>{genre}</span>
                             {selectedGenres.includes(genre) && (
-                              <Check className="h-4 w-4" />
+                              <Check className="w-4 h-4" />
                             )}
                           </div>
                         </button>
@@ -498,57 +478,57 @@ const AddBook = () => {
                   </div>
 
                   {/* Publication Year & Publisher */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Publication Year
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <Calendar className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                         <input
                           type="number"
                           name="publicationYear"
                           value={formData.publicationYear}
-                          onChange={handleChange}
+                          onChange={(e) => handleChange(e)}
                           min="1000"
                           max={new Date().getFullYear() + 5}
-                          className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Year"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Publisher
                       </label>
                       <input
                         type="text"
                         name="publisher"
                         value={formData.publisher}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        onChange={(e) => handleChange(e)}
+                        className="w-full px-4 py-3 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Publisher name"
                       />
                     </div>
                   </div>
 
                   {/* Copies & Language */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Total Copies *
                       </label>
                       <div className="relative">
-                        <BookMarked className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <BookMarked className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                         <input
                           type="number"
                           name="totalCopies"
                           value={formData.totalCopies}
-                          onChange={handleChange}
+                          onChange={(e) => handleChange(e)}
                           min="1"
                           max="1000"
-                          className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Number of copies"
                           required
                         />
@@ -556,16 +536,16 @@ const AddBook = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Language
                       </label>
                       <div className="relative">
-                        <Globe className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <Globe className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                         <select
                           name="language"
                           value={formData.language}
-                          onChange={handleChange}
-                          className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                          onChange={(e) => handleChange(e)}
+                          className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
                           {languages.map((lang) => (
                             <option key={lang} value={lang}>
@@ -578,33 +558,33 @@ const AddBook = () => {
                   </div>
 
                   {/* Pages & Edition */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Number of Pages
                       </label>
                       <input
                         type="number"
                         name="pages"
                         value={formData.pages}
-                        onChange={handleChange}
+                        onChange={(e) => handleChange(e)}
                         min="1"
                         max="5000"
-                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        className="w-full px-4 py-3 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Total pages"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Edition
                       </label>
                       <input
                         type="text"
                         name="edition"
                         value={formData.edition}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        onChange={(e) => handleChange(e)}
+                        className="w-full px-4 py-3 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="e.g., First Edition, Revised"
                       />
                     </div>
@@ -612,21 +592,21 @@ const AddBook = () => {
 
                   {/* Description */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Description
                     </label>
                     <div className="relative">
-                      <FileText className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+                      <FileText className="absolute w-5 h-5 text-gray-400 left-4 top-4" />
                       <textarea
                         name="description"
                         value={formData.description}
-                        onChange={handleChange}
+                        onChange={(e) => handleChange(e)}
                         rows="4"
-                        className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+                        className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none resize-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Enter book description..."
                       />
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                       {formData.description.length}/2000 characters
                     </p>
                   </div>
@@ -634,11 +614,11 @@ const AddBook = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                 <button
                   type="button"
                   onClick={() => navigate("/books")}
-                  className="w-full sm:w-auto px-8 py-3 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium"
+                  className="w-full px-8 py-3 font-medium text-gray-800 transition-colors bg-gray-100 sm:w-auto dark:bg-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600"
                 >
                   Cancel
                 </button>
@@ -646,8 +626,8 @@ const AddBook = () => {
                 <div className="flex items-center space-x-4">
                   <button
                     type="button"
-                    onClick={resetForm}
-                    className="px-8 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-xl hover:shadow-lg transition-shadow font-medium"
+                    onClick={() => resetForm()}
+                    className="px-8 py-3 font-medium text-white transition-shadow bg-gradient-to-r from-gray-500 to-gray-600 rounded-xl hover:shadow-lg"
                   >
                     Reset Form
                   </button>
@@ -660,12 +640,12 @@ const AddBook = () => {
                       !formData.isbn ||
                       !formData.totalCopies
                     }
-                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-shadow disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                    className="px-8 py-3 font-medium text-white transition-shadow bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <span className="flex items-center justify-center">
                         <svg
-                          className="animate-spin h-5 w-5 mr-2"
+                          className="w-5 h-5 mr-2 animate-spin"
                           viewBox="0 0 24 24"
                         >
                           <circle
@@ -686,7 +666,7 @@ const AddBook = () => {
                       </span>
                     ) : (
                       <span className="flex items-center">
-                        <Plus className="h-5 w-5 mr-2" />
+                        <Plus className="w-5 h-5 mr-2" />
                         Add Book to Library
                       </span>
                     )}

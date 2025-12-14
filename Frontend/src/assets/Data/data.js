@@ -12,9 +12,9 @@ import {
   Clock,
 } from "lucide-react";
 
-//////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 
-// DASHBOARD PAGE DATA
+////////////// DASHBOARD PAGE DATA //////////////
 export const statCards = [
   {
     title: "Total Books",
@@ -50,9 +50,9 @@ export const statCards = [
   },
 ];
 
-//////////////
+////////////////////////////////////////////////
 
-// BOOKS PAGE DATA
+///////////// BOOKS PAGE DATA //////////////////
 export const genres = [
   "all",
   "Fiction",
@@ -174,9 +174,9 @@ export const mockBooks = [
   },
 ];
 
-//////////////////////////////////////////////////////
+////////////////////////////////////////////////
 
-// ADMIN DASHBOARD DATA
+//////// ADMIN DASHBOARD DATA /////////////////
 export const monthlyData = [
   { month: "Jan", books: 120, members: 45, revenue: 1200 },
   { month: "Feb", books: 150, members: 52, revenue: 1500 },
@@ -375,9 +375,9 @@ export const statCard = [
   },
 ];
 
-//////////////////////////////////////////////////////
+//////////////////////////////////////////////
 
-//PROFILE DATA
+////////////// PROFILE DATA /////////////////
 export const borrowingHistory = [
   {
     id: 1,
@@ -412,10 +412,42 @@ export const borrowingHistory = [
     status: "returned",
   },
 ];
-
 export const stats = {
   totalBorrowed: 24,
   currentlyBorrowed: 2,
   onTimeReturns: 22,
   favoriteGenre: "Fiction",
 };
+
+/////////////////////////////////////////////
+
+//////////////// ADD BOOKS DATA ////////////
+export const languages = [
+  "English",
+  "Spanish",
+  "French",
+  "German",
+  "Chinese",
+  "Japanese",
+  "Arabic",
+  "Hindi",
+  "Russian",
+  "Portuguese",
+];
+export const genre = [
+  "Fiction",
+  "Non-Fiction",
+  "Science Fiction",
+  "Fantasy",
+  "Mystery",
+  "Thriller",
+  "Romance",
+  "Biography",
+  "History",
+  "Science",
+  "Technology",
+  "Self-Help",
+  "Business",
+  "Poetry",
+  "Drama",
+];

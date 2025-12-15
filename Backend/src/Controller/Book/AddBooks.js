@@ -26,15 +26,15 @@ export const AddBooks = (req, res) => {
     author,
     isbn,
     genre,
-    publication_year,
     publisher,
-    total_copies,
     cover_image_url,
     description,
     edition,
     language,
-    pages,
   } = req.body;
+
+  const { publication_year, total_copies, pages } = parseInt(req.body);
+
   if (!id) {
     return res.status(400).json({
       message: "Id is not provided!!!",

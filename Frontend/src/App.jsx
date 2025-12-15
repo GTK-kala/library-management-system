@@ -62,7 +62,6 @@ const App = () => {
                 path="/books/add"
                 element={
                   <>
-                    <Navbar />
                     <PrivateRoute adminOnly={true}>
                       <AddBook />
                     </PrivateRoute>

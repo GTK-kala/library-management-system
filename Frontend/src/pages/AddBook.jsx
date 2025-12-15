@@ -29,7 +29,7 @@ const AddBook = () => {
     author: "",
     isbn: "",
     genre: "",
-    publicationYear: new Date().getFullYear(),
+    publication_year: new Date().getFullYear(),
     publisher: "",
     totalCopies: 1,
     description: "",
@@ -134,7 +134,7 @@ const AddBook = () => {
       } else {
         resetForm();
         toast.success("Book added successfully!", {
-          duration: 4000,
+          duration: 2000,
           icon: "📚",
         });
       }

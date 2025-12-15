@@ -5,9 +5,9 @@ export const SignUpUser = (req, res) => {
   const { name, email, role, password } = req.body;
   const userRole = role || "member";
 
-  const sql1 = "SELECT * FROM users WHERE email = ?";
+  const sqlEmail = "SELECT * FROM users WHERE email = ?";
 
-  connection.query(sql1, [email], (err, result) => {
+  connection.query(sqlEmail, [email], (err, result) => {
     if (err) {
       return res.status(500).json({
         message: "Error on Server!!!",
@@ -23,11 +23,11 @@ export const SignUpUser = (req, res) => {
     const membership_id =
       "MEM-" + Math.random().toString(36).substring(2, 10).toUpperCase();
     const hashedPassword = bcrypt.hashSync(password, 8);
-    const sql2 =
+    const sqlInsert =
       "INSERT INTO users (name, email, role, password, membership_id) VALUES (?, ?, ? , ? , ?)";
 
     connection.query(
-      sql2,
+      sqlInsert,
       [name, email, userRole, hashedPassword, membership_id],
       (err, result) => {
         if (err) {

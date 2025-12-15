@@ -1,8 +1,9 @@
 import connection from "../../Config/db.js";
 
 export const GetBooks = (req, res) => {
-  const sql = "SELECT * FROM books";
-  connection.query(sql, (err, result) => {
+  const sqlBooks = "SELECT * FROM books";
+
+  connection.query(sqlBooks, (err, result) => {
     if (err) {
       return console.log(err);
     } else {

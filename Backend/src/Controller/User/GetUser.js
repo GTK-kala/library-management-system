@@ -3,9 +3,9 @@ import connection from "../../Config/db.js";
 export const GetUser = (req, res) => {
   const id = parseInt(req.params.id);
 
-  const sql = "SELECT * FROM users WHERE id = ?";
+  const sqlUser = "SELECT * FROM users WHERE id = ?";
 
-  connection.query(sql, [id], (err, result) => {
+  connection.query(sqlUser, [id], (err, result) => {
     if (err) {
       console.log(err);
     } else if (result.length === 0) {

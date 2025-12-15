@@ -17,9 +17,9 @@ export const UpDateUser = (req, res) => {
   }
   values.push(id);
 
-  const sql = `UPDATE users SET ${fields.join(", ")} WHERE id = ?`;
+  const sqlUpDate = `UPDATE users SET ${fields.join(", ")} WHERE id = ?`;
 
-  connection.query(sql, values, (err, result) => {
+  connection.query(sqlUpDate, values, (err, result) => {
     if (err) {
       return console.log(err);
     } else {

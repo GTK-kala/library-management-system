@@ -31,10 +31,10 @@ const AddBook = () => {
     genre: "",
     publication_year: new Date().getFullYear(),
     publisher: "",
-    totalCopies: 1,
+    total_copies: 1,
     description: "",
     language: "English",
-    pages: 0,
+    pages: 1,
     edition: "First Edition",
   });
 
@@ -113,7 +113,7 @@ const AddBook = () => {
       authors: authors.filter((author) => author.trim() !== ""),
       genres: selectedGenres,
       coverImage: coverPreview,
-      availableCopies: formData.totalCopies,
+      total_copies: formData.total_copies,
     };
     console.log(bookData);
     try {
@@ -151,9 +151,9 @@ const AddBook = () => {
       author: "",
       isbn: "",
       genre: "",
-      publicationYear: new Date().getFullYear(),
+      publication_year: new Date().getFullYear(),
       publisher: "",
-      totalCopies: 1,
+      total_copies: 1,
       description: "",
       language: "English",
       pages: 0,
@@ -488,7 +488,7 @@ const AddBook = () => {
                         <input
                           type="number"
                           name="publicationYear"
-                          value={formData.publicationYear}
+                          value={formData.publication_year}
                           onChange={(e) => handleChange(e)}
                           min="1000"
                           max={new Date().getFullYear() + 5}
@@ -524,7 +524,7 @@ const AddBook = () => {
                         <input
                           type="number"
                           name="totalCopies"
-                          value={formData.totalCopies}
+                          value={formData.total_copies}
                           onChange={(e) => handleChange(e)}
                           min="1"
                           max="1000"

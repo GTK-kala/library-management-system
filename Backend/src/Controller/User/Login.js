@@ -4,9 +4,9 @@ import bcrypt from "bcryptjs";
 
 export const Login = (req, res) => {
   const { email, password } = req.body;
-  const sql = "SELECT * FROM users WHERE email = ?";
+  const sqlEmail = "SELECT * FROM users WHERE email = ?";
 
-  connection.query(sql, [email], (err, result) => {
+  connection.query(sqlEmail, [email], (err, result) => {
     if (err) {
       return console.log(err);
     } else if (result.length === 0) {

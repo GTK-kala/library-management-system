@@ -22,7 +22,7 @@ const Register = () => {
     } else {
       try {
         const API = import.meta.VITE_API_URL;
-        const url = `${API}/api/register`;
+        const url = `https://library-management-system-hffg.onrender.com/api/register`;
         const res = await fetch(url, {
           method: "POST",
           headers: {
@@ -37,7 +37,7 @@ const Register = () => {
           navigate("/login");
         }
       } catch (error) {
-        toast.error("Register failed. Please try again.");
+        console.log(error);
       }
     }
     setName("");

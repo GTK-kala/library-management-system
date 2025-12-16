@@ -18,7 +18,6 @@ app.use(
     origin:
       process.env.VITE_API_URL ||
       "https://library-management-system-ten-jade.vercel.app",
-    methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
 );

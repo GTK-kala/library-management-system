@@ -9,7 +9,6 @@ const Login = () => {
     loading,
     password,
     setEmail,
-    setLoading,
     setPassword,
     HandleSubmit,
     showPassword,

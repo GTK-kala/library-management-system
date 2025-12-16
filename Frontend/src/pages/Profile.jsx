@@ -34,8 +34,9 @@ const Profile = () => {
 
   const HandleChange = async () => {
     const id = localStorage.getItem("id");
+    const API = import.meta.VITE_API_URL;
     const value = { name, email };
-    const url = `http://localhost:3001/api/user/edit/${id}`;
+    const url = `${API}/api/user/edit/${id}`;
     try {
       const res = await fetch(url, {
         method: "PUT",
@@ -64,7 +65,8 @@ const Profile = () => {
     const id = localStorage.getItem("id");
     const FetchData = async () => {
       try {
-        const url = `http://localhost:3001/api/user/${id}`;
+        const API = import.meta.VITE_API_URL;
+        const url = `${API}/api/user/${id}`;
         const res = await fetch(url);
         const data = await res.json();
         const Data = data.result;

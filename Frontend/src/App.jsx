@@ -81,7 +81,7 @@ const App = () => {
             </Routes>
 
             <Toaster
-              position="top-right"
+              position="top-center"
               toastOptions={{
                 duration: 2000,
                 style: {

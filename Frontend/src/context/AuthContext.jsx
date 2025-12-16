@@ -16,10 +16,11 @@ export const AuthProvider = ({ children }) => {
 
   ///////// SUBMIT DATA WHEN USER IS LOGIN ///////////
   const HandleSubmit = async (e) => {
+    const API = import.meta.VITE_API_URL;
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3001/api/login", {
+      const res = await fetch(`${API}/api/login`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         credentials: "include",

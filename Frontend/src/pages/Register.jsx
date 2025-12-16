@@ -21,7 +21,8 @@ const Register = () => {
       toast.error("password length is small");
     } else {
       try {
-        const url = "http://localhost:3001/api/register";
+        const API = import.meta.VITE_API_URL;
+        const url = `${API}/api/register`;
         const res = await fetch(url, {
           method: "POST",
           headers: {

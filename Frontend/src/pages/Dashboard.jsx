@@ -28,7 +28,8 @@ const Dashboard = () => {
 
     const FetchBooks = async () => {
       try {
-        const url = "http://localhost:3001/api/books";
+        const API = import.meta.VITE_API_URL;
+        const url = `${API}/api/books`;
         const res = await fetch(url);
         const data = await res.json();
         const Data = data.result;
@@ -208,13 +209,13 @@ const Dashboard = () => {
                 </div>
               ) : (
                 <div className="py-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                  <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full dark:bg-gray-700">
                     <BookOpen className="w-8 h-8 text-gray-400" />
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
                     No books available
                   </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-500">
                     Add some books to get started
                   </p>
                 </div>
@@ -305,11 +306,11 @@ const Dashboard = () => {
                         <h4 className="font-semibold truncate">
                           {item.book_title}
                         </h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                        <p className="text-sm text-gray-600 truncate dark:text-gray-400">
                           {item.member_name}
                         </p>
                       </div>
-                      <span className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full dark:bg-blue-900/30 dark:text-blue-300 whitespace-nowrap ml-2">
+                      <span className="px-3 py-1 ml-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-full dark:bg-blue-900/30 dark:text-blue-300 whitespace-nowrap">
                         {getDueDateText(item.due_date)}
                       </span>
                     </motion.div>
@@ -317,13 +318,13 @@ const Dashboard = () => {
                 </div>
               ) : (
                 <div className="py-6 text-center">
-                  <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                  <div className="flex items-center justify-center w-12 h-12 mx-auto mb-3 bg-gray-100 rounded-full dark:bg-gray-700">
                     <Clock className="w-6 h-6 text-gray-400" />
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
                     No upcoming returns
                   </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-500">
                     All books are returned on time
                   </p>
                 </div>
@@ -339,9 +340,9 @@ const Dashboard = () => {
           transition={{ delay: 0.3 }}
           className="mt-8"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {/* Today's Returns */}
-            <div className="p-6 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl shadow-lg">
+            <div className="p-6 shadow-lg bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-blue-100">Today's Returns</p>
@@ -358,7 +359,7 @@ const Dashboard = () => {
             </div>
 
             {/* Monthly Revenue */}
-            <div className="p-6 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl shadow-lg">
+            <div className="p-6 shadow-lg bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-green-100">Monthly Revenue</p>
@@ -375,7 +376,7 @@ const Dashboard = () => {
             </div>
 
             {/* New Members */}
-            <div className="p-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl shadow-lg">
+            <div className="p-6 shadow-lg bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-purple-100">New Members (30d)</p>

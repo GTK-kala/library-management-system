@@ -20,12 +20,15 @@ export const AuthProvider = ({ children }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/login`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        `https://library-management-system-hffg.onrender.com/api/login`,
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
 

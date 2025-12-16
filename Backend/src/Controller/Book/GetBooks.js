@@ -8,7 +8,7 @@ export const GetBooks = (req, res) => {
       return console.log(err);
     } else {
       return res.status(200).json({
-        result: result.slice(0, 5),
+        result: result.slice(0, 6),
       });
     }
   });

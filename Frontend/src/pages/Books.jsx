@@ -28,10 +28,28 @@ const Books = () => {
 
   useEffect(() => {
     // Simulate API call
-    setTimeout(() => {
-      setBooks(mockBooks);
-      setLoading(false);
-    }, 1000);
+    // setTimeout(() => {
+    //   setBooks(mockBooks);
+    //   setLoading(false);
+    // }, 1000);
+
+    const FetchBooks = async () => {
+      try {
+        const url = "http://localhost:3001/api/books";
+        const res = await fetch(url);
+        const data = await res.json();
+        const Data = data.result;
+        if (!res.ok) {
+          console.log(Data);
+        } else {
+          setBooks(Data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    FetchBooks();
+    setLoading(false);
   }, []);
 
   const filteredBooks = books.filter((book) => {

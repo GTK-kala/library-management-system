@@ -133,7 +133,7 @@ const AddBook = () => {
         console.log(data.message);
       } else {
         resetForm();
-        toast.success("Book added successfully!", {
+        toast.success(data.message, {
           duration: 2000,
           icon: "📚",
         });
@@ -487,7 +487,7 @@ const AddBook = () => {
                         <Calendar className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                         <input
                           type="number"
-                          name="publicationYear"
+                          name="publication_year"
                           value={formData.publication_year}
                           onChange={(e) => handleChange(e)}
                           min="1000"
@@ -523,7 +523,7 @@ const AddBook = () => {
                         <BookMarked className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                         <input
                           type="number"
-                          name="totalCopies"
+                          name="total_copies"
                           value={formData.total_copies}
                           onChange={(e) => handleChange(e)}
                           min="1"
@@ -638,7 +638,7 @@ const AddBook = () => {
                       loading ||
                       !formData.title ||
                       !formData.isbn ||
-                      !formData.totalCopies
+                      !formData.total_copies
                     }
                     className="px-8 py-3 font-medium text-white transition-shadow bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >

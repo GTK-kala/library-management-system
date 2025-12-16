@@ -15,7 +15,9 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 const app = express();
 app.use(
   cors({
-    origin: process.env.CORS_Origin || "http://localhost:3000",
+    origin:
+      process.env.VITE_API_URL ||
+      "https://library-management-system-ten-jade.vercel.app",
     methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })

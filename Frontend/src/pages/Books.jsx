@@ -181,7 +181,7 @@ const Books = () => {
                     : "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300"
                 }`}
               >
-                {book.available ? "Available" : "Unavailable"}
+                {book.available ? "Available" : "Available"}
               </span>
             </div>
 

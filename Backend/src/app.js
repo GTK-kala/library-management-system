@@ -16,9 +16,17 @@ const app = express();
 
 const allowedOrigins = [process.env.VITE_API_URL, process.env.LOCAL_ORIGIN];
 
+// app.use(
+//   cors({
+//     origin: allowedOrigins[0],
+//     credentials: true,
+//   })
+// );
+
 app.use(
   cors({
     origin: allowedOrigins[1],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );

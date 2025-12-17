@@ -44,7 +44,7 @@ const Register = () => {
     setName("");
     setEmail("");
     setPassword("");
-    setLoading(true);
+    setLoading(false);
   };
 
   return (

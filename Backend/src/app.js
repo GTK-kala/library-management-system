@@ -14,22 +14,22 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 
-const allowedOrigins = [process.env.VITE_API_URL, process.env.LOCAL_ORIGIN];
-
-// app.use(
-//   cors({
-//     origin: allowedOrigins[0],
-//     credentials: true,
-//   })
-// );
+// const allowedOrigins = [process.env.VITE_API_URL, process.env.LOCAL_ORIGIN];
 
 app.use(
   cors({
-    origin: allowedOrigins[1],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: process.env.VITE_API_URL,
     credentials: true,
   })
 );
+
+// app.use(
+//   cors({
+//     origin: process.env.LOCAL_ORIGIN,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true,
+//   })
+// );
 
 const PORT = process.env.PORT || 3001;
 

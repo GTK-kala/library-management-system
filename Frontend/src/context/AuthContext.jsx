@@ -16,13 +16,13 @@ export const AuthProvider = ({ children }) => {
 
   ///////// SUBMIT DATA WHEN USER IS LOGIN ///////////
   const HandleSubmit = async (e) => {
-    // const API = import.meta.VITE_API_URL;
-    // const url = `${API}/api/login`
+    const API = import.meta.VITE_API_URL;
+    const url = `${API}/api/login`;
 
     e.preventDefault();
     setLoading(true);
     try {
-      const url = "http://localhost:3001/api/login";
+      // const url = "http://localhost:3001/api/login";
       const res = await fetch(url, {
         method: "POST",
         headers: { "content-type": "application/json" },

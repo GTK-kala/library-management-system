@@ -15,6 +15,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const value = { name, email, role, password };
 
     if (password.length < 5) {
@@ -40,12 +41,13 @@ const Register = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setName("");
+        setEmail("");
+        setPassword("");
+        setLoading(false);
       }
     }
-    setName("");
-    setEmail("");
-    setPassword("");
-    setLoading(false);
   };
 
   return (

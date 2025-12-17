@@ -18,7 +18,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.VITE_API_URL,
+    origin: "https://library-management-system-ten-jade.vercel.app",
     credentials: true,
   })
 );

@@ -117,8 +117,8 @@ const AddBook = () => {
     };
     console.log(bookData);
     try {
-      const API = import.meta.VITE_API_URL;
-      const url = `${API}/api/book/add/${id}`;
+      // const API = import.meta.VITE_API_URL;
+      const url = `https://library-management-system-hffg.onrender.com/api/book/add/${id}`;
       // const url = `http://localhost:3001/api/book/add/${id}`;
       const res = await fetch(url, {
         method: "POST",

@@ -16,8 +16,8 @@ export const AuthProvider = ({ children }) => {
 
   ///////// SUBMIT DATA WHEN USER IS LOGIN ///////////
   const HandleSubmit = async (e) => {
-    const API = import.meta.VITE_API_URL;
-    const url = `${API}/api/login`;
+    // const API = import.meta.VITE_API_URL;
+    const url = "https://library-management-system-hffg.onrender.com/api/login";
 
     e.preventDefault();
     setLoading(true);

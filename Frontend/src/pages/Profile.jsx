@@ -35,8 +35,8 @@ const Profile = () => {
   const HandleChange = async () => {
     const value = { name, email };
     const id = localStorage.getItem("id");
-    const API = import.meta.VITE_API_URL;
-    const url = `${API}/api/user/edit/${id}`;
+    // const API = import.meta.VITE_API_URL;
+    const url = `https://library-management-system-hffg.onrender.com/api/user/edit/${id}`;
     // const url = `http://localhost:3001/api/user/edit/${id}`;
     try {
       const res = await fetch(url, {

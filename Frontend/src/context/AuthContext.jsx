@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
       // const url = "http://localhost:3001/api/login";
       const res = await fetch(url, {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ email, password }),
       });

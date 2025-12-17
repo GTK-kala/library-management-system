@@ -123,7 +123,7 @@ const AddBook = () => {
       const res = await fetch(url, {
         method: "POST",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(bookData),
         credentials: "include",

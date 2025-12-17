@@ -16,19 +16,19 @@ export const AuthProvider = ({ children }) => {
 
   ///////// SUBMIT DATA WHEN USER IS LOGIN ///////////
   const HandleSubmit = async (e) => {
-    const API = import.meta.VITE_API_URL;
+    // const API = import.meta.VITE_API_URL;
+    // const url = `${API}/api/login`
+
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(
-        `https://library-management-system-hffg.onrender.com/api/login`,
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const url = "http://localhost:3001/api/login";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email, password }),
+      });
 
       const data = await res.json();
 

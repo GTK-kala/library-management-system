@@ -21,8 +21,9 @@ const Register = () => {
       toast.error("password length is small");
     } else {
       try {
-        const API = import.meta.VITE_API_URL;
-        const url = `https://library-management-system-hffg.onrender.com/api/register`;
+        // const API = import.meta.VITE_API_URL;
+        // const url = `${API}/api/register`;
+        const url = "http://localhost:3001/api/register";
         const res = await fetch(url, {
           method: "POST",
           headers: {
@@ -43,6 +44,7 @@ const Register = () => {
     setName("");
     setEmail("");
     setPassword("");
+    setLoading(true);
   };
 
   return (

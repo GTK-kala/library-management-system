@@ -13,11 +13,12 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
+
+const allowedOrigins = [process.env.VITE_API_URL, process.env.LOCAL_ORIGIN];
+
 app.use(
   cors({
-    origin:
-      process.env.VITE_API_URL ||
-      "https://library-management-system-ten-jade.vercel.app",
+    origin: allowedOrigins[1],
     credentials: true,
   })
 );

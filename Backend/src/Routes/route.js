@@ -15,9 +15,14 @@ import { SignUpUser } from "../Controller/User/Signup.js";
 import { UpDateUser } from "../Controller/User/UpDateUser.js";
 
 // BOOKS ROUTE FUNCTIONS
-
 import { GetBooks } from "../Controller/Book/GetBooks.js";
 import { verifyToken, AddBooks } from "../Controller/Book/AddBooks.js";
+
+// TEST ROUTES FUNCTIONS
+import { HomeRoute } from "../Controller/Admin/Home.js";
+
+// TEST ROUTE
+route.get("/home", HomeRoute);
 
 // USER ROUTE
 route.post("/login", Login);

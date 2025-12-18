@@ -33,7 +33,7 @@ export const Login = (req, res) => {
           role: user.role,
         },
         process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_Expire }
+        { expiresIn: process.env.JWT_EXPIRES }
       );
 
       const cookie = {

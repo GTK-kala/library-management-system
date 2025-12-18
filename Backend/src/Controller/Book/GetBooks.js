@@ -6,7 +6,9 @@ export const GetBooks = (req, res) => {
 
     connection.query(sqlBooks, (err, result) => {
       if (err) {
-        return console.log(err);
+        return res.status(500).json({
+          message: err,
+        });
       } else {
         return res.status(200).json({
           result: result.slice(0, 6),

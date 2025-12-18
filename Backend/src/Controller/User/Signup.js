@@ -42,7 +42,7 @@ export const SignUpUser = (req, res) => {
         (err, result) => {
           if (err) {
             return res.status(500).json({
-              message: "Error creating user",
+              message: err,
             });
           }
 

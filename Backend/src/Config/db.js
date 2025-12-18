@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const connection = mysql.createConnection(process.env.DATABASE_URL);
+const Url_Db = `mysql://${process.env.MYSQL_USER}:${process.env.MYSQL_PASSWORD}@${process.env.MYSQL_HOST}:${process.env.MYSQL_PORT}/${process.env.MYSQL_DATABASE}`;
+
+const connection = mysql.createConnection(Url_Db);
 
 connection.connect(() => {
   console.log("Database Connected !!!");

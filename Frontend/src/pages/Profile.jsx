@@ -67,7 +67,7 @@ const Profile = () => {
     const FetchData = async () => {
       try {
         const API = import.meta.VITE_API_URL;
-        const url = `${API}/api/user/${id}`;
+        const url = `https://library-management-system-production-27d8.up.railway.app/api/user/${id}`;
         const res = await fetch(url);
         const data = await res.json();
         const Data = data.result;

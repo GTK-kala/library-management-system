@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ const Register = () => {
     } else {
       try {
         const API = import.meta.env.VITE_API_URL;
-        const url = `${API}/api/register`;
+        const url = `https://library-management-system-production-27d8.up.railway.app/api/register`;
         const res = await fetch(url, {
           method: "POST",
           headers: {
@@ -47,7 +47,6 @@ const Register = () => {
       }
     }
   };
-
   return (
     <div className="relative flex items-center justify-center min-h-screen mt-20 overflow-hidden bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Animated Background */}

@@ -29,7 +29,7 @@ const Dashboard = () => {
     const FetchBooks = async () => {
       try {
         const API = import.meta.env.VITE_API_URL;
-        const url = `${API}/api/books`;
+        const url = `https://library-management-system-production-27d8.up.railway.app/api/books`;
         const res = await fetch(url);
         const data = await res.json();
         const Data = data.result;

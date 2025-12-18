@@ -118,7 +118,7 @@ const AddBook = () => {
     console.log(bookData);
     try {
       const API = import.meta.env.VITE_API_URL;
-      const url = `${API}/api/book/add/${id}`;
+      const url = `https://library-management-system-production-27d8.up.railway.app/api/book/add/${id}`;
       const res = await fetch(url, {
         method: "POST",
         headers: {

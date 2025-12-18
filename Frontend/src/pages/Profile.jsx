@@ -38,7 +38,6 @@ const Profile = () => {
     const id = localStorage.getItem("id");
     const API = import.meta.env.VITE_API_URL;
     const url = `${API}/api/user/edit/${id}`;
-    // const url = `http://localhost:3001/api/user/edit/${id}`;
     try {
       const res = await fetch(url, {
         method: "PUT",
@@ -49,7 +48,7 @@ const Profile = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        toast.error(data.message);
+        console.log(data.message);
       } else {
         toast.success(data.message);
       }
@@ -67,14 +66,13 @@ const Profile = () => {
     const id = localStorage.getItem("id");
     const FetchData = async () => {
       try {
-        // const API = import.meta.VITE_API_URL;
-        // const url = `${API}/api/user/${id}`;
-        const url = `http://localhost:3001/api/user/${id}`;
+        const API = import.meta.VITE_API_URL;
+        const url = `${API}/api/user/${id}`;
         const res = await fetch(url);
         const data = await res.json();
         const Data = data.result;
         if (!res.ok) {
-          toast.error(data.message);
+          console.log(data.message);
         } else {
           setId(Data.id);
           setName(Data.name);

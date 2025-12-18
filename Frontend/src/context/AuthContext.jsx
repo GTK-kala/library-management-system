@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // const url = "http://localhost:3001/api/login";
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -33,7 +32,7 @@ export const AuthProvider = ({ children }) => {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.message);
+        console.log(data.message);
       } else {
         setUser(data.user);
         localStorage.setItem("id", data.user.id);

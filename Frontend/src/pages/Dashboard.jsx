@@ -30,7 +30,6 @@ const Dashboard = () => {
       try {
         const API = import.meta.env.VITE_API_URL;
         const url = `${API}/api/books`;
-        // const url = "http://localhost:3001/api/books";
         const res = await fetch(url);
         const data = await res.json();
         const Data = data.result;

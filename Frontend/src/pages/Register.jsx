@@ -13,7 +13,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const value = { name, email, role, password };
@@ -24,7 +24,6 @@ const Register = () => {
       try {
         const API = import.meta.env.VITE_API_URL;
         const url = `${API}/api/register`;
-        // const url = "http://localhost:3001/api/register";
         const res = await fetch(url, {
           method: "POST",
           headers: {
@@ -78,7 +77,7 @@ const Register = () => {
 
           {/* Form */}
           <div className="p-8">
-            <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
+            <form onSubmit={(e) => HandleSubmit(e)} className="space-y-6">
               {/* Name */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}

@@ -119,7 +119,6 @@ const AddBook = () => {
     try {
       const API = import.meta.env.VITE_API_URL;
       const url = `${API}/api/book/add/${id}`;
-      // const url = `http://localhost:3001/api/book/add/${id}`;
       const res = await fetch(url, {
         method: "POST",
         headers: {

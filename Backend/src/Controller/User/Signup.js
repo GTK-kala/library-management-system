@@ -18,7 +18,7 @@ export const SignUpUser = (req, res) => {
     connection.query(sqlEmail, [email], (err, users) => {
       if (err) {
         return res.status(500).json({
-          message: "Database error while checking email",
+          message: err,
         });
       }
 
@@ -54,7 +54,7 @@ export const SignUpUser = (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Unexpected server error",
+      message: error,
     });
   }
 };

@@ -26,10 +26,7 @@ const app = express();
 /* ----------------------------------
    CORS CONFIG (VERY IMPORTANT)
 -----------------------------------*/
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://library-management-system-ten-jade.vercel.app",
-];
+const allowedOrigins = ["http://localhost:3000", "https://kal-tsi.vercel.app"];
 
 app.use(
   cors({

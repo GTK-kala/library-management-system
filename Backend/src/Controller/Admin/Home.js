@@ -17,7 +17,7 @@ export const HomeRoute = (req, res) => {
     });
   } catch (error) {
     res.status(404).json({
-      message: "Error on the connection",
+      message: error,
     });
   }
 };

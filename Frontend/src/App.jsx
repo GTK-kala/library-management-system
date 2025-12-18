@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Books from "./pages/Books";
+import Landing from "./pages/Landing";
 import AddBook from "./pages/AddBook";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
@@ -24,89 +25,93 @@ const App = () => {
     <Router>
       <ThemeProvider>
         <AuthProvider>
-          <div className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-            <Navbar />
+          <>
+            <div className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+              {/* Conditional Navbar - Only show on app pages, not landing */}
+              <Routes>
+                {/* Public Landing Page - No Navbar */}
+                <Route path="/" element={<Landing />} />
+                <Route path="/home" element={<Landing />} />
 
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+                {/* Auth Pages - No Navbar */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
-              <Route
-                path="/dashboard"
-                element={
-                  <PrivateRoute>
-                    <Dashboard />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin"
-                element={
-                  <Layout showNavbar={true}>
-                    <PrivateRoute adminOnly>
-                      <AdminDashboard />
-                    </PrivateRoute>
-                  </Layout>
-                }
-              />
+                {/* Protected App Pages - With Navbar */}
+                <Route
+                  path="/*"
+                  element={
+                    <>
+                      <Navbar />
+                      <Routes>
+                        <Route
+                          path="/dashboard"
+                          element={
+                            <PrivateRoute>
+                              <Dashboard />
+                            </PrivateRoute>
+                          }
+                        />
+                        <Route
+                          path="/books"
+                          element={
+                            <PrivateRoute>
+                              <Books />
+                            </PrivateRoute>
+                          }
+                        />
+                        <Route
+                          path="/books/add"
+                          element={
+                            <PrivateRoute adminOnly>
+                              <AddBook />
+                            </PrivateRoute>
+                          }
+                        />
+                        <Route
+                          path="/profile"
+                          element={
+                            <PrivateRoute>
+                              <Profile />
+                            </PrivateRoute>
+                          }
+                        />
+                        <Route
+                          path="/admin"
+                          element={
+                            <PrivateRoute adminOnly>
+                              <AdminDashboard />
+                            </PrivateRoute>
+                          }
+                        />
 
-              <Route
-                path="/books"
-                element={
-                  <PrivateRoute>
-                    <Books />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/books/add"
-                element={
-                  <>
-                    <PrivateRoute adminOnly={true}>
-                      <AddBook />
-                    </PrivateRoute>
-                  </>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <PrivateRoute>
-                    <Profile />
-                  </PrivateRoute>
-                }
-              />
+                        {/* Redirect from old root to dashboard if logged in */}
+                        <Route
+                          path="/"
+                          element={<Navigate to="/dashboard" />}
+                        />
+                      </Routes>
+                    </>
+                  }
+                />
+              </Routes>
 
-              <Route path="/" element={<Navigate to="/dashboard" />} />
-            </Routes>
-
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                duration: 2000,
-                style: {
-                  background:
-                    "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                  color: "#fff",
-                  borderRadius: "12px",
-                  padding: "16px",
-                  boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
-                },
-                success: {
-                  iconTheme: {
-                    primary: "#10b981",
-                    secondary: "#fff",
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 4000,
+                  style: {
+                    background:
+                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    color: "#fff",
+                    borderRadius: "12px",
+                    padding: "16px",
+                    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
                   },
-                },
-                error: {
-                  iconTheme: {
-                    primary: "#ef4444",
-                    secondary: "#fff",
-                  },
-                },
-              }}
-            />
-          </div>
+                }}
+              />
+            </div>
+          </>
         </AuthProvider>
       </ThemeProvider>
     </Router>

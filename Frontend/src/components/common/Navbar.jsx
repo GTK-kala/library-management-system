@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -19,6 +19,7 @@ import {
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, Logout } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -66,7 +67,12 @@ const Navbar = () => {
                   <BookOpen className="w-6 h-6 text-white" />
                 </div>
               </div>
-              <span className="text-2xl font-bold gradient-text">Library</span>
+              <span
+                className="text-2xl font-bold gradient-text"
+                onClick={() => navigate("/")}
+              >
+                Library
+              </span>
             </motion.div>
 
             {/* Desktop Navigation */}

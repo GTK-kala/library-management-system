@@ -37,7 +37,7 @@ const Profile = () => {
     const value = { name, email };
     const id = localStorage.getItem("id");
     const API = import.meta.env.VITE_API_URL;
-    const url = `${API}/api/user/edit/${id}`;
+    const url = `https://library-management-system-production-27d8.up.railway.app/api/user/edit/${id}`;
     try {
       const res = await fetch(url, {
         method: "PUT",

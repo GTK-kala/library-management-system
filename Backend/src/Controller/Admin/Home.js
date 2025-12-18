@@ -7,7 +7,7 @@ export const HomeRoute = (req, res) => {
     connection.query(sql, (err, result) => {
       if (err) {
         return res.status(500).json({
-          message: "Error on database",
+          message: err,
         });
       }
       return res.status(200).json({

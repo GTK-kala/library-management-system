@@ -1,5 +1,5 @@
-import express from "express";
 import multer from "multer";
+import express from "express";
 
 // HANDLING IMAGE AND OTHER BIG DATA
 const upload = multer({

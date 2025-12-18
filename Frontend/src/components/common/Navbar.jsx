@@ -21,8 +21,8 @@ const Navbar = () => {
   const location = useLocation();
   const { user, Logout } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {

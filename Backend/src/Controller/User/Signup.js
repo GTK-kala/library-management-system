@@ -1,5 +1,5 @@
-import connection from "../../Config/db.js";
 import bcrypt from "bcryptjs";
+import connection from "../../Config/db.js";
 
 export const SignUpUser = (req, res) => {
   try {

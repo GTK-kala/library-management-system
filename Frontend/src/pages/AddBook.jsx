@@ -38,8 +38,8 @@ const AddBook = () => {
     edition: "First Edition",
   });
 
-  const [selectedGenres, setSelectedGenres] = useState([]);
   const [authors, setAuthors] = useState([""]);
+  const [selectedGenres, setSelectedGenres] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

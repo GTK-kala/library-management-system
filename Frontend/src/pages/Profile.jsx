@@ -16,10 +16,11 @@ import { borrowingHistory, stats } from "../assets/Data/data";
 
 const Profile = () => {
   const { user } = useAuth();
-  const [isEditing, setIsEditing] = useState(false);
   const [id, setId] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+
   const [formData, setFormData] = useState({
     phone: "+1 (555) 123-4567",
     address: "123 Library St, Book City",

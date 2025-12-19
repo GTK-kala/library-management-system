@@ -79,7 +79,7 @@ const AdminDashboard = () => {
     setLoading(false);
   });
   return (
-    <div className="min-h-screen px-4 pt-20 pb-8">
+    <div className="min-h-screen px-4 pt-5 pb-8">
       <div className="container mx-auto">
         {/* Header */}
         <motion.div

@@ -268,7 +268,7 @@ const Books = () => {
   );
 
   return (
-    <div className="min-h-screen px-3 pt-16 pb-6 sm:px-4 sm:pt-20 sm:pb-8 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen px-3 pt-5 pb-6 sm:px-4 sm:pt-20 sm:pb-8 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: -20 }}

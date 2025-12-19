@@ -59,7 +59,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen px-4 pt-20 pb-8">
+    <div className="min-h-screen px-4 pt-5 pb-8">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/10 dark:via-transparent dark:to-purple-900/10"></div>
 

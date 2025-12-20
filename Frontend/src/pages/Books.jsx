@@ -27,8 +27,8 @@ const Books = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("grid");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedGenre, setSelectedGenre] = useState("all");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedGenre, setSelectedGenre] = useState("all");
 
   useEffect(() => {
     setTimeout(() => {

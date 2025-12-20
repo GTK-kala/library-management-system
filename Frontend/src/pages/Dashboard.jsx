@@ -17,9 +17,9 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Dashboard = () => {
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recentBooks, setRecentBooks] = useState([]);
-  const [stats, setStats] = useState(null);
   const [upcomingReturns, setUpcomingReturns] = useState([]);
 
   // Fetch all data on component mount

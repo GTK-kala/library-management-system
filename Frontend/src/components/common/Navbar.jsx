@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
   BookOpen,
@@ -115,12 +115,6 @@ const Navbar = () => {
                     >
                       <item.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span className="font-medium">{item.label}</span>
-                      {isActive && (
-                        <motion.div
-                          layoutId="navbar-indicator"
-                          className="absolute bottom-0 w-1/2 h-1 transform -translate-x-1/2 bg-blue-600 rounded-full left-1/2 dark:bg-blue-400"
-                        />
-                      )}
                     </Link>
                   </motion.div>
                 );

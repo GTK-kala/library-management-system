@@ -15,6 +15,7 @@ import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
 import Layout from "./components/common/Layout";
 import Navbar from "./components/common/Navbar";
+import ManageMembers from "./pages/ManageMembers";
 import AdminDashboard from "./pages/AdminDashboard";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -65,6 +66,14 @@ const App = () => {
                           element={
                             <PrivateRoute adminOnly>
                               <AddBook />
+                            </PrivateRoute>
+                          }
+                        />
+                        <Route
+                          path="/admin/members"
+                          element={
+                            <PrivateRoute adminOnly>
+                              <ManageMembers />
                             </PrivateRoute>
                           }
                         />

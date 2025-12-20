@@ -104,7 +104,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen px-3 pt-4 pb-6 sm:px-4 sm:pt-20 sm:pb-8 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen px-3 pt-5 pb-6 sm:px-4 sm:pt-5 sm:pb-8 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto max-w-7xl">
         {/* Header - Optimized for mobile */}
         <motion.div

@@ -17,6 +17,10 @@ import {
   Plus,
   X,
   Check,
+  Info,
+  Copy,
+  Layers,
+  BarChart,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -82,14 +86,12 @@ const AddBook = () => {
   const handleCoverUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file type
       const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
       if (!validTypes.includes(file.type)) {
         toast.error("Please upload a valid image (JPEG, PNG, JPG, WebP)");
         return;
       }
 
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         toast.error("Image size should be less than 5MB");
         return;
@@ -103,7 +105,6 @@ const AddBook = () => {
     }
   };
 
-  ////// API CALL TO THE BACKEND
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -166,53 +167,84 @@ const AddBook = () => {
   };
 
   return (
-    <div className="min-h-screen px-4 pt-4 pb-8">
-      <div className="container max-w-4xl mx-auto">
+    <div className="min-h-screen px-3 sm:px-4 pt-5 sm:pt-5 pb-6 sm:pb-8 bg-gray-50 dark:bg-gray-900">
+      <div className="container max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6 sm:mb-8"
         >
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div className="flex items-start sm:items-center space-x-3 sm:space-x-4">
               <Link
                 to="/dashboard"
-                className="p-2 transition-colors bg-gray-100 rounded-lg dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+                className="p-2 transition-colors bg-gray-100 rounded-lg dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex-shrink-0"
               >
                 <ArrowLeft className="w-5 h-5" />
               </Link>
               <div>
-                <h1 className="mb-2 text-3xl font-bold text-transparent md:text-4xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
+                <h1 className="mb-1 sm:mb-2 text-xl sm:text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                   Add New Book
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                   Fill in the details to add a new book to the library
                 </p>
               </div>
             </div>
+
+            {/* Quick Stats on Mobile */}
+            <div className="sm:hidden grid grid-cols-3 gap-2 w-full">
+              <div className="p-2 rounded-lg bg-white dark:bg-gray-800">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Genres
+                </p>
+                <p className="font-semibold">{selectedGenres.length}</p>
+              </div>
+              <div className="p-2 rounded-lg bg-white dark:bg-gray-800">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Authors
+                </p>
+                <p className="font-semibold">
+                  {authors.filter((a) => a.trim()).length}
+                </p>
+              </div>
+              <div className="p-2 rounded-lg bg-white dark:bg-gray-800">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Copies
+                </p>
+                <p className="font-semibold">{formData.total_copies}</p>
+              </div>
+            </div>
           </div>
 
-          {/* Progress Steps */}
-          <div className="flex items-center justify-between mb-8">
+          {/* Progress Steps - Responsive */}
+          <div className="flex items-center justify-between mb-6 sm:mb-8 overflow-x-auto pb-2">
             {["Basic Info", "Details", "Additional", "Review"].map(
               (step, index) => (
-                <div key={step} className="flex items-center">
+                <div key={step} className="flex items-center flex-shrink-0">
                   <div
-                    className={`h-10 w-10 rounded-full flex items-center justify-center ${
+                    className={`h-8 w-8 sm:h-10 sm:w-10 rounded-full flex items-center justify-center text-sm sm:text-base ${
                       index === 0
                         ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
                         : "bg-gray-200 dark:bg-gray-700 text-gray-500"
                     }`}
                   >
-                    {index === 0 ? <Check className="w-5 h-5" /> : index + 1}
+                    {index === 0 ? (
+                      <Check className="w-4 h-4 sm:w-5 sm:h-5" />
+                    ) : (
+                      index + 1
+                    )}
                   </div>
-                  <span className="hidden ml-2 font-medium md:inline">
+                  <span className="hidden sm:inline ml-2 text-sm font-medium">
                     {step}
+                  </span>
+                  <span className="sm:hidden ml-1 text-xs font-medium">
+                    {step.split(" ")[0]}
                   </span>
                   {index < 3 && (
                     <div
-                      className={`h-1 w-16 mx-2 ${
+                      className={`h-1 w-4 sm:w-8 md:w-16 mx-1 sm:mx-2 ${
                         index === 0
                           ? "bg-gradient-to-r from-blue-600 to-purple-600"
                           : "bg-gray-200 dark:bg-gray-700"
@@ -226,16 +258,16 @@ const AddBook = () => {
         </motion.div>
 
         <form onSubmit={(e) => HandleSubmit(e)}>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8">
             {/* Left Column - Cover Image */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="lg:col-span-1"
+              className="lg:w-1/3"
             >
               {/* Cover Image Upload */}
-              <div className="p-6 mb-6 bg-white shadow-lg dark:bg-gray-800 rounded-2xl">
-                <h2 className="flex items-center mb-6 text-xl font-bold">
+              <div className="p-4 sm:p-6 mb-4 sm:mb-6 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-lg">
+                <h2 className="flex items-center mb-4 sm:mb-6 text-lg sm:text-xl font-bold">
                   <ImageIcon className="w-5 h-5 mr-2" />
                   Book Cover
                 </h2>
@@ -244,7 +276,7 @@ const AddBook = () => {
                   {/* Cover Preview */}
                   <div className="relative">
                     <div
-                      className={`aspect-[3/4] w-full rounded-xl border-2 border-dashed ${
+                      className={`aspect-[3/4] w-full rounded-lg sm:rounded-xl border-2 border-dashed ${
                         coverPreview
                           ? "border-transparent"
                           : "border-gray-300 dark:border-gray-600"
@@ -257,12 +289,12 @@ const AddBook = () => {
                           className="object-cover w-full h-full"
                         />
                       ) : (
-                        <div className="p-6 text-center">
-                          <BookOpen className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                          <p className="text-gray-500 dark:text-gray-400">
+                        <div className="p-4 sm:p-6 text-center">
+                          <BookOpen className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-3 text-gray-400" />
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
                             No cover image
                           </p>
-                          <p className="text-sm text-gray-400">
+                          <p className="text-xs text-gray-400 mt-1">
                             Upload a cover image
                           </p>
                         </div>
@@ -274,9 +306,9 @@ const AddBook = () => {
                       <button
                         type="button"
                         onClick={() => setCoverPreview(null)}
-                        className="absolute p-2 text-white transition-colors bg-red-500 rounded-full top-2 right-2 hover:bg-red-600"
+                        className="absolute p-1.5 sm:p-2 text-white transition-colors bg-red-500 rounded-full top-2 right-2 hover:bg-red-600"
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-3 h-3 sm:w-4 sm:h-4" />
                       </button>
                     )}
                   </div>
@@ -291,9 +323,9 @@ const AddBook = () => {
                         className="hidden"
                         id="cover-upload"
                       />
-                      <div className="w-full px-4 py-3 font-medium text-center text-white transition-shadow cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-lg">
+                      <div className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-center text-white transition-shadow cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg sm:rounded-xl hover:shadow-lg">
                         <div className="flex items-center justify-center space-x-2">
-                          <Upload className="w-5 h-5" />
+                          <Upload className="w-4 h-4 sm:w-5 sm:h-5" />
                           <span>Upload Cover Image</span>
                         </div>
                       </div>
@@ -305,27 +337,44 @@ const AddBook = () => {
                 </div>
               </div>
 
-              {/* Quick Stats */}
-              <div className="p-6 text-white shadow-lg bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl">
-                <h3 className="mb-4 font-bold">Quick Stats</h3>
+              {/* Quick Stats - Desktop */}
+              <div className="hidden sm:block p-4 sm:p-6 text-white shadow-sm sm:shadow-lg bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl sm:rounded-2xl">
+                <h3 className="mb-3 sm:mb-4 font-bold">Quick Stats</h3>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span>Books in Library</span>
+                    <span className="text-sm">Books in Library</span>
                     <span className="font-bold">1,247</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span>Available Copies</span>
-                    <span className="font-bold">{formData.totalCopies}</span>
+                    <span className="text-sm">Available Copies</span>
+                    <span className="font-bold">{formData.total_copies}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span>Genre Added</span>
+                    <span className="text-sm">Genre Added</span>
                     <span className="font-bold">{selectedGenres.length}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span>Authors</span>
+                    <span className="text-sm">Authors</span>
                     <span className="font-bold">
                       {authors.filter((a) => a.trim()).length}
                     </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Help Tips - Mobile */}
+              <div className="sm:hidden p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                <div className="flex items-start space-x-3">
+                  <Info className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                      Tips
+                    </p>
+                    <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                      • Fill all required fields marked with *
+                      <br />• Add multiple authors if needed
+                      <br />• Select relevant genres for better discovery
+                    </p>
                   </div>
                 </div>
               </div>
@@ -335,25 +384,27 @@ const AddBook = () => {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="lg:col-span-2"
+              className="lg:w-2/3"
             >
-              <div className="p-6 mb-6 bg-white shadow-lg dark:bg-gray-800 rounded-2xl">
-                <h2 className="mb-6 text-xl font-bold">Book Information</h2>
+              <div className="p-4 sm:p-6 mb-4 sm:mb-6 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-lg">
+                <h2 className="mb-4 sm:mb-6 text-lg sm:text-xl font-bold">
+                  Book Information
+                </h2>
 
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {/* Title */}
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Book Title *
                     </label>
                     <div className="relative">
-                      <BookOpen className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
+                      <BookOpen className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
                       <input
                         type="text"
                         name="title"
                         value={formData.title}
                         onChange={(e) => handleChange(e)}
-                        className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full py-2.5 sm:py-3 pl-10 sm:pl-12 pr-4 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Enter book title"
                         required
                       />
@@ -369,9 +420,9 @@ const AddBook = () => {
                       <button
                         type="button"
                         onClick={() => handleAddAuthor()}
-                        className="flex items-center text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                        className="flex items-center text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:underline"
                       >
-                        <Plus className="w-4 h-4 mr-1" />
+                        <Plus className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                         Add Author
                       </button>
                     </div>
@@ -380,17 +431,17 @@ const AddBook = () => {
                       {authors.map((author, index) => (
                         <div
                           key={index}
-                          className="flex items-center space-x-3"
+                          className="flex items-center space-x-2 sm:space-x-3"
                         >
                           <div className="relative flex-1">
-                            <User className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
+                            <User className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
                             <input
                               type="text"
                               value={author}
                               onChange={(e) =>
                                 handleAuthorChange(index, e.target.value)
                               }
-                              className="w-full py-3 pl-12 pr-10 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              className="w-full py-2.5 sm:py-3 pl-9 sm:pl-12 pr-8 sm:pr-10 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               placeholder={`Author ${index + 1} name`}
                               required={index === 0}
                             />
@@ -399,9 +450,9 @@ const AddBook = () => {
                             <button
                               type="button"
                               onClick={() => handleRemoveAuthor(index)}
-                              className="p-3 text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl"
+                              className="p-2 sm:p-3 text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg sm:rounded-xl flex-shrink-0"
                             >
-                              <X className="w-5 h-5" />
+                              <X className="w-4 h-4 sm:w-5 sm:h-5" />
                             </button>
                           )}
                         </div>
@@ -410,19 +461,19 @@ const AddBook = () => {
                   </div>
 
                   {/* ISBN & Genre */}
-                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         ISBN *
                       </label>
                       <div className="relative">
-                        <Hash className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
+                        <Hash className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
                         <input
                           type="text"
                           name="isbn"
                           value={formData.isbn}
                           onChange={(e) => handleChange(e)}
-                          className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full py-2.5 sm:py-3 pl-9 sm:pl-12 pr-4 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Enter ISBN"
                           required
                         />
@@ -430,14 +481,14 @@ const AddBook = () => {
                     </div>
 
                     <div>
-                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Primary Genre
                       </label>
                       <select
                         name="genre"
                         value={formData.genre}
                         onChange={(e) => handleChange(e)}
-                        className="w-full px-4 py-3 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       >
                         <option value="">Select a genre</option>
                         {genre.map((genre) => (
@@ -451,41 +502,46 @@ const AddBook = () => {
 
                   {/* Additional Genres */}
                   <div>
-                    <label className="block mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block mb-2 sm:mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Additional Genres
                     </label>
                     <div className="flex flex-wrap gap-2">
-                      {genre.map((genre) => (
+                      {genre.slice(0, 6).map((genre) => (
                         <button
                           key={genre}
                           type="button"
                           onClick={() => handleGenreToggle(genre)}
-                          className={`px-4 py-2 rounded-full transition-all ${
+                          className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-full transition-all whitespace-nowrap ${
                             selectedGenres.includes(genre)
                               ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
                               : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
                           }`}
                         >
-                          <div className="flex items-center space-x-2">
-                            <Tag className="w-4 h-4" />
+                          <div className="flex items-center space-x-1 sm:space-x-2">
+                            <Tag className="w-3 h-3 sm:w-4 sm:h-4" />
                             <span>{genre}</span>
                             {selectedGenres.includes(genre) && (
-                              <Check className="w-4 h-4" />
+                              <Check className="w-3 h-3 sm:w-4 sm:h-4" />
                             )}
                           </div>
                         </button>
                       ))}
                     </div>
+                    {genre.length > 6 && (
+                      <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                        {selectedGenres.length} genres selected
+                      </p>
+                    )}
                   </div>
 
                   {/* Publication Year & Publisher */}
-                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Publication Year
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
+                        <Calendar className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
                         <input
                           type="number"
                           name="publication_year"
@@ -493,14 +549,14 @@ const AddBook = () => {
                           onChange={(e) => handleChange(e)}
                           min="1000"
                           max={new Date().getFullYear() + 5}
-                          className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full py-2.5 sm:py-3 pl-9 sm:pl-12 pr-4 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Year"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Publisher
                       </label>
                       <input
@@ -508,20 +564,20 @@ const AddBook = () => {
                         name="publisher"
                         value={formData.publisher}
                         onChange={(e) => handleChange(e)}
-                        className="w-full px-4 py-3 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Publisher name"
                       />
                     </div>
                   </div>
 
                   {/* Copies & Language */}
-                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Total Copies *
                       </label>
                       <div className="relative">
-                        <BookMarked className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
+                        <BookMarked className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
                         <input
                           type="number"
                           name="total_copies"
@@ -529,7 +585,7 @@ const AddBook = () => {
                           onChange={(e) => handleChange(e)}
                           min="1"
                           max="1000"
-                          className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full py-2.5 sm:py-3 pl-9 sm:pl-12 pr-4 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Number of copies"
                           required
                         />
@@ -537,18 +593,18 @@ const AddBook = () => {
                     </div>
 
                     <div>
-                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Language
                       </label>
                       <div className="relative">
-                        <Globe className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
+                        <Globe className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
                         <select
                           name="language"
                           value={formData.language}
                           onChange={(e) => handleChange(e)}
-                          className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full py-2.5 sm:py-3 pl-9 sm:pl-12 pr-4 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
-                          {languages.map((lang) => (
+                          {languages.slice(0, 5).map((lang) => (
                             <option key={lang} value={lang}>
                               {lang}
                             </option>
@@ -559,9 +615,9 @@ const AddBook = () => {
                   </div>
 
                   {/* Pages & Edition */}
-                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Number of Pages
                       </label>
                       <input
@@ -571,13 +627,13 @@ const AddBook = () => {
                         onChange={(e) => handleChange(e)}
                         min="1"
                         max="5000"
-                        className="w-full px-4 py-3 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Total pages"
                       />
                     </div>
 
                     <div>
-                      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         Edition
                       </label>
                       <input
@@ -585,7 +641,7 @@ const AddBook = () => {
                         name="edition"
                         value={formData.edition}
                         onChange={(e) => handleChange(e)}
-                        className="w-full px-4 py-3 transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base transition-all border border-gray-300 outline-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="e.g., First Edition, Revised"
                       />
                     </div>
@@ -593,90 +649,134 @@ const AddBook = () => {
 
                   {/* Description */}
                   <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                       Description
                     </label>
                     <div className="relative">
-                      <FileText className="absolute w-5 h-5 text-gray-400 left-4 top-4" />
+                      <FileText className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 left-3 sm:left-4 top-3 sm:top-4" />
                       <textarea
                         name="description"
                         value={formData.description}
                         onChange={(e) => handleChange(e)}
                         rows="4"
-                        className="w-full py-3 pl-12 pr-4 transition-all border border-gray-300 outline-none resize-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full py-2.5 sm:py-3 pl-9 sm:pl-12 pr-4 text-sm sm:text-base transition-all border border-gray-300 outline-none resize-none bg-gray-50 dark:bg-gray-700 dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Enter book description..."
                       />
                     </div>
-                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                      {formData.description.length}/2000 characters
-                    </p>
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {formData.description.length}/2000 characters
+                      </p>
+                      {formData.description.length > 1900 && (
+                        <p className="text-xs text-orange-500">
+                          {2000 - formData.description.length} characters left
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-                <button
-                  type="button"
-                  onClick={() => navigate("/books")}
-                  className="w-full px-8 py-3 font-medium text-gray-800 transition-colors bg-gray-100 sm:w-auto dark:bg-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600"
-                >
-                  Cancel
-                </button>
+              <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/books")}
+                    className="w-full sm:w-auto px-4 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-gray-800 transition-colors bg-gray-100 dark:bg-gray-700 dark:text-gray-200 rounded-lg sm:rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600"
+                  >
+                    Cancel
+                  </button>
 
-                <div className="flex items-center space-x-4">
                   <button
                     type="button"
                     onClick={() => resetForm()}
-                    className="px-8 py-3 font-medium text-white transition-shadow bg-gradient-to-r from-gray-500 to-gray-600 rounded-xl hover:shadow-lg"
+                    className="w-full sm:w-auto px-4 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-white transition-shadow bg-gradient-to-r from-gray-500 to-gray-600 rounded-lg sm:rounded-xl hover:shadow-lg"
                   >
                     Reset Form
                   </button>
-
-                  <button
-                    type="submit"
-                    disabled={
-                      loading ||
-                      !formData.title ||
-                      !formData.isbn ||
-                      !formData.total_copies
-                    }
-                    className="px-8 py-3 font-medium text-white transition-shadow bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {loading ? (
-                      <span className="flex items-center justify-center">
-                        <svg
-                          className="w-5 h-5 mr-2 animate-spin"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                        Adding Book...
-                      </span>
-                    ) : (
-                      <span className="flex items-center">
-                        <Plus className="w-5 h-5 mr-2" />
-                        Add Book to Library
-                      </span>
-                    )}
-                  </button>
                 </div>
+
+                <button
+                  type="submit"
+                  disabled={
+                    loading ||
+                    !formData.title ||
+                    !formData.isbn ||
+                    !formData.total_copies
+                  }
+                  className="w-full sm:w-auto px-4 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-white transition-shadow bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg sm:rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="w-4 h-4 sm:w-5 sm:h-5 mr-2 animate-spin"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Adding Book...
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center">
+                      <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                      Add Book to Library
+                    </span>
+                  )}
+                </button>
               </div>
+
+              {/* Validation Summary - Mobile */}
+              {(!formData.title ||
+                !formData.isbn ||
+                !formData.total_copies) && (
+                <div className="mt-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 sm:hidden">
+                  <p className="text-xs text-red-600 dark:text-red-400 font-medium">
+                    Required fields missing:
+                  </p>
+                  <ul className="mt-1 text-xs text-red-500 dark:text-red-300">
+                    {!formData.title && <li>• Book title is required</li>}
+                    {!formData.isbn && <li>• ISBN is required</li>}
+                    {!formData.total_copies && (
+                      <li>• Number of copies is required</li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </motion.div>
           </div>
         </form>
+
+        {/* Footer Note */}
+        <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-800">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-xs text-center sm:text-left text-gray-500 dark:text-gray-400">
+              All fields marked with * are required
+            </p>
+            <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+              <div className="flex items-center">
+                <Copy className="w-3 h-3 mr-1" />
+                <span>ISBN Validation</span>
+              </div>
+              <div className="flex items-center">
+                <Layers className="w-3 h-3 mr-1" />
+                <span>Auto-save Draft</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

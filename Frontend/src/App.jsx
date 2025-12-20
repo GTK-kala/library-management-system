@@ -97,9 +97,9 @@ const App = () => {
               </Routes>
 
               <Toaster
-                position="top-right"
+                position="top-center"
                 toastOptions={{
-                  duration: 4000,
+                  duration: 2000,
                   style: {
                     background:
                       "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",

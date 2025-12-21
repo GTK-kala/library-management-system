@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { steps, stats2, features, testimonials } from "../assets/Data/data";
 import { motion, AnimatePresence } from "framer-motion";
+import { steps, testimonials } from "../assets/Data/data.js";
 import {
   BookOpen,
   Star,
@@ -12,6 +12,13 @@ import {
   Menu,
   X,
   ChevronUp,
+  BookMarked,
+  User,
+  TrendingUp,
+  Search,
+  Clock,
+  Shield,
+  BarChart3,
 } from "lucide-react";
 
 const Landing = () => {
@@ -34,6 +41,74 @@ const Landing = () => {
       behavior: "smooth",
     });
   };
+
+  const stats = [
+    {
+      label: "Books Available",
+      value: "10,000+",
+      icon: <BookMarked className="w-4 h-4 sm:w-5 sm:h-5" />,
+    },
+    {
+      label: "Active Users",
+      value: "5,000+",
+      icon: <User className="w-4 h-4 sm:w-5 sm:h-5" />,
+    },
+    {
+      label: "Daily Borrows",
+      value: "500+",
+      icon: <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />,
+    },
+    {
+      label: "Satisfaction Rate",
+      value: "98%",
+      icon: <Star className="w-4 h-4 sm:w-5 sm:h-5" />,
+    },
+  ];
+
+  const features = [
+    {
+      icon: <BookOpen className="w-6 h-6 sm:w-8 sm:h-8" />,
+      title: "Digital Book Collection",
+      description:
+        "Access thousands of books in digital format from anywhere, anytime.",
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      icon: <Search className="w-6 h-6 sm:w-8 sm:h-8" />,
+      title: "Smart Search System",
+      description:
+        "Find any book in seconds with our advanced search and filtering system.",
+      color: "from-purple-500 to-pink-500",
+    },
+    {
+      icon: <Clock className="w-6 h-6 sm:w-8 sm:h-8" />,
+      title: "24/7 Availability",
+      description:
+        "Your library never sleeps. Borrow and return books at any time.",
+      color: "from-green-500 to-emerald-500",
+    },
+    {
+      icon: <Shield className="w-6 h-6 sm:w-8 sm:h-8" />,
+      title: "Secure Platform",
+      description:
+        "Your data is protected with enterprise-grade security measures.",
+      color: "from-orange-500 to-red-500",
+    },
+    {
+      icon: <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8" />,
+      title: "Reading Analytics",
+      description:
+        "Track your reading habits and discover personalized recommendations.",
+      color: "from-indigo-500 to-blue-500",
+    },
+    {
+      icon: <User className="w-6 h-6 sm:w-8 sm:h-8" />,
+      title: "Community Features",
+      description:
+        "Join book clubs, share reviews, and connect with fellow readers.",
+      color: "from-pink-500 to-rose-500",
+    },
+  ];
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gradient-to-b from-white via-blue-50/30 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -200,7 +275,7 @@ const Landing = () => {
 
             {/* Stats - Improved for mobile */}
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {stats2.map((stat, index) => (
+              {stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}

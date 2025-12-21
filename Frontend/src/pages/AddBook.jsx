@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { languages, genre } from "../assets/Data/data";
+import { languages, genre } from "../assets/Data/data.js";
 import {
   ArrowLeft,
   Upload,
@@ -167,41 +167,41 @@ const AddBook = () => {
   };
 
   return (
-    <div className="min-h-screen px-3 sm:px-4 pt-5 sm:pt-5 pb-6 sm:pb-8 bg-gray-50 dark:bg-gray-900">
-      <div className="container max-w-7xl mx-auto">
+    <div className="min-h-screen px-3 pt-5 pb-6 sm:px-4 sm:pt-5 sm:pb-8 bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-6 sm:mb-8"
         >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div className="flex items-start sm:items-center space-x-3 sm:space-x-4">
+          <div className="flex flex-col items-start justify-between gap-4 mb-6 sm:flex-row sm:items-center">
+            <div className="flex items-start space-x-3 sm:items-center sm:space-x-4">
               <Link
                 to="/dashboard"
-                className="p-2 transition-colors bg-gray-100 rounded-lg dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex-shrink-0"
+                className="flex-shrink-0 p-2 transition-colors bg-gray-100 rounded-lg dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
               >
                 <ArrowLeft className="w-5 h-5" />
               </Link>
               <div>
-                <h1 className="mb-1 sm:mb-2 text-xl sm:text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
+                <h1 className="mb-1 text-xl font-bold text-transparent sm:mb-2 sm:text-2xl md:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                   Add New Book
                 </h1>
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">
                   Fill in the details to add a new book to the library
                 </p>
               </div>
             </div>
 
             {/* Quick Stats on Mobile */}
-            <div className="sm:hidden grid grid-cols-3 gap-2 w-full">
-              <div className="p-2 rounded-lg bg-white dark:bg-gray-800">
+            <div className="grid w-full grid-cols-3 gap-2 sm:hidden">
+              <div className="p-2 bg-white rounded-lg dark:bg-gray-800">
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Genres
                 </p>
                 <p className="font-semibold">{selectedGenres.length}</p>
               </div>
-              <div className="p-2 rounded-lg bg-white dark:bg-gray-800">
+              <div className="p-2 bg-white rounded-lg dark:bg-gray-800">
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Authors
                 </p>
@@ -209,7 +209,7 @@ const AddBook = () => {
                   {authors.filter((a) => a.trim()).length}
                 </p>
               </div>
-              <div className="p-2 rounded-lg bg-white dark:bg-gray-800">
+              <div className="p-2 bg-white rounded-lg dark:bg-gray-800">
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Copies
                 </p>
@@ -219,7 +219,7 @@ const AddBook = () => {
           </div>
 
           {/* Progress Steps - Responsive */}
-          <div className="flex items-center justify-between mb-6 sm:mb-8 overflow-x-auto pb-2">
+          <div className="flex items-center justify-between pb-2 mb-6 overflow-x-auto sm:mb-8">
             {["Basic Info", "Details", "Additional", "Review"].map(
               (step, index) => (
                 <div key={step} className="flex items-center flex-shrink-0">
@@ -236,10 +236,10 @@ const AddBook = () => {
                       index + 1
                     )}
                   </div>
-                  <span className="hidden sm:inline ml-2 text-sm font-medium">
+                  <span className="hidden ml-2 text-sm font-medium sm:inline">
                     {step}
                   </span>
-                  <span className="sm:hidden ml-1 text-xs font-medium">
+                  <span className="ml-1 text-xs font-medium sm:hidden">
                     {step.split(" ")[0]}
                   </span>
                   {index < 3 && (
@@ -258,7 +258,7 @@ const AddBook = () => {
         </motion.div>
 
         <form onSubmit={(e) => HandleSubmit(e)}>
-          <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8">
+          <div className="flex flex-col gap-4 lg:flex-row sm:gap-6 lg:gap-8">
             {/* Left Column - Cover Image */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -266,8 +266,8 @@ const AddBook = () => {
               className="lg:w-1/3"
             >
               {/* Cover Image Upload */}
-              <div className="p-4 sm:p-6 mb-4 sm:mb-6 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-lg">
-                <h2 className="flex items-center mb-4 sm:mb-6 text-lg sm:text-xl font-bold">
+              <div className="p-4 mb-4 bg-white shadow-sm sm:p-6 sm:mb-6 dark:bg-gray-800 rounded-xl sm:rounded-2xl sm:shadow-lg">
+                <h2 className="flex items-center mb-4 text-lg font-bold sm:mb-6 sm:text-xl">
                   <ImageIcon className="w-5 h-5 mr-2" />
                   Book Cover
                 </h2>
@@ -289,12 +289,12 @@ const AddBook = () => {
                           className="object-cover w-full h-full"
                         />
                       ) : (
-                        <div className="p-4 sm:p-6 text-center">
-                          <BookOpen className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-3 text-gray-400" />
+                        <div className="p-4 text-center sm:p-6">
+                          <BookOpen className="w-8 h-8 mx-auto mb-3 text-gray-400 sm:w-12 sm:h-12" />
                           <p className="text-sm text-gray-500 dark:text-gray-400">
                             No cover image
                           </p>
-                          <p className="text-xs text-gray-400 mt-1">
+                          <p className="mt-1 text-xs text-gray-400">
                             Upload a cover image
                           </p>
                         </div>
@@ -338,8 +338,8 @@ const AddBook = () => {
               </div>
 
               {/* Quick Stats - Desktop */}
-              <div className="hidden sm:block p-4 sm:p-6 text-white shadow-sm sm:shadow-lg bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl sm:rounded-2xl">
-                <h3 className="mb-3 sm:mb-4 font-bold">Quick Stats</h3>
+              <div className="hidden p-4 text-white shadow-sm sm:block sm:p-6 sm:shadow-lg bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl sm:rounded-2xl">
+                <h3 className="mb-3 font-bold sm:mb-4">Quick Stats</h3>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-sm">Books in Library</span>
@@ -363,14 +363,14 @@ const AddBook = () => {
               </div>
 
               {/* Help Tips - Mobile */}
-              <div className="sm:hidden p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+              <div className="p-4 sm:hidden bg-blue-50 dark:bg-blue-900/20 rounded-xl">
                 <div className="flex items-start space-x-3">
                   <Info className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-medium text-blue-700 dark:text-blue-300">
                       Tips
                     </p>
-                    <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                    <p className="mt-1 text-xs text-blue-600 dark:text-blue-400">
                       • Fill all required fields marked with *
                       <br />• Add multiple authors if needed
                       <br />• Select relevant genres for better discovery
@@ -386,8 +386,8 @@ const AddBook = () => {
               animate={{ opacity: 1, x: 0 }}
               className="lg:w-2/3"
             >
-              <div className="p-4 sm:p-6 mb-4 sm:mb-6 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-sm sm:shadow-lg">
-                <h2 className="mb-4 sm:mb-6 text-lg sm:text-xl font-bold">
+              <div className="p-4 mb-4 bg-white shadow-sm sm:p-6 sm:mb-6 dark:bg-gray-800 rounded-xl sm:rounded-2xl sm:shadow-lg">
+                <h2 className="mb-4 text-lg font-bold sm:mb-6 sm:text-xl">
                   Book Information
                 </h2>
 
@@ -398,7 +398,7 @@ const AddBook = () => {
                       Book Title *
                     </label>
                     <div className="relative">
-                      <BookOpen className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
+                      <BookOpen className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 sm:w-5 sm:h-5 left-3 sm:left-4 top-1/2" />
                       <input
                         type="text"
                         name="title"
@@ -420,9 +420,9 @@ const AddBook = () => {
                       <button
                         type="button"
                         onClick={() => handleAddAuthor()}
-                        className="flex items-center text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                        className="flex items-center text-xs text-blue-600 sm:text-sm dark:text-blue-400 hover:underline"
                       >
-                        <Plus className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                        <Plus className="w-3 h-3 mr-1 sm:w-4 sm:h-4" />
                         Add Author
                       </button>
                     </div>
@@ -434,7 +434,7 @@ const AddBook = () => {
                           className="flex items-center space-x-2 sm:space-x-3"
                         >
                           <div className="relative flex-1">
-                            <User className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
+                            <User className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 sm:w-5 sm:h-5 left-3 sm:left-4 top-1/2" />
                             <input
                               type="text"
                               value={author}
@@ -450,7 +450,7 @@ const AddBook = () => {
                             <button
                               type="button"
                               onClick={() => handleRemoveAuthor(index)}
-                              className="p-2 sm:p-3 text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg sm:rounded-xl flex-shrink-0"
+                              className="flex-shrink-0 p-2 text-red-500 transition-colors rounded-lg sm:p-3 hover:bg-red-50 dark:hover:bg-red-900/30 sm:rounded-xl"
                             >
                               <X className="w-4 h-4 sm:w-5 sm:h-5" />
                             </button>
@@ -467,7 +467,7 @@ const AddBook = () => {
                         ISBN *
                       </label>
                       <div className="relative">
-                        <Hash className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
+                        <Hash className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 sm:w-5 sm:h-5 left-3 sm:left-4 top-1/2" />
                         <input
                           type="text"
                           name="isbn"
@@ -502,7 +502,7 @@ const AddBook = () => {
 
                   {/* Additional Genres */}
                   <div>
-                    <label className="block mb-2 sm:mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block mb-2 text-sm font-medium text-gray-700 sm:mb-3 dark:text-gray-300">
                       Additional Genres
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -541,7 +541,7 @@ const AddBook = () => {
                         Publication Year
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
+                        <Calendar className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 sm:w-5 sm:h-5 left-3 sm:left-4 top-1/2" />
                         <input
                           type="number"
                           name="publication_year"
@@ -577,7 +577,7 @@ const AddBook = () => {
                         Total Copies *
                       </label>
                       <div className="relative">
-                        <BookMarked className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
+                        <BookMarked className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 sm:w-5 sm:h-5 left-3 sm:left-4 top-1/2" />
                         <input
                           type="number"
                           name="total_copies"
@@ -597,7 +597,7 @@ const AddBook = () => {
                         Language
                       </label>
                       <div className="relative">
-                        <Globe className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
+                        <Globe className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 sm:w-5 sm:h-5 left-3 sm:left-4 top-1/2" />
                         <select
                           name="language"
                           value={formData.language}
@@ -653,7 +653,7 @@ const AddBook = () => {
                       Description
                     </label>
                     <div className="relative">
-                      <FileText className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 left-3 sm:left-4 top-3 sm:top-4" />
+                      <FileText className="absolute w-4 h-4 text-gray-400 sm:w-5 sm:h-5 left-3 sm:left-4 top-3 sm:top-4" />
                       <textarea
                         name="description"
                         value={formData.description}
@@ -678,8 +678,8 @@ const AddBook = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
-                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+              <div className="flex flex-col-reverse items-center justify-between gap-4 sm:flex-row">
+                <div className="flex flex-col w-full gap-3 sm:flex-row sm:w-auto">
                   <button
                     type="button"
                     onClick={() => navigate("/books")}
@@ -710,7 +710,7 @@ const AddBook = () => {
                   {loading ? (
                     <span className="flex items-center justify-center">
                       <svg
-                        className="w-4 h-4 sm:w-5 sm:h-5 mr-2 animate-spin"
+                        className="w-4 h-4 mr-2 sm:w-5 sm:h-5 animate-spin"
                         viewBox="0 0 24 24"
                       >
                         <circle
@@ -731,7 +731,7 @@ const AddBook = () => {
                     </span>
                   ) : (
                     <span className="flex items-center justify-center">
-                      <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                      <Plus className="w-4 h-4 mr-2 sm:w-5 sm:h-5" />
                       Add Book to Library
                     </span>
                   )}
@@ -742,8 +742,8 @@ const AddBook = () => {
               {(!formData.title ||
                 !formData.isbn ||
                 !formData.total_copies) && (
-                <div className="mt-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 sm:hidden">
-                  <p className="text-xs text-red-600 dark:text-red-400 font-medium">
+                <div className="p-3 mt-4 rounded-lg bg-red-50 dark:bg-red-900/20 sm:hidden">
+                  <p className="text-xs font-medium text-red-600 dark:text-red-400">
                     Required fields missing:
                   </p>
                   <ul className="mt-1 text-xs text-red-500 dark:text-red-300">
@@ -760,9 +760,9 @@ const AddBook = () => {
         </form>
 
         {/* Footer Note */}
-        <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-center sm:text-left text-gray-500 dark:text-gray-400">
+        <div className="pt-4 mt-6 border-t border-gray-200 sm:mt-8 sm:pt-6 dark:border-gray-800">
+          <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
+            <p className="text-xs text-center text-gray-500 sm:text-left dark:text-gray-400">
               All fields marked with * are required
             </p>
             <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">

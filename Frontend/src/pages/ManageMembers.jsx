@@ -7,17 +7,11 @@ import {
   UserPlus,
   Edit,
   Trash2,
-  User,
-  Mail,
-  Phone,
-  Calendar,
   Shield,
   CheckCircle,
   XCircle,
   MoreVertical,
   Download,
-  Upload,
-  Eye,
   Lock,
   Unlock,
   RefreshCw,
@@ -150,7 +144,7 @@ const ManageMembers = () => {
   };
 
   return (
-    <div className="min-h-screen px-3 sm:px-4 pt-5 sm:pt-5 pb-6 sm:pb-8 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen px-3 pt-5 pb-6 sm:px-4 sm:pt-5 sm:pb-8 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <motion.div
@@ -158,12 +152,12 @@ const ManageMembers = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-6 sm:mb-8"
         >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <h1 className="mb-2 text-xl sm:text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
+              <h1 className="mb-2 text-xl font-bold text-transparent sm:text-2xl md:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                 Manage Members
               </h1>
-              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">
                 Manage library members, view statistics, and handle memberships
               </p>
             </div>
@@ -187,21 +181,21 @@ const ManageMembers = () => {
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 gap-3 mb-6 lg:grid-cols-4 sm:gap-4 sm:mb-8">
           {stats1.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm"
+              className="p-4 bg-white shadow-sm dark:bg-gray-800 rounded-xl"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
                     {stat.label}
                   </p>
-                  <p className="mt-1 text-xl sm:text-2xl font-bold">
+                  <p className="mt-1 text-xl font-bold sm:text-2xl">
                     {stat.value}
                   </p>
                   <p
@@ -228,11 +222,11 @@ const ManageMembers = () => {
 
         {/* Search and Filters */}
         <div className="mb-6 sm:mb-8">
-          <div className="flex flex-col lg:flex-row gap-4">
+          <div className="flex flex-col gap-4 lg:flex-row">
             {/* Search Bar */}
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute w-4 h-4 sm:w-5 sm:h-5 text-gray-400 transform -translate-y-1/2 left-3 sm:left-4 top-1/2" />
+                <Search className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 sm:w-5 sm:h-5 left-3 sm:left-4 top-1/2" />
                 <input
                   type="text"
                   placeholder="Search members by name, email, or membership ID..."
@@ -244,7 +238,7 @@ const ManageMembers = () => {
             </div>
 
             {/* Filters */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row">
               <div className="relative">
                 <select
                   value={selectedRole}
@@ -274,11 +268,11 @@ const ManageMembers = () => {
         </div>
 
         {/* Members Table */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-sm overflow-hidden">
+        <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 rounded-xl sm:rounded-2xl">
           <div className="overflow-x-auto">
             {loading ? (
               <div className="p-8 text-center">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
+                <div className="inline-block w-8 h-8 border-4 border-blue-600 rounded-full animate-spin border-t-transparent"></div>
                 <p className="mt-4 text-gray-600 dark:text-gray-400">
                   Loading members...
                 </p>
@@ -287,19 +281,19 @@ const ManageMembers = () => {
               <table className="w-full">
                 <thead>
                   <tr className="bg-gray-50 dark:bg-gray-700/50">
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
                       Member
                     </th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
                       Role & Status
                     </th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
                       Borrowed Books
                     </th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
                       Fine
                     </th>
-                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
                       Actions
                     </th>
                   </tr>
@@ -308,12 +302,12 @@ const ManageMembers = () => {
                   {currentMembers.map((member) => (
                     <tr
                       key={member.id}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors"
+                      className="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/30"
                     >
-                      <td className="py-4 px-4">
+                      <td className="px-4 py-4">
                         <div className="flex items-center">
                           <div className="flex-shrink-0">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                            <div className="flex items-center justify-center w-10 h-10 font-bold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-600">
                               {member.name.charAt(0)}
                             </div>
                           </div>
@@ -324,14 +318,14 @@ const ManageMembers = () => {
                             <div className="text-xs text-gray-500 dark:text-gray-400">
                               {member.email}
                             </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center mt-1">
+                            <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
                               <Hash className="w-3 h-3 mr-1" />
                               {member.membershipId}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="py-4 px-4">
+                      <td className="px-4 py-4">
                         <div className="space-y-2">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(
@@ -356,7 +350,7 @@ const ManageMembers = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="py-4 px-4">
+                      <td className="px-4 py-4">
                         <div className="text-sm text-gray-900 dark:text-white">
                           {member.borrowedBooks} current
                         </div>
@@ -364,7 +358,7 @@ const ManageMembers = () => {
                           {member.totalBorrowed} total
                         </div>
                       </td>
-                      <td className="py-4 px-4">
+                      <td className="px-4 py-4">
                         <div
                           className={`text-sm font-medium ${
                             member.fine > 0
@@ -380,7 +374,7 @@ const ManageMembers = () => {
                           </div>
                         )}
                       </td>
-                      <td className="py-4 px-4">
+                      <td className="px-4 py-4">
                         <div className="relative">
                           <button
                             onClick={() =>
@@ -390,13 +384,13 @@ const ManageMembers = () => {
                                   : member.id
                               )
                             }
-                            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                            className="p-2 text-gray-400 rounded-lg hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                           >
                             <MoreVertical className="w-5 h-5" />
                           </button>
 
                           {isActionMenuOpen === member.id && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10">
+                            <div className="absolute right-0 z-10 w-48 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
                               <button
                                 onClick={() => handleEditMember(member)}
                                 className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -448,7 +442,7 @@ const ManageMembers = () => {
           {/* Pagination */}
           {filteredMembers.length > 0 && (
             <div className="px-4 py-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                 <div className="text-sm text-gray-600 dark:text-gray-400">
                   Showing {startIndex + 1} to{" "}
                   {Math.min(
@@ -509,10 +503,10 @@ const ManageMembers = () => {
 
           {filteredMembers.length === 0 && !loading && (
             <div className="p-8 text-center">
-              <div className="mx-auto w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full dark:bg-gray-700">
                 <Users className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              <h3 className="mb-2 text-lg font-medium text-gray-900 dark:text-white">
                 No members found
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
@@ -524,30 +518,30 @@ const ManageMembers = () => {
         </div>
 
         {/* Quick Stats Footer */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white">
+        <div className="grid grid-cols-1 gap-4 mt-6 md:grid-cols-3">
+          <div className="p-4 text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm">Active Borrowings</p>
-                <p className="text-2xl font-bold mt-1">143</p>
+                <p className="mt-1 text-2xl font-bold">143</p>
               </div>
               <BookOpen className="w-8 h-8 opacity-80" />
             </div>
           </div>
-          <div className="p-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl text-white">
+          <div className="p-4 text-white bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm">Total Fine Collected</p>
-                <p className="text-2xl font-bold mt-1">$248.75</p>
+                <p className="mt-1 text-2xl font-bold">$248.75</p>
               </div>
               <Shield className="w-8 h-8 opacity-80" />
             </div>
           </div>
-          <div className="p-4 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl text-white">
+          <div className="p-4 text-white bg-gradient-to-r from-orange-500 to-red-600 rounded-xl">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm">Pending Approvals</p>
-                <p className="text-2xl font-bold mt-1">8</p>
+                <p className="mt-1 text-2xl font-bold">8</p>
               </div>
               <RefreshCw className="w-8 h-8 opacity-80" />
             </div>
@@ -565,12 +559,12 @@ const ManageMembers = () => {
               <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                   <div className="w-full">
-                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                    <h3 className="mb-4 text-lg font-medium text-gray-900 dark:text-white">
                       Add New Member
                     </h3>
                     <form className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
                           Full Name
                         </label>
                         <input
@@ -580,7 +574,7 @@ const ManageMembers = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
                           Email Address
                         </label>
                         <input
@@ -591,7 +585,7 @@ const ManageMembers = () => {
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
                             Phone
                           </label>
                           <input
@@ -601,7 +595,7 @@ const ManageMembers = () => {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                          <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
                             Role
                           </label>
                           <select className="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600">
@@ -618,13 +612,13 @@ const ManageMembers = () => {
               <div className="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={() => setIsAddModalOpen(false)}
-                  className="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
+                  className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-600 border border-transparent rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Add Member
                 </button>
                 <button
                   onClick={() => setIsAddModalOpen(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-gray-600 dark:text-gray-300 dark:border-gray-500"
+                  className="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-gray-600 dark:text-gray-300 dark:border-gray-500"
                 >
                   Cancel
                 </button>
@@ -665,13 +659,13 @@ const ManageMembers = () => {
               <div className="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={handleConfirmDelete}
-                  className="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
+                  className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-lg shadow-sm hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Delete
                 </button>
                 <button
                   onClick={() => setIsDeleteModalOpen(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-gray-600 dark:text-gray-300 dark:border-gray-500"
+                  className="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-gray-600 dark:text-gray-300 dark:border-gray-500"
                 >
                   Cancel
                 </button>

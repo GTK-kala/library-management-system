@@ -12,7 +12,7 @@ export const GetUsers = (req, res) => {
       }
       return res.status(200).json({
         message: "User with active status",
-        result: result[0].totalUsers,
+        result: result[0],
       });
     });
   } catch (error) {

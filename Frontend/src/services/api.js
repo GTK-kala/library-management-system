@@ -1,6 +1,6 @@
 ////////////////// API FOR FETCHING USER WITH ACTIVE STATUS ////////////////////////
 
-export const FetchUsers = async () => {
+const FetchUsers = async () => {
   try {
     const url = `https://library-management-system-production-27d8.up.railway.app/api/user`;
     const res = await fetch(url);
@@ -14,3 +14,5 @@ export const FetchUsers = async () => {
     console.log(error);
   }
 };
+
+export const count = FetchUsers();

@@ -1,4 +1,4 @@
-import { FetchUsers } from "../../services/api";
+import { count } from "../../services/api";
 import {
   BarChart3,
   Download,
@@ -78,7 +78,7 @@ export const testimonials = [
 export const statCards = [
   {
     title: "Total Books",
-    value: FetchUsers(),
+    value: 7,
     icon: BookOpen,
     color: "from-blue-500 to-cyan-500",
     change: "+5.2%",
@@ -86,7 +86,7 @@ export const statCards = [
   },
   {
     title: "Active Members",
-    value: 17,
+    value: count,
     icon: User,
     color: "from-green-500 to-emerald-500",
     change: "+12.1%",

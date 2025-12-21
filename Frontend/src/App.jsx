@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
+import CalenderView from "./pages/CalendarView";
 import Layout from "./components/common/Layout";
 import Navbar from "./components/common/Navbar";
 import ManageMembers from "./pages/ManageMembers";
@@ -74,6 +75,14 @@ const App = () => {
                           element={
                             <PrivateRoute adminOnly>
                               <ManageMembers />
+                            </PrivateRoute>
+                          }
+                        />
+                        <Route
+                          path="/admin/calendar"
+                          element={
+                            <PrivateRoute adminOnly>
+                              <CalenderView />
                             </PrivateRoute>
                           }
                         />

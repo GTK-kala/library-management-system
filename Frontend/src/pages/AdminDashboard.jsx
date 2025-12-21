@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -40,6 +40,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const AdminDashboard = () => {
   const popularBooks = Books;
+  const navigate = useNavigate();
   const recentActivities = activity;
   const [loading, setLoading] = useState(true);
 
@@ -522,7 +523,10 @@ const AdminDashboard = () => {
                     >
                       <action.icon className="w-6 h-6 text-white" />
                     </div>
-                    <span className="text-sm font-medium text-center">
+                    <span
+                      className="text-sm font-medium text-center"
+                      onClick={() => navigate()}
+                    >
                       {action.label}
                     </span>
                   </motion.button>

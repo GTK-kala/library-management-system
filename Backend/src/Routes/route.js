@@ -19,7 +19,7 @@ import { GetBooks } from "../Controller/Book/GetBooks.js";
 import { verifyToken, AddBooks } from "../Controller/Book/AddBooks.js";
 
 // ADMIN ROUTES FUNCTIONS
-import { GetUsers } from "../Controller/Admin/Home.js";
+import { GetUsers } from "../Controller/Admin/GetUsers.js";
 
 // TEST ROUTE
 route.get("/user", GetUsers);

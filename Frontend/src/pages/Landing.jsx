@@ -181,7 +181,7 @@ const Landing = () => {
             </a>
             <Link
               to="/login"
-              className="px-4 py-1.5 sm:px-6 sm:py-2 text-sm sm:text-base text-white transition-shadow bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-lg"
+              className="px-4 py-4 text-sm text-white transition-shadow sm:px-6 sm:py-2 sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-lg"
             >
               Sign In
             </Link>

@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import connection from "../../Config/db.js";
 
 export const Login = (req, res) => {
@@ -41,12 +41,6 @@ export const Login = (req, res) => {
         secure: true,
         sameSite: "None",
       };
-
-      // const cookie = {
-      //   httpOnly: true,
-      //   secure: false,
-      //   sameSite: "Lax",
-      // };
 
       return res.status(200).cookie("token", token, cookie).json({
         message: "Login successful",

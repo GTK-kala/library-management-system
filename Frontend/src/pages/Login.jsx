@@ -104,7 +104,7 @@ const Login = () => {
             New to LibraFlow?{" "}
             <Link
               to="/register"
-              className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+              className="font-semibold text-blue-600 dark:text-blue-400 hover:underline hover:cursor-pointer"
             >
               Create an account
             </Link>

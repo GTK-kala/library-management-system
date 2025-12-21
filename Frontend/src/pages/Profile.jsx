@@ -55,7 +55,6 @@ const Profile = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        console.log(data.message);
         toast.error(data.message || "Failed to update profile");
       } else {
         toast.success(data.message || "Profile updated successfully!");

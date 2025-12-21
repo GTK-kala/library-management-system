@@ -1,6 +1,6 @@
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   User,
@@ -66,14 +66,21 @@ const Register = () => {
       if (!res.ok) {
         toast.error(data.message || "Registration failed");
       } else {
-        toast.success("Account created successfully!");
         navigate("/login");
       }
     } catch (error) {
       console.log(error);
       toast.error("Failed to create account. Please try again.");
     } finally {
+      setName("");
+      setEmail("");
+      setPassword("");
+      setRole("member");
       setLoading(false);
+      setConfirmPassword("");
+      setAcceptedTerms(false);
+      setConfirmPassword(false);
+      setShowConfirmPassword(false);
     }
   };
 
@@ -155,7 +162,7 @@ const Register = () => {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+              className="font-semibold text-blue-600 dark:text-blue-400 hover:underline hover:cursor-pointer"
             >
               Sign in here
             </Link>

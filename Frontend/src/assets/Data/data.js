@@ -13,9 +13,133 @@ import {
   RefreshCw,
   Shield,
   CheckCircle,
+  Search,
+  Star,
 } from "lucide-react";
 
 //////////////////////////////////////////////////
+
+////////////// LANDING PAGE DATA ////////////////
+export const steps = [
+  {
+    number: "01",
+    title: "Create Account",
+    description: "Sign up in seconds with your email address",
+    icon: "👤",
+  },
+  {
+    number: "02",
+    title: "Browse Collection",
+    description: "Explore thousands of books across all genres",
+    icon: "📚",
+  },
+  {
+    number: "03",
+    title: "Borrow Books",
+    description: "Borrow books instantly with one click",
+    icon: "📖",
+  },
+  {
+    number: "04",
+    title: "Enjoy Reading",
+    description: "Read anytime, anywhere on any device",
+    icon: "🌟",
+  },
+];
+export const stats2 = [
+  {
+    label: "Books Available",
+    value: "10,000+",
+    icon: <BookMarked className="w-4 h-4 sm:w-5 sm:h-5" />,
+  },
+  {
+    label: "Active Users",
+    value: "5,000+",
+    icon: <User className="w-4 h-4 sm:w-5 sm:h-5" />,
+  },
+  {
+    label: "Daily Borrows",
+    value: "500+",
+    icon: <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />,
+  },
+  {
+    label: "Satisfaction Rate",
+    value: "98%",
+    icon: <Star className="w-4 h-4 sm:w-5 sm:h-5" />,
+  },
+];
+export const features = [
+  {
+    icon: <BookOpen className="w-6 h-6 sm:w-8 sm:h-8" />,
+    title: "Digital Book Collection",
+    description:
+      "Access thousands of books in digital format from anywhere, anytime.",
+    color: "from-blue-500 to-cyan-500",
+  },
+  {
+    icon: <Search className="w-6 h-6 sm:w-8 sm:h-8" />,
+    title: "Smart Search System",
+    description:
+      "Find any book in seconds with our advanced search and filtering system.",
+    color: "from-purple-500 to-pink-500",
+  },
+  {
+    icon: <Clock className="w-6 h-6 sm:w-8 sm:h-8" />,
+    title: "24/7 Availability",
+    description:
+      "Your library never sleeps. Borrow and return books at any time.",
+    color: "from-green-500 to-emerald-500",
+  },
+  {
+    icon: <Shield className="w-6 h-6 sm:w-8 sm:h-8" />,
+    title: "Secure Platform",
+    description:
+      "Your data is protected with enterprise-grade security measures.",
+    color: "from-orange-500 to-red-500",
+  },
+  {
+    icon: <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8" />,
+    title: "Reading Analytics",
+    description:
+      "Track your reading habits and discover personalized recommendations.",
+    color: "from-indigo-500 to-blue-500",
+  },
+  {
+    icon: <User className="w-6 h-6 sm:w-8 sm:h-8" />,
+    title: "Community Features",
+    description:
+      "Join book clubs, share reviews, and connect with fellow readers.",
+    color: "from-pink-500 to-rose-500",
+  },
+];
+export const testimonials = [
+  {
+    name: "Sarah Johnson",
+    role: "University Student",
+    content:
+      "This library system revolutionized how I study! The digital collection saved me hours of searching.",
+    rating: 5,
+    avatar: "SJ",
+  },
+  {
+    name: "Michael Chen",
+    role: "Research Scholar",
+    content:
+      "The search functionality is incredibly powerful. Found rare academic papers I couldn't find elsewhere.",
+    rating: 5,
+    avatar: "MC",
+  },
+  {
+    name: "Emma Williams",
+    role: "Book Club President",
+    content:
+      "Our book club has grown 300% since we started using LibraFlow. The community features are amazing!",
+    rating: 4,
+    avatar: "EW",
+  },
+];
+
+/////////////////////////////////////////////////
 
 ////////////// DASHBOARD PAGE DATA //////////////
 export const statCards = [

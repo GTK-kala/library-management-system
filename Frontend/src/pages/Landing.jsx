@@ -1,155 +1,45 @@
-import { useState } from "react"; // Added for mobile menu
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { steps, stats2, features, testimonials } from "../assets/Data/data";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
-  Users,
-  Search,
-  Clock,
-  Shield,
-  BarChart3,
   Star,
   ArrowRight,
-  CheckCircle,
-  BookMarked,
   Calendar,
-  TrendingUp,
   Zap,
   Globe,
   Menu,
   X,
+  ChevronUp,
 } from "lucide-react";
 
 const Landing = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobile menu state
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
-  const features = [
-    {
-      icon: <BookOpen className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "Digital Book Collection",
-      description:
-        "Access thousands of books in digital format from anywhere, anytime.",
-      color: "from-blue-500 to-cyan-500",
-    },
-    {
-      icon: <Search className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "Smart Search System",
-      description:
-        "Find any book in seconds with our advanced search and filtering system.",
-      color: "from-purple-500 to-pink-500",
-    },
-    {
-      icon: <Clock className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "24/7 Availability",
-      description:
-        "Your library never sleeps. Borrow and return books at any time.",
-      color: "from-green-500 to-emerald-500",
-    },
-    {
-      icon: <Shield className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "Secure Platform",
-      description:
-        "Your data is protected with enterprise-grade security measures.",
-      color: "from-orange-500 to-red-500",
-    },
-    {
-      icon: <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "Reading Analytics",
-      description:
-        "Track your reading habits and discover personalized recommendations.",
-      color: "from-indigo-500 to-blue-500",
-    },
-    {
-      icon: <Users className="w-6 h-6 sm:w-8 sm:h-8" />,
-      title: "Community Features",
-      description:
-        "Join book clubs, share reviews, and connect with fellow readers.",
-      color: "from-pink-500 to-rose-500",
-    },
-  ];
+  // Back to top functionality
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
+    };
 
-  const steps = [
-    {
-      number: "01",
-      title: "Create Account",
-      description: "Sign up in seconds with your email address",
-      icon: "👤",
-    },
-    {
-      number: "02",
-      title: "Browse Collection",
-      description: "Explore thousands of books across all genres",
-      icon: "📚",
-    },
-    {
-      number: "03",
-      title: "Borrow Books",
-      description: "Borrow books instantly with one click",
-      icon: "📖",
-    },
-    {
-      number: "04",
-      title: "Enjoy Reading",
-      description: "Read anytime, anywhere on any device",
-      icon: "🌟",
-    },
-  ];
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "University Student",
-      content:
-        "This library system revolutionized how I study! The digital collection saved me hours of searching.",
-      rating: 5,
-      avatar: "SJ",
-    },
-    {
-      name: "Michael Chen",
-      role: "Research Scholar",
-      content:
-        "The search functionality is incredibly powerful. Found rare academic papers I couldn't find elsewhere.",
-      rating: 5,
-      avatar: "MC",
-    },
-    {
-      name: "Emma Williams",
-      role: "Book Club President",
-      content:
-        "Our book club has grown 300% since we started using LibraFlow. The community features are amazing!",
-      rating: 4,
-      avatar: "EW",
-    },
-  ];
-
-  const stats = [
-    {
-      label: "Books Available",
-      value: "10,000+",
-      icon: <BookMarked className="w-4 h-4 sm:w-5 sm:h-5" />,
-    },
-    {
-      label: "Active Users",
-      value: "5,000+",
-      icon: <Users className="w-4 h-4 sm:w-5 sm:h-5" />,
-    },
-    {
-      label: "Daily Borrows",
-      value: "500+",
-      icon: <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />,
-    },
-    {
-      label: "Satisfaction Rate",
-      value: "98%",
-      icon: <Star className="w-4 h-4 sm:w-5 sm:h-5" />,
-    },
-  ];
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gradient-to-b from-white via-blue-50/30 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Navigation - Fixed for mobile */}
-      <nav className="container sticky top-0 z-50 px-3 py-4 mx-auto sm:px-4 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-        <div className="flex items-center justify-between">
+      {/* Navigation - Fixed and improved */}
+      <nav className="fixed top-0 left-0 right-0 z-50 px-3 py-3 border-b bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-gray-200/50 dark:border-gray-800/50">
+        <div className="container flex items-center justify-between mx-auto max-w-7xl">
           <Link to="/" className="flex items-center space-x-2">
             <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600">
               <BookOpen className="w-4 h-4 text-white sm:w-6 sm:h-6" />
@@ -160,7 +50,7 @@ const Landing = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="items-center hidden space-x-4 md:flex lg:space-x-6">
+          <div className="items-center hidden space-x-6 md:flex lg:space-x-8">
             <a
               href="#features"
               className="px-2 py-1 text-sm text-gray-600 transition-colors lg:text-base dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
@@ -181,9 +71,15 @@ const Landing = () => {
             </a>
             <Link
               to="/login"
-              className="px-4 py-4 text-sm text-white transition-shadow sm:px-6 sm:py-2 sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-lg"
+              className="px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:shadow-lg hover:scale-105"
             >
               Sign In
+            </Link>
+            <Link
+              to="/register"
+              className="px-5 py-2.5 text-sm font-medium text-blue-600 transition-all duration-300 border border-blue-600 rounded-xl hover:bg-blue-50 dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-900/20"
+            >
+              Sign Up
             </Link>
           </div>
 
@@ -201,46 +97,60 @@ const Landing = () => {
         </div>
 
         {/* Mobile Navigation Menu */}
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="pb-4 mt-4 border-b border-gray-200 md:hidden dark:border-gray-700"
-          >
-            <div className="flex flex-col space-y-3">
-              <a
-                href="#features"
-                className="py-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Features
-              </a>
-              <a
-                href="#how-it-works"
-                className="py-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                How it Works
-              </a>
-              <a
-                href="#testimonials"
-                className="py-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Testimonials
-              </a>
-              <Link
-                to="/login"
-                className="py-2 text-center text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Sign In
-              </Link>
-            </div>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden md:hidden"
+            >
+              <div className="container flex flex-col px-3 py-4 mx-auto space-y-4 max-w-7xl">
+                <a
+                  href="#features"
+                  className="py-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Features
+                </a>
+                <a
+                  href="#how-it-works"
+                  className="py-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  How it Works
+                </a>
+                <a
+                  href="#testimonials"
+                  className="py-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Testimonials
+                </a>
+                <div className="flex flex-col gap-3 pt-2">
+                  <Link
+                    to="/login"
+                    className="px-4 py-3 text-center text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="px-4 py-3 text-center text-blue-600 border border-blue-600 rounded-xl dark:text-blue-400 dark:border-blue-400"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
+
+      {/* Add padding to account for fixed navbar */}
+      <div className="pt-16"></div>
 
       {/* Hero Section - Optimized for mobile */}
       <section className="container px-3 py-8 mx-auto sm:px-4 sm:py-16">
@@ -290,7 +200,7 @@ const Landing = () => {
 
             {/* Stats - Improved for mobile */}
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {stats.map((stat, index) => (
+              {stats2.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}
@@ -696,6 +606,22 @@ const Landing = () => {
           </div>
         </div>
       </footer>
+
+      {/* Back to Top Button */}
+      <AnimatePresence>
+        {showBackToTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="fixed z-50 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-110 active:scale-95"
+            aria-label="Back to top"
+          >
+            <ChevronUp className="w-5 h-5" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

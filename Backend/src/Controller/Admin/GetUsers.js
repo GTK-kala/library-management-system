@@ -2,7 +2,7 @@ import connection from "../../Config/db.js";
 
 export const GetUsers = (req, res) => {
   try {
-    const sql = "SELECT * FROM users";
+    const sql = `select count(*) from users where status = "active"`;
 
     connection.query(sql, (err, result) => {
       if (err) {
@@ -10,10 +10,9 @@ export const GetUsers = (req, res) => {
           message: err,
         });
       }
-      const users = result.map((user) => user.status === "active");
       return res.status(200).json({
         message: "User with active status",
-        result: users.length,
+        result: result,
       });
     });
   } catch (error) {

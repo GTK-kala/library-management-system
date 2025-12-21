@@ -17,6 +17,7 @@ import CalenderView from "./pages/CalendarView";
 import Layout from "./components/common/Layout";
 import Navbar from "./components/common/Navbar";
 import ManageMembers from "./pages/ManageMembers";
+import GenerateReport from "./pages/GenerateReport";
 import AdminDashboard from "./pages/AdminDashboard";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -83,6 +84,14 @@ const App = () => {
                           element={
                             <PrivateRoute adminOnly>
                               <CalenderView />
+                            </PrivateRoute>
+                          }
+                        />
+                        <Route
+                          path="/admin/reports"
+                          element={
+                            <PrivateRoute adminOnly>
+                              <GenerateReport />
                             </PrivateRoute>
                           }
                         />

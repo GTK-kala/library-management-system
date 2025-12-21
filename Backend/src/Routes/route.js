@@ -18,11 +18,11 @@ import { UpDateUser } from "../Controller/User/UpDateUser.js";
 import { GetBooks } from "../Controller/Book/GetBooks.js";
 import { verifyToken, AddBooks } from "../Controller/Book/AddBooks.js";
 
-// TEST ROUTES FUNCTIONS
-import { HomeRoute } from "../Controller/Admin/Home.js";
+// ADMIN ROUTES FUNCTIONS
+import { GetUsers } from "../Controller/Admin/Home.js";
 
 // TEST ROUTE
-route.get("/home", HomeRoute);
+route.get("/user", GetUsers);
 
 // USER ROUTE
 route.post("/login", Login);

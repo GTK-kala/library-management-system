@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
       const data = await res.json();
 
       if (!res.ok) {
+        toast.error(data.message);
         console.log(data.message);
       } else {
         setUser(data.user);

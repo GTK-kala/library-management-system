@@ -14,7 +14,7 @@ export const Login = (req, res) => {
         });
       } else if (result.length === 0) {
         return res.status(400).json({
-          message: "User not found!!!",
+          message: "Email don't exist!!!",
         });
       }
 

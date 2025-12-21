@@ -1,8 +1,8 @@
 import connection from "../../Config/db.js";
 
-export const HomeRoute = (req, res) => {
+export const GetUsers = (req, res) => {
   try {
-    const sql = "SELECT * FROM users";
+    const sql = "SELECT count(*) FROM users where status = active";
 
     connection.query(sql, (err, result) => {
       if (err) {

@@ -13,8 +13,6 @@ import {
   RefreshCw,
   Shield,
   CheckCircle,
-  Search,
-  Star,
 } from "lucide-react";
 
 //////////////////////////////////////////////////

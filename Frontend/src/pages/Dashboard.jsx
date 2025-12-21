@@ -17,7 +17,6 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Dashboard = () => {
-  const [count, setCount] = useState(0);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recentBooks, setRecentBooks] = useState([]);
@@ -40,24 +39,8 @@ const Dashboard = () => {
     }
   };
 
-  const FetchUsers = async () => {
-    try {
-      const url = `https://library-management-system-production-27d8.up.railway.app/api/user`;
-      const res = await fetch(url);
-      const data = res.json();
-      if (!res.ok) {
-        console.log(data.message);
-      } else {
-        console.log(data.result);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     setLoading(false);
-    FetchUsers();
     FetchBooks();
   }, []);
 

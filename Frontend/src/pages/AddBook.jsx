@@ -175,25 +175,24 @@ const AddBook = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-6 sm:mb-8"
         >
-          <div className="flex flex-col items-start justify-between gap-4 mb-6 sm:flex-row sm:items-center">
-            <div className="flex items-center justify-start space-x-3 sm:items-center sm:space-x-4">
-              {/* Updated Back Button */}
-              <Link
-                to="/dashboard"
-                className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors bg-gray-100 rounded-xl dark:text-gray-300 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span className="hidden sm:inline">Back to Admin</span>
-                <span className="sm:hidden">Back</span>
-              </Link>
-              <div>
-                <h1 className="mb-1 text-xl font-bold text-transparent sm:mb-2 sm:text-2xl md:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
-                  Add New Book
-                </h1>
-                <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">
-                  Fill in the details to add a new book to the library
-                </p>
+          <div className="flex flex-col justify-between gap-4 mb-6 sm:flex-row sm:items-center">
+            <div>
+              {/* Back Button - Exactly like CalendarView */}
+              <div className="flex items-center gap-3 mb-3">
+                <Link
+                  to="/dashboard"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-gray-100 rounded-xl dark:text-gray-300 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Dashboard
+                </Link>
               </div>
+              <h1 className="mb-2 text-2xl font-bold text-transparent sm:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
+                Add New Book
+              </h1>
+              <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">
+                Fill in the details to add a new book to the library
+              </p>
             </div>
 
             {/* Quick Stats on Mobile */}

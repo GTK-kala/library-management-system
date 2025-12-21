@@ -10,7 +10,7 @@ export const GetUsers = (req, res) => {
           message: err,
         });
       }
-      const users = result.map((user) => (user.status = "active"));
+      const users = result.map((user) => user.status === "active");
       return res.status(200).json({
         message: "User with active status",
         result: users.length,

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { mockMembers, roles, statuses, stats1 } from "../assets/Data/data";
 import {
   Search,
@@ -17,6 +18,7 @@ import {
   RefreshCw,
   Users,
   Hash,
+  ArrowLeft,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -146,15 +148,25 @@ const ManageMembers = () => {
   return (
     <div className="min-h-screen px-3 pt-5 pb-6 sm:px-4 sm:pt-5 sm:pb-8 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto max-w-7xl">
-        {/* Header */}
+        {/* Header with Back Button */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-6 sm:mb-8"
         >
-          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <div className="flex flex-col justify-between gap-4 mb-6 sm:flex-row sm:items-center">
             <div>
-              <h1 className="mb-2 text-xl font-bold text-transparent sm:text-2xl md:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
+              {/* Back Button - Same as CalendarView and AddBook */}
+              <div className="flex items-center gap-3 mb-3">
+                <Link
+                  to="/dashboard"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-gray-100 rounded-xl dark:text-gray-300 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Dashboard
+                </Link>
+              </div>
+              <h1 className="mb-2 text-2xl font-bold text-transparent sm:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                 Manage Members
               </h1>
               <p className="text-sm text-gray-600 sm:text-base dark:text-gray-400">

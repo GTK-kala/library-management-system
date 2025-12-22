@@ -24,6 +24,7 @@ import {
   FilePieChart,
   FileBarChart,
   FileSpreadsheet,
+  ArrowUp, // Added for Back to Top button
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -36,6 +37,32 @@ const GenerateReport = () => {
   const [reportData, setReportData] = useState(null);
   const [expandedSection, setExpandedSection] = useState(null);
   const [selectedFormat, setSelectedFormat] = useState("pdf");
+  const [showBackToTop, setShowBackToTop] = useState(false); // Added for Back to Top
+
+  // Back to Top functionality
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // Mock report data
   const mockReports = {
@@ -812,6 +839,20 @@ const GenerateReport = () => {
           </div>
         </div>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          onClick={scrollToTop}
+          className="fixed z-40 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6" />
+        </motion.button>
+      )}
     </div>
   );
 };

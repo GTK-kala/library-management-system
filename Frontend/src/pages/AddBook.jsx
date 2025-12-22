@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { languages, genre } from "../assets/Data/data.js";
@@ -21,6 +21,7 @@ import {
   Copy,
   Layers,
   BarChart,
+  ChevronUp,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -44,6 +45,7 @@ const AddBook = () => {
 
   const [authors, setAuthors] = useState([""]);
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -104,6 +106,28 @@ const AddBook = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    // Scroll event listener for Back to Top button
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
@@ -780,6 +804,20 @@ const AddBook = () => {
           </div>
         </div>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          onClick={scrollToTop}
+          className="fixed z-40 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-4 sm:bottom-8 sm:right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-105"
+          aria-label="Back to top"
+        >
+          <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6" />
+        </motion.button>
+      )}
     </div>
   );
 };

@@ -19,6 +19,7 @@ import {
   Users,
   Hash,
   ArrowLeft,
+  ArrowUp, // Added for Back to Top icon
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -34,6 +35,7 @@ const ManageMembers = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false); // Added for Back to Top
 
   useEffect(() => {
     // Simulate API call
@@ -42,6 +44,31 @@ const ManageMembers = () => {
       setLoading(false);
     }, 1000);
   }, []);
+
+  // Back to Top functionality
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // Filter members
   const filteredMembers = members.filter((member) => {
@@ -560,6 +587,20 @@ const ManageMembers = () => {
           </div>
         </div>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          onClick={scrollToTop}
+          className="fixed z-40 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6" />
+        </motion.button>
+      )}
 
       {/* Add Member Modal */}
       {isAddModalOpen && (

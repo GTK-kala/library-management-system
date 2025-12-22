@@ -23,6 +23,11 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 -----------------------------------*/
 const app = express();
 
+///////// KEEP THE APP ALIVE ////////////////////
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 /* ----------------------------------
    CORS CONFIG (VERY IMPORTANT)
 -----------------------------------*/

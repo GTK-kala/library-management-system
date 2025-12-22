@@ -25,6 +25,7 @@ import {
   Eye,
   Edit,
   CheckCircle,
+  ChevronUp,
 } from "lucide-react";
 import {
   Books,
@@ -43,6 +44,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const recentActivities = activity;
   const [loading, setLoading] = useState(true);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const getActivityIcon = (type) => {
     switch (type) {
@@ -76,9 +78,30 @@ const AdminDashboard = () => {
     }
   };
 
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     setLoading(false);
-  });
+
+    // Scroll event listener for Back to Top button
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen px-4 pt-5 pb-8">
       <div className="container mx-auto">
@@ -575,6 +598,20 @@ const AdminDashboard = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          onClick={scrollToTop}
+          className="fixed z-40 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-4 sm:bottom-8 sm:right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-105"
+          aria-label="Back to top"
+        >
+          <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6" />
+        </motion.button>
+      )}
     </div>
   );
 };

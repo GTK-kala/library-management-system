@@ -12,6 +12,7 @@ import {
   DollarSign,
   BarChart3,
   Eye,
+  ChevronUp,
 } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -21,6 +22,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [recentBooks, setRecentBooks] = useState([]);
   const [upcomingReturns, setUpcomingReturns] = useState([]);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const FetchBooks = async () => {
     try {
@@ -42,7 +44,27 @@ const Dashboard = () => {
   useEffect(() => {
     setLoading(false);
     FetchBooks();
+
+    // Scroll event listener for Back to Top button
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // Calculate due date text
   const getDueDateText = (dueDate) => {
@@ -393,6 +415,20 @@ const Dashboard = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          onClick={scrollToTop}
+          className="fixed z-40 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-4 sm:bottom-8 sm:right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-105"
+          aria-label="Back to top"
+        >
+          <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6" />
+        </motion.button>
+      )}
     </div>
   );
 };

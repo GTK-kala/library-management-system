@@ -15,6 +15,7 @@ import {
   MapPin,
   Calendar,
   Shield,
+  ChevronUp,
 } from "lucide-react";
 import { borrowingHistory, stats } from "../assets/Data/data";
 
@@ -24,6 +25,7 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const [formData, setFormData] = useState({
     phone: "+1 (555) 123-4567",
@@ -70,6 +72,14 @@ const Profile = () => {
     setIsEditing(false);
   };
 
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     const id = localStorage.getItem("id");
     const FetchData = async () => {
@@ -93,6 +103,18 @@ const Profile = () => {
       }
     };
     FetchData();
+
+    // Scroll event listener for Back to Top button
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Responsive grid columns based on screen size
@@ -585,6 +607,20 @@ const Profile = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          onClick={scrollToTop}
+          className="fixed z-40 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-4 sm:bottom-8 sm:right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-105"
+          aria-label="Back to top"
+        >
+          <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6" />
+        </motion.button>
+      )}
     </div>
   );
 };

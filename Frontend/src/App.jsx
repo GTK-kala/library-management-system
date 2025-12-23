@@ -32,7 +32,7 @@ const App = () => {
     // Simulate initial app loading
     setTimeout(() => {
       setIsLoading(false);
-    }, 2500);
+    }, 3800);
   }, []);
 
   if (isLoading) {

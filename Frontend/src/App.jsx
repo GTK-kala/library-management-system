@@ -13,17 +13,31 @@ import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
+import { useEffect, useState } from "react";
 import CalenderView from "./pages/CalendarView";
-import Layout from "./components/common/Layout";
 import Navbar from "./components/common/Navbar";
 import ManageMembers from "./pages/ManageMembers";
+// import Layout from "./components/common/Layout";
 import GenerateReport from "./pages/GenerateReport";
 import AdminDashboard from "./pages/AdminDashboard";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import AppLoading from "./components/common/AppLoading";
 import PrivateRoute from "./components/common/PrivateRoute";
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate initial app loading
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+  }, []);
+
+  if (isLoading) {
+    return <AppLoading />;
+  }
   return (
     <Router>
       <ThemeProvider>

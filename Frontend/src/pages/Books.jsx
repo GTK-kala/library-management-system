@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { count_returned } from "../services/api";
 import { genres, mockBooks } from "../assets/Data/data";
 import {
   Search,
@@ -24,6 +25,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 const Books = () => {
   const booksPerPage = 12;
   const [books, setBooks] = useState([]);
+  const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("grid");
@@ -32,9 +34,29 @@ const Books = () => {
   const [selectedGenre, setSelectedGenre] = useState("all");
   const [showBackToTop, setShowBackToTop] = useState(false);
 
+  ///////////////////   FETCH BOOKS
+  const FetchBooks = async () => {
+    try {
+      const API = import.meta.env.VITE_API_URL;
+      const url_site = `https://library-management-system-production-27d8.up.railway.app/api/books`;
+      const url_local = `http://localhost:3001/api/books`;
+      const res = await fetch(url_site);
+      const data = await res.json();
+      const Data = data.result;
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setCount(Data.length);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setBooks(mockBooks);
+      FetchBooks();
       setLoading(false);
     }, 1000);
 
@@ -313,7 +335,7 @@ const Books = () => {
                 <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
                   Total Books
                 </p>
-                <p className="text-lg font-bold sm:text-xl">{books.length}</p>
+                <p className="text-lg font-bold sm:text-xl">{count}</p>
               </div>
             </div>
           </div>
@@ -324,9 +346,7 @@ const Books = () => {
                 <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
                   Available
                 </p>
-                <p className="text-lg font-bold sm:text-xl">
-                  {books.filter((b) => b.available).length}
-                </p>
+                <p className="text-lg font-bold sm:text-xl">{count_returned}</p>
               </div>
             </div>
           </div>

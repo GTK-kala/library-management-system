@@ -5,7 +5,7 @@ const FetchActiveUsers = async () => {
   try {
     const url_site = `https://library-management-system-production-27d8.up.railway.app/api/user`;
     const url_local = `http://localhost:3001/api/user`;
-    const res = await fetch(url_local);
+    const res = await fetch(url_site);
     const data = await res.json();
     const Data = data.result;
     if (!res.ok) {
@@ -24,7 +24,7 @@ const FetchBorrowedBooks = async () => {
   try {
     const url_site = `https://library-management-system-production-27d8.up.railway.app/api/book/borrowed`;
     const url_local = `http://localhost:3001/api/book/status`;
-    const res = await fetch(url_local);
+    const res = await fetch(url_site);
     const data = await res.json();
     const Data = data.result;
     if (!res.ok) {
@@ -44,7 +44,7 @@ const FetchOverdueBooks = async () => {
   try {
     const url_site = `https://library-management-system-production-27d8.up.railway.app/api/book/borrowed`;
     const url_local = `http://localhost:3001/api/book/status`;
-    const res = await fetch(url_local);
+    const res = await fetch(url_site);
     const data = await res.json();
     const Data = data.result;
     if (!res.ok) {
@@ -58,3 +58,23 @@ const FetchOverdueBooks = async () => {
   }
 };
 export const count_overdue = FetchOverdueBooks();
+
+/////////////// FETCH RETURNED BOOKS
+const FetchReturnedBooks = async () => {
+  try {
+    const url_site = `https://library-management-system-production-27d8.up.railway.app/api/book/borrowed`;
+    const url_local = `http://localhost:3001/api/book/status`;
+    const res = await fetch(url_site);
+    const data = await res.json();
+    const Data = data.result;
+    if (!res.ok) {
+      console.log(data.message);
+    } else {
+      const Borrowed_Book = Data.filter((book) => book.status === "returned");
+      return Borrowed_Book.length;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const count_returned = FetchReturnedBooks();

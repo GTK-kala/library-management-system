@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(url_local, {
+      const res = await fetch(url_site, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

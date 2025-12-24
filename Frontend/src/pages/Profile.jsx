@@ -49,7 +49,7 @@ const Profile = () => {
     const url_site = `https://library-management-system-production-27d8.up.railway.app/api/user/edit/${id}`;
     const url_local = `http://localhost:3001/api/user/edit/${id}`;
     try {
-      const res = await fetch(url_local, {
+      const res = await fetch(url_site, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

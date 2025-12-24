@@ -1,8 +1,8 @@
 import connection from "../../Config/db.js";
 
-export const GetUsers = (req, res) => {
+export const GetBookStatus = (req, res) => {
   try {
-    const sql = `SELECT * FROM users`;
+    const sql = `SELECT * FROM borrowings`;
 
     connection.query(sql, (err, result) => {
       if (err) {

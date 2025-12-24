@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { count_active, count_borrowed, count_overdue } from "../services/api";
 import { useState, useEffect } from "react";
 import {
   BookOpen,
@@ -24,15 +25,15 @@ const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recentBooks, setRecentBooks] = useState([]);
-  const [books_length, setBooks_length] = useState([]);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [upcomingReturns, setUpcomingReturns] = useState([]);
 
   ////////////// DEMO DATA ////////////////////
+
   const statCards = [
     {
       title: "Total Books",
-      value: books_length,
+      value: books.length,
       icon: BookOpen,
       color: "from-blue-500 to-cyan-500",
       change: "+5.2%",
@@ -40,7 +41,7 @@ const Dashboard = () => {
     },
     {
       title: "Active Members",
-      value: 12,
+      value: count_active,
       icon: User,
       color: "from-green-500 to-emerald-500",
       change: "+12.1%",
@@ -48,7 +49,7 @@ const Dashboard = () => {
     },
     {
       title: "Books Borrowed",
-      value: 20,
+      value: count_borrowed,
       icon: BookMarked,
       color: "from-purple-500 to-pink-500",
       change: "+8.3%",
@@ -56,14 +57,13 @@ const Dashboard = () => {
     },
     {
       title: "Overdue Books",
-      value: 25,
+      value: count_overdue,
       icon: AlertCircle,
       color: "from-orange-500 to-red-500",
       change: "-3.2%",
       trend: "down",
     },
   ];
-
   const FetchBooks = async () => {
     try {
       const API = import.meta.env.VITE_API_URL;
@@ -73,16 +73,14 @@ const Dashboard = () => {
       const data = await res.json();
       const Data = data.result;
       if (!res.ok) {
-        console.log(Data);
+        console.log(data.message);
       } else {
-        setBooks(Data);
-        setBooks_length(Data.length);
+        setBooks(Data.splice(0, 5));
       }
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     setLoading(false);
     FetchBooks();

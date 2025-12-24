@@ -20,9 +20,11 @@ import { verifyToken, AddBooks } from "../Controller/Book/AddBooks.js";
 
 // ADMIN ROUTES FUNCTIONS
 import { GetUsers } from "../Controller/Admin/GetUsers.js";
+import { GetBookStatus } from "../Controller/Admin/GetBookStatus.js";
 
-// TEST ROUTE
+// ADMIN ROUTE
 route.get("/user", GetUsers);
+route.get("/book/status", GetBookStatus);
 
 // USER ROUTE
 route.post("/login", Login);

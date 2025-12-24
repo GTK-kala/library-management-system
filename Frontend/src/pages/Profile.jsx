@@ -46,9 +46,10 @@ const Profile = () => {
     const value = { name, email };
     const id = localStorage.getItem("id");
     const API = import.meta.env.VITE_API_URL;
-    const url = `https://library-management-system-production-27d8.up.railway.app/api/user/edit/${id}`;
+    const url_site = `https://library-management-system-production-27d8.up.railway.app/api/user/edit/${id}`;
+    const url_local = `http://localhost:3001/api/user/edit/${id}`;
     try {
-      const res = await fetch(url, {
+      const res = await fetch(url_local, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -85,8 +86,9 @@ const Profile = () => {
     const FetchData = async () => {
       try {
         const API = import.meta.VITE_API_URL;
-        const url = `https://library-management-system-production-27d8.up.railway.app/api/user/${id}`;
-        const res = await fetch(url);
+        const url_site = `https://library-management-system-production-27d8.up.railway.app/api/user/${id}`;
+        const url_local = `http://localhost:3001/api/user/${id}`;
+        const res = await fetch(url_local);
         const data = await res.json();
         const Data = data.result;
         if (!res.ok) {

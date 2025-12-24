@@ -11,6 +11,7 @@ export const GetBooks = (req, res) => {
         });
       } else {
         return res.status(200).json({
+          message: "All Books Data",
           result: result,
         });
       }

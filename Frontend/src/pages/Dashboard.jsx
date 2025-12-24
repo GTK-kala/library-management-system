@@ -24,14 +24,15 @@ const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recentBooks, setRecentBooks] = useState([]);
-  const [upcomingReturns, setUpcomingReturns] = useState([]);
+  const [books_length, setBooks_length] = useState([]);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [upcomingReturns, setUpcomingReturns] = useState([]);
 
   ////////////// DEMO DATA ////////////////////
   const statCards = [
     {
       title: "Total Books",
-      value: books.length,
+      value: books_length,
       icon: BookOpen,
       color: "from-blue-500 to-cyan-500",
       change: "+5.2%",
@@ -66,14 +67,16 @@ const Dashboard = () => {
   const FetchBooks = async () => {
     try {
       const API = import.meta.env.VITE_API_URL;
-      const url = `https://library-management-system-production-27d8.up.railway.app/api/books`;
-      const res = await fetch(url);
+      const url_site = `https://library-management-system-production-27d8.up.railway.app/api/books`;
+      const url_local = `http://localhost:3001/api/books`;
+      const res = await fetch(url_local);
       const data = await res.json();
       const Data = data.result;
       if (!res.ok) {
         console.log(Data);
       } else {
         setBooks(Data);
+        setBooks_length(Data.length);
       }
     } catch (error) {
       console.log(error);

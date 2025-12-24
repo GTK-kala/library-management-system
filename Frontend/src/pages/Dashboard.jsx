@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { statCards } from "../assets/Data/data";
 import {
   BookOpen,
+  User,
   Users,
   Clock,
   TrendingUp,
@@ -13,16 +13,55 @@ import {
   BarChart3,
   Eye,
   ChevronUp,
+  BookMarked,
+  AlertCircle,
 } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Dashboard = () => {
+  const [books, setBooks] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recentBooks, setRecentBooks] = useState([]);
   const [upcomingReturns, setUpcomingReturns] = useState([]);
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  ////////////// DEMO DATA ////////////////////
+  const statCards = [
+    {
+      title: "Total Books",
+      value: books.length,
+      icon: BookOpen,
+      color: "from-blue-500 to-cyan-500",
+      change: "+5.2%",
+      trend: "up",
+    },
+    {
+      title: "Active Members",
+      value: 12,
+      icon: User,
+      color: "from-green-500 to-emerald-500",
+      change: "+12.1%",
+      trend: "up",
+    },
+    {
+      title: "Books Borrowed",
+      value: 20,
+      icon: BookMarked,
+      color: "from-purple-500 to-pink-500",
+      change: "+8.3%",
+      trend: "up",
+    },
+    {
+      title: "Overdue Books",
+      value: 25,
+      icon: AlertCircle,
+      color: "from-orange-500 to-red-500",
+      change: "-3.2%",
+      trend: "down",
+    },
+  ];
 
   const FetchBooks = async () => {
     try {
@@ -34,7 +73,7 @@ const Dashboard = () => {
       if (!res.ok) {
         console.log(Data);
       } else {
-        setRecentBooks(Data);
+        setBooks(Data);
       }
     } catch (error) {
       console.log(error);
@@ -179,9 +218,9 @@ const Dashboard = () => {
                       </div>
                     ))}
                 </div>
-              ) : recentBooks.length > 0 ? (
+              ) : books.length > 0 ? (
                 <div className="space-y-4">
-                  {recentBooks.map((book, index) => (
+                  {books.map((book, index) => (
                     <motion.div
                       key={book.id || index}
                       initial={{ opacity: 0, x: -20 }}

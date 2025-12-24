@@ -11,7 +11,7 @@ export const GetBooks = (req, res) => {
         });
       } else {
         return res.status(200).json({
-          result: result.slice(0, 6),
+          result: result,
         });
       }
     });

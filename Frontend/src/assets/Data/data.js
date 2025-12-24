@@ -74,44 +74,6 @@ export const testimonials = [
 
 /////////////////////////////////////////////////
 
-////////////// DASHBOARD PAGE DATA //////////////
-export const statCards = [
-  {
-    title: "Total Books",
-    value: 7,
-    icon: BookOpen,
-    color: "from-blue-500 to-cyan-500",
-    change: "+5.2%",
-    trend: "up",
-  },
-  {
-    title: "Active Members",
-    value: count,
-    icon: User,
-    color: "from-green-500 to-emerald-500",
-    change: "+12.1%",
-    trend: "up",
-  },
-  {
-    title: "Books Borrowed",
-    value: 20,
-    icon: BookMarked,
-    color: "from-purple-500 to-pink-500",
-    change: "+8.3%",
-    trend: "up",
-  },
-  {
-    title: "Overdue Books",
-    value: 25,
-    icon: AlertCircle,
-    color: "from-orange-500 to-red-500",
-    change: "-3.2%",
-    trend: "down",
-  },
-];
-
-////////////////////////////////////////////////
-
 ///////////// BOOKS PAGE DATA //////////////////
 export const genres = [
   "all",

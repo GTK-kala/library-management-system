@@ -26,7 +26,7 @@ const AppLoading = () => {
             }}
             className="inline-block"
           >
-            <BookOpen className="w-16 h-20 text-blue-600 dark:text-blue-400" />
+            <BookOpen className="w-16 h-20 mt-2 text-blue-600 dark:text-blue-400" />
           </motion.div>
 
           {/* Simple pulse effect */}

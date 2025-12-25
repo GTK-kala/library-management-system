@@ -39,8 +39,8 @@ export const FetchBooks = async () => {
 
 ///////////////////////////////////////////////////////
 
-/////////// FETCH BORROWED BOOKS
-const FetchBorrowedBooks = async () => {
+/////////// FETCH BOOKS STATUS
+export const FetchBooksStatus = async () => {
   try {
     const res = await fetch(`${API}/api/book/status`);
     const data = await res.json();
@@ -48,49 +48,16 @@ const FetchBorrowedBooks = async () => {
     if (!res.ok) {
       console.log(data.message);
     } else {
+      const Overdue_Book = Data.filter((book) => book.status === "overdue");
       const Borrowed_Book = Data.filter((book) => book.status === "borrowed");
-      return Borrowed_Book.length;
+      const Returned_Book = Data.filter((book) => book.status === "returned");
+      return {
+        Overdue_Book,
+        Borrowed_Book,
+        Returned_Book,
+      };
     }
   } catch (error) {
     console.log(error);
   }
 };
-export const count_borrowed = FetchBorrowedBooks();
-
-//////////////////////////////////////////////////////////
-
-/////////////// FETCH OVERDUE BOOKS
-const FetchOverdueBooks = async () => {
-  try {
-    const res = await fetch(`${API}/api/book/status`);
-    const data = await res.json();
-    const Data = data.result;
-    if (!res.ok) {
-      console.log(data.message);
-    } else {
-      const Borrowed_Book = Data.filter((book) => book.status === "overdue");
-      return Borrowed_Book.length;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const count_overdue = FetchOverdueBooks();
-
-/////////////// FETCH RETURNED BOOKS
-const FetchReturnedBooks = async () => {
-  try {
-    const res = await fetch(`${API}/api/book/status`);
-    const data = await res.json();
-    const Data = data.result;
-    if (!res.ok) {
-      console.log(data.message);
-    } else {
-      const Borrowed_Book = Data.filter((book) => book.status === "returned");
-      return Borrowed_Book.length;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const count_returned = FetchReturnedBooks();

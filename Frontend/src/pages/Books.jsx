@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { count_returned } from "../services/api";
+import { FetchBooksStatus } from "../services/api";
 import { genres, mockBooks } from "../assets/Data/data";
 import {
   Search,
@@ -27,6 +27,7 @@ const Books = () => {
   const [books, setBooks] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [available, setAvailable] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("grid");
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,11 +53,17 @@ const Books = () => {
   };
 
   useEffect(() => {
+    const BookStatus = async () => {
+      const Status = await FetchBooksStatus();
+      setAvailable(Status.Returned_Book.length);
+    };
+
+    BookStatus();
+    FetchBooks();
+    setBooks(mockBooks);
     setTimeout(() => {
-      setBooks(mockBooks);
-      FetchBooks();
       setLoading(false);
-    }, 1000);
+    }, 100);
 
     // Scroll event listener for Back to Top button
     const handleScroll = () => {
@@ -344,7 +351,7 @@ const Books = () => {
                 <p className="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
                   Available
                 </p>
-                <p className="text-lg font-bold sm:text-xl">{count_returned}</p>
+                <p className="text-lg font-bold sm:text-xl">{available}</p>
               </div>
             </div>
           </div>

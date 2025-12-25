@@ -1,11 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import {
-  FetchBooks,
-  count_active,
-  count_borrowed,
-  count_overdue,
-} from "../services/api";
+import { FetchBooksStatus, FetchBooks, count_active } from "../services/api";
 import { useState, useEffect } from "react";
 import {
   BookOpen,
@@ -28,6 +23,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 const Dashboard = () => {
   const [books, setBooks] = useState([]);
   const [stats, setStats] = useState(null);
+  const [Overdue, setOverdue] = useState(0);
+  const [borrowed, setBorrowed] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [upcomingReturns, setUpcomingReturns] = useState([]);
@@ -52,7 +49,7 @@ const Dashboard = () => {
     },
     {
       title: "Books Borrowed",
-      value: count_borrowed,
+      value: borrowed,
       icon: BookMarked,
       color: "from-purple-500 to-pink-500",
       change: "+8.3%",
@@ -60,7 +57,7 @@ const Dashboard = () => {
     },
     {
       title: "Overdue Books",
-      value: count_overdue,
+      value: Overdue,
       icon: AlertCircle,
       color: "from-orange-500 to-red-500",
       change: "-3.2%",
@@ -72,7 +69,10 @@ const Dashboard = () => {
     setLoading(false);
     const loadBooks = async () => {
       const data = await FetchBooks();
-      setBooks(data);
+      const status = await FetchBooksStatus();
+      setBooks(data.splice(0, 5));
+      setOverdue(status.Overdue_Book.length);
+      setBorrowed(status.Borrowed_Book.length);
     };
 
     loadBooks();

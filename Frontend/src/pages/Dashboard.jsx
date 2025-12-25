@@ -1,6 +1,11 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { count_active, count_borrowed, count_overdue } from "../services/api";
+import {
+  FetchBooks,
+  count_active,
+  count_borrowed,
+  count_overdue,
+} from "../services/api";
 import { useState, useEffect } from "react";
 import {
   BookOpen,
@@ -24,12 +29,10 @@ const Dashboard = () => {
   const [books, setBooks] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [recentBooks, setRecentBooks] = useState([]);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [upcomingReturns, setUpcomingReturns] = useState([]);
 
   ////////////// DEMO DATA ////////////////////
-
   const statCards = [
     {
       title: "Total Books",
@@ -64,26 +67,15 @@ const Dashboard = () => {
       trend: "down",
     },
   ];
-  const FetchBooks = async () => {
-    try {
-      const API = import.meta.env.VITE_API_URL;
-      const url_site = `https://library-management-system-production-27d8.up.railway.app/api/books`;
-      const url_local = `http://localhost:3001/api/books`;
-      const res = await fetch(url_site);
-      const data = await res.json();
-      const Data = data.result;
-      if (!res.ok) {
-        console.log(data.message);
-      } else {
-        setBooks(Data.splice(0, 5));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   useEffect(() => {
     setLoading(false);
-    FetchBooks();
+    const loadBooks = async () => {
+      const data = await FetchBooks();
+      setBooks(data);
+    };
+
+    loadBooks();
 
     // Scroll event listener for Back to Top button
     const handleScroll = () => {

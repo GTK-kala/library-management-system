@@ -3,13 +3,13 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import {
+  Eye,
   User,
   Mail,
   Lock,
-  Eye,
+  Shield,
   EyeOff,
   BookOpen,
-  Shield,
   ArrowRight,
 } from "lucide-react";
 

@@ -5,17 +5,17 @@ import { useAuth } from "../context/AuthContext";
 import {
   User,
   Mail,
-  BookOpen,
-  Clock,
   Edit,
   Save,
   Award,
-  TrendingUp,
+  Clock,
   Phone,
   MapPin,
-  Calendar,
   Shield,
+  Calendar,
+  BookOpen,
   ChevronUp,
+  TrendingUp,
 } from "lucide-react";
 import { borrowingHistory, stats } from "../assets/Data/data.js";
 

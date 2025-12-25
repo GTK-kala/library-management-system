@@ -2,42 +2,40 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  ArrowLeft,
-  Download,
-  Printer,
-  FileText,
-  BarChart3,
-  PieChart,
-  TrendingUp,
-  Calendar,
-  Filter,
-  RefreshCw,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Users,
-  BookOpen,
-  DollarSign,
   Eye,
-  ChevronDown,
+  Users,
+  Clock,
+  Printer,
+  ArrowUp,
+  BookOpen,
+  Download,
+  FileText,
+  PieChart,
+  Calendar,
   ChevronUp,
+  ArrowLeft,
+  BarChart3,
+  RefreshCw,
+  TrendingUp,
+  DollarSign,
+  CheckCircle,
+  ChevronDown,
   FilePieChart,
   FileBarChart,
   FileSpreadsheet,
-  ArrowUp, // Added for Back to Top button
 } from "lucide-react";
 import toast from "react-hot-toast";
 
 const GenerateReport = () => {
   const [loading, setLoading] = useState(false);
-  const [reportType, setReportType] = useState("borrowing");
-  const [dateRange, setDateRange] = useState("month");
-  const [startDate, setStartDate] = useState(getFirstDayOfMonth());
-  const [endDate, setEndDate] = useState(getLastDayOfMonth());
   const [reportData, setReportData] = useState(null);
-  const [expandedSection, setExpandedSection] = useState(null);
+  const [dateRange, setDateRange] = useState("month");
+  const [reportType, setReportType] = useState("borrowing");
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [endDate, setEndDate] = useState(getLastDayOfMonth());
   const [selectedFormat, setSelectedFormat] = useState("pdf");
-  const [showBackToTop, setShowBackToTop] = useState(false); // Added for Back to Top
+  const [expandedSection, setExpandedSection] = useState(null);
+  const [startDate, setStartDate] = useState(getFirstDayOfMonth());
 
   // Back to Top functionality
   useEffect(() => {

@@ -3,23 +3,23 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { mockMembers, roles, statuses, stats1 } from "../assets/Data/data";
 import {
-  Search,
-  BookOpen,
-  UserPlus,
   Edit,
-  Trash2,
-  Shield,
-  CheckCircle,
-  XCircle,
-  MoreVertical,
-  Download,
   Lock,
-  Unlock,
-  RefreshCw,
-  Users,
   Hash,
+  Users,
+  Shield,
+  Trash2,
+  Search,
+  Unlock,
+  XCircle,
+  ArrowUp,
+  UserPlus,
+  BookOpen,
+  Download,
+  RefreshCw,
   ArrowLeft,
-  ArrowUp, // Added for Back to Top icon
+  CheckCircle,
+  MoreVertical,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -29,13 +29,13 @@ const ManageMembers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRole, setSelectedRole] = useState("all");
-  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState("all");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [showBackToTop, setShowBackToTop] = useState(false); // Added for Back to Top
 
   useEffect(() => {
     // Simulate API call

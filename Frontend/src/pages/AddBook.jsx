@@ -3,25 +3,24 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { languages, genre } from "../assets/Data/data.js";
 import {
-  ArrowLeft,
-  Upload,
-  BookOpen,
+  X,
+  Tag,
   User,
   Hash,
-  Tag,
-  Calendar,
-  BookMarked,
-  Image as ImageIcon,
-  Globe,
-  FileText,
   Plus,
-  X,
-  Check,
   Info,
   Copy,
+  Check,
+  Globe,
+  Upload,
   Layers,
-  BarChart,
+  Calendar,
+  BookOpen,
+  FileText,
   ChevronUp,
+  ArrowLeft,
+  BookMarked,
+  Image as ImageIcon,
 } from "lucide-react";
 import toast from "react-hot-toast";
 

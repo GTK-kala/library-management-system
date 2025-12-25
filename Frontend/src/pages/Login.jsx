@@ -2,15 +2,15 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
+  Eye,
+  Zap,
   Mail,
   Lock,
-  Eye,
-  EyeOff,
-  BookOpen,
-  Shield,
-  ArrowRight,
-  Zap,
   Users,
+  EyeOff,
+  Shield,
+  BookOpen,
+  ArrowRight,
 } from "lucide-react";
 
 const Login = () => {

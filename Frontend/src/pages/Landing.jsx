@@ -3,22 +3,22 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { steps, testimonials } from "../assets/Data/data.js";
 import {
-  BookOpen,
-  Star,
-  ArrowRight,
-  Calendar,
-  Zap,
-  Globe,
-  Menu,
   X,
-  ChevronUp,
-  BookMarked,
+  Zap,
+  Star,
+  Menu,
   User,
-  TrendingUp,
-  Search,
   Clock,
+  Globe,
+  Search,
   Shield,
+  Calendar,
+  BookOpen,
   BarChart3,
+  ChevronUp,
+  TrendingUp,
+  BookMarked,
+  ArrowRight,
 } from "lucide-react";
 
 const Landing = () => {

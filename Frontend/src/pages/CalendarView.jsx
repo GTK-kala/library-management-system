@@ -2,11 +2,9 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
   Plus,
-  Filter,
   Search,
   Clock,
   AlertCircle,
@@ -15,7 +13,6 @@ import {
   Users,
   BookOpen,
   Download,
-  Eye,
   Edit,
   Trash2,
   MoreVertical,
@@ -29,18 +26,19 @@ import {
   Menu,
   X,
   ChevronUp,
+  Calendar as CalendarIcon,
 } from "lucide-react";
 
 const CalendarView = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState("month");
-  const [selectedEvent, setSelectedEvent] = useState(null);
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showEventModal, setShowEventModal] = useState(false);
-  const [showAddEventModal, setShowAddEventModal] = useState(false);
+  const [viewMode, setViewMode] = useState("month");
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [showEventModal, setShowEventModal] = useState(false);
+  const [showAddEventModal, setShowAddEventModal] = useState(false);
 
   // Mock events data (in real app, this would come from API)
   const mockEvents = [

@@ -3,29 +3,29 @@ import { useState, useEffect } from "react";
 import { FetchBooksStatus } from "../services/api.js";
 import { genres, mockBooks } from "../assets/Data/data.js";
 import {
+  Eye,
+  User,
+  Hash,
+  List,
+  Grid,
+  Star,
+  Heart,
   Search,
   Filter,
   BookOpen,
-  Star,
-  Eye,
-  Heart,
-  ChevronLeft,
-  ChevronRight,
-  Grid,
-  List,
   Calendar,
-  User,
-  Hash,
-  CheckCircle,
   ChevronUp,
+  ChevronLeft,
+  CheckCircle,
+  ChevronRight,
 } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Books = () => {
   const booksPerPage = 12;
-  const [books, setBooks] = useState([]);
   const [count, setCount] = useState(0);
+  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [available, setAvailable] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,7 +35,7 @@ const Books = () => {
   const [selectedGenre, setSelectedGenre] = useState("all");
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  ///////////////////   FETCH BOOKS
+  /////////////////// FETCH BOOKS ////////////////////////
   const FetchBooks = async () => {
     try {
       const API = import.meta.env.VITE_API_URL;

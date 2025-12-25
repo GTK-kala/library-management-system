@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { FetchBooksStatus } from "../services/api";
-import { genres, mockBooks } from "../assets/Data/data";
+import { FetchBooksStatus } from "../services/api.js";
+import { genres, mockBooks } from "../assets/Data/data.js";
 import {
   Search,
   Filter,

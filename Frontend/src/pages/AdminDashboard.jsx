@@ -1,40 +1,45 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FetchBooksStatus, FetchBooks, count_active } from "../services/api.js";
 import {
-  BarChart,
   Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  PieChart,
   Pie,
   Cell,
-  AreaChart,
   Area,
+  XAxis,
+  YAxis,
+  Legend,
+  Tooltip,
+  PieChart,
+  BarChart,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
 } from "recharts";
 import {
+  Eye,
+  User,
+  Edit,
+  Clock,
+  Filter,
+  Download,
   BookOpen,
   BarChart3,
-  Download,
-  Filter,
-  PieChart as PieChartIcon,
-  Eye,
-  Edit,
-  CheckCircle,
   ChevronUp,
+  TrendingUp,
+  DollarSign,
+  CheckCircle,
+  AlertCircle,
+  PieChart as PieChartIcon,
 } from "lucide-react";
 import {
   Books,
-  monthlyData,
-  genreDistribution,
-  statusData,
   activity,
+  statusData,
+  monthlyData,
   quickActions,
-  statCard,
+  genreDistribution,
 } from "../assets/Data/data";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -43,8 +48,64 @@ const AdminDashboard = () => {
   const popularBooks = Books;
   const navigate = useNavigate();
   const recentActivities = activity;
+  const [book, setBook] = useState(0);
+  const [overdue, setOverdue] = useState(0);
+  const [borrowed, setBorrowed] = useState(0);
+  const [returned, setReturned] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  ////////////// DEMO DATA ////////////////////
+  const statCard = [
+    {
+      title: "Total Books",
+      value: book,
+      icon: BookOpen,
+      color: "from-blue-500 to-cyan-500",
+      change: "+12%",
+      description: "From last month",
+    },
+    {
+      title: "Active Members",
+      value: count_active,
+      icon: User,
+      color: "from-green-500 to-emerald-500",
+      change: "+8%",
+      description: "New registrations",
+    },
+    {
+      title: "Books Borrowed",
+      value: borrowed,
+      icon: TrendingUp,
+      color: "from-purple-500 to-pink-500",
+      change: "+15%",
+      description: "Currently borrowed",
+    },
+    {
+      title: "Overdue Books",
+      value: overdue,
+      icon: AlertCircle,
+      color: "from-orange-500 to-red-500",
+      change: "-3%",
+      description: "Require attention",
+    },
+    {
+      title: "Today Returns",
+      value: returned,
+      icon: Clock,
+      color: "from-indigo-500 to-blue-500",
+      change: "+20%",
+      description: "Due today",
+    },
+    {
+      title: "Total Revenue",
+      value: 23,
+      icon: DollarSign,
+      color: "from-yellow-500 to-orange-500",
+      change: "+18%",
+      description: "This month",
+    },
+  ];
 
   const getActivityIcon = (type) => {
     switch (type) {
@@ -88,6 +149,16 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     setLoading(false);
+    const Load_Books = async () => {
+      const Book = await FetchBooks();
+      const status = await FetchBooksStatus();
+      setBook(Book.length);
+      setOverdue(status.Overdue_Book.length);
+      setBorrowed(status.Borrowed_Book.length);
+      setReturned(status.Returned_Book.length);
+    };
+
+    Load_Books();
 
     // Scroll event listener for Back to Top button
     const handleScroll = () => {

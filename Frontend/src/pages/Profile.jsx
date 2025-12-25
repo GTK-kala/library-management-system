@@ -17,7 +17,7 @@ import {
   Shield,
   ChevronUp,
 } from "lucide-react";
-import { borrowingHistory, stats } from "../assets/Data/data";
+import { borrowingHistory, stats } from "../assets/Data/data.js";
 
 const Profile = () => {
   const { user } = useAuth();

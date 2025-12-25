@@ -346,56 +346,6 @@ export const quickActions = [
     path: "/admin/calendar",
   },
 ];
-export const statCard = [
-  {
-    title: "Total Books",
-    value: 23,
-    icon: BookOpen,
-    color: "from-blue-500 to-cyan-500",
-    change: "+12%",
-    description: "From last month",
-  },
-  {
-    title: "Active Members",
-    value: 19,
-    icon: User,
-    color: "from-green-500 to-emerald-500",
-    change: "+8%",
-    description: "New registrations",
-  },
-  {
-    title: "Books Borrowed",
-    value: 34,
-    icon: TrendingUp,
-    color: "from-purple-500 to-pink-500",
-    change: "+15%",
-    description: "Currently borrowed",
-  },
-  {
-    title: "Overdue Books",
-    value: 12,
-    icon: AlertCircle,
-    color: "from-orange-500 to-red-500",
-    change: "-3%",
-    description: "Require attention",
-  },
-  {
-    title: "Today Returns",
-    value: 30000,
-    icon: Clock,
-    color: "from-indigo-500 to-blue-500",
-    change: "+20%",
-    description: "Due today",
-  },
-  {
-    title: "Total Revenue",
-    value: 23,
-    icon: DollarSign,
-    color: "from-yellow-500 to-orange-500",
-    change: "+18%",
-    description: "This month",
-  },
-];
 
 //////////////////////////////////////////////
 

@@ -54,9 +54,7 @@ const Register = () => {
 
     try {
       const API = import.meta.env.VITE_API_URL;
-      const url_site = `https://library-management-system-production-27d8.up.railway.app/api/register`;
-      const url_local = `http://localhost:3001/api/register`;
-      const res = await fetch(url_site, {
+      const res = await fetch(`${API}/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -38,9 +38,7 @@ const Books = () => {
   const FetchBooks = async () => {
     try {
       const API = import.meta.env.VITE_API_URL;
-      const url_site = `https://library-management-system-production-27d8.up.railway.app/api/books`;
-      const url_local = `http://localhost:3001/api/books`;
-      const res = await fetch(url_site);
+      const res = await fetch(`${API}/api/books`);
       const data = await res.json();
       const Data = data.result;
       if (!res.ok) {

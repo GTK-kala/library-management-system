@@ -17,13 +17,11 @@ export const AuthProvider = ({ children }) => {
   ///////// SUBMIT DATA WHEN USER IS LOGIN ///////////
   const HandleSubmit = async (e) => {
     const API = import.meta.env.VITE_API_URL;
-    const url_site = `https://library-management-system-production-27d8.up.railway.app/api/login`;
-    const url_local = `http://localhost:3001/api/login`;
 
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(url_site, {
+      const res = await fetch(`${API}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -143,9 +143,7 @@ const AddBook = () => {
     console.log(bookData);
     try {
       const API = import.meta.env.VITE_API_URL;
-      const url_site = `https://library-management-system-production-27d8.up.railway.app/api/book/add/${id}`;
-      const url_local = `http://localhost:3001/api/book/add/${id}`;
-      const res = await fetch(url_site, {
+      const res = await fetch(`${API}/api/book/add/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

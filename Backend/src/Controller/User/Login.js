@@ -36,20 +36,13 @@ export const Login = (req, res) => {
         { expiresIn: process.env.JWT_EXPIRES }
       );
 
-      //////////// PRODUCTION COOKIE
-      const cookie_site = {
+      const cookie = {
         httpOnly: true,
-        secure: true,
-        sameSite: "None",
-      };
-      //////////// LOCAL COOKIE
-      const cookie_local = {
-        httpOnly: true,
-        secure: false,
-        sameSite: "Lax",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       };
 
-      return res.status(200).cookie("token", token, cookie_site).json({
+      return res.status(200).cookie("token", token, cookie).json({
         message: "Login successful",
         user: user,
       });

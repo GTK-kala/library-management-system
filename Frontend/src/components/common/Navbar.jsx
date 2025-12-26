@@ -4,29 +4,29 @@ import { useTheme } from "../../context/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Home,
-  BookOpen,
-  User,
-  Settings,
-  LogOut,
-  Sun,
-  Moon,
-  Menu,
   X,
+  Sun,
   Bell,
+  Home,
+  Moon,
+  User,
+  Menu,
+  LogOut,
   Search,
+  Settings,
+  BookOpen,
   ChevronDown,
 } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const userMenuRef = useRef(null);
   const { user, Logout } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const userMenuRef = useRef(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {

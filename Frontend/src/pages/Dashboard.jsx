@@ -25,6 +25,7 @@ const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [Overdue, setOverdue] = useState(0);
   const [borrowed, setBorrowed] = useState(0);
+  const [returned, setReturned] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [upcomingReturns, setUpcomingReturns] = useState([]);
@@ -73,6 +74,7 @@ const Dashboard = () => {
       setBooks(data.splice(0, 5));
       setOverdue(status.Overdue_Book.length);
       setBorrowed(status.Borrowed_Book.length);
+      setReturned(status.Returned_Book.length);
     };
 
     loadBooks();
@@ -400,11 +402,7 @@ const Dashboard = () => {
                 <div>
                   <p className="text-sm text-blue-100">Today's Returns</p>
                   <h3 className="mt-2 text-3xl font-bold text-white">
-                    {loading ? (
-                      <Skeleton width={60} />
-                    ) : (
-                      stats?.todayReturns || 15
-                    )}
+                    {loading ? <Skeleton width={60} /> : returned || 15}
                   </h3>
                 </div>
                 <Calendar className="w-10 h-10 text-white opacity-80" />

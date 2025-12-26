@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { languages, genre } from "../assets/Data/data.js";
 import {

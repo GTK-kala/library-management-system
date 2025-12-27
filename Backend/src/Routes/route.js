@@ -13,6 +13,7 @@ import { Login } from "../Controller/User/Login.js";
 import { GetUser } from "../Controller/User/GetUser.js";
 import { SignUpUser } from "../Controller/User/Signup.js";
 import { UpDateUser } from "../Controller/User/UpDateUser.js";
+import { GetBooksStatus } from "../Controller/Book/GetBooksStatus.js";
 
 // BOOKS ROUTE FUNCTIONS
 import { GetBooks } from "../Controller/Book/GetBooks.js";
@@ -34,6 +35,7 @@ route.put("/user/edit/:id", UpDateUser);
 
 // BOOKS ROUTE
 route.get("/books", GetBooks);
+route.get("/book/status/:id", GetBooksStatus);
 route.post("/book/add/:id", upload.single("cover"), verifyToken, AddBooks);
 
 export default route;

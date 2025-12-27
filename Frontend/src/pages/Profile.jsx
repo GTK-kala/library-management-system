@@ -91,7 +91,7 @@ const Profile = () => {
         setId(Data.id);
         setName(Data.name);
         setEmail(Data.email);
-        setBooks(Data.Status);
+        setBooks(Status.Data);
         setBorrowed(Status.Borrowed_Book.length);
         setReturned(Status.Returned_Book.length);
       } else {
@@ -342,7 +342,7 @@ const Profile = () => {
                   Borrowing History
                 </h2>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {borrowingHistory.length} books
+                  {books.length} books
                 </span>
               </div>
               <div className="space-y-3 sm:space-y-4">

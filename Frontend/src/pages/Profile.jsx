@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { GetBookStatus, FetchUserData } from "../services/UserApi.js";
 import {
   User,
   Mail,
@@ -23,7 +24,10 @@ const Profile = () => {
   const { user } = useAuth();
   const [id, setId] = useState(null);
   const [name, setName] = useState("");
+  const [books, setBooks] = useState([]);
   const [email, setEmail] = useState("");
+  const [borrowed, setBorrowed] = useState(0);
+  const [returned, setReturned] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -80,26 +84,22 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const FetchData = async () => {
-      try {
-        const id = localStorage.getItem("id");
-        const API = import.meta.env.VITE_API_URL;
-        const res = await fetch(`${API}/api/user/${id}`);
-        const data = await res.json();
-        const Data = data.result;
-        if (!res.ok) {
-          console.log(data.message);
-        } else {
-          setId(Data.id);
-          setName(Data.name);
-          setEmail(Data.email);
-        }
-      } catch (error) {
-        console.log(error);
-        toast.error("Failed to load profile data");
+    const LoadData = async () => {
+      const Data = await FetchUserData();
+      const Status = await GetBookStatus();
+      if (Data || Status) {
+        setId(Data.id);
+        setName(Data.name);
+        setEmail(Data.email);
+        setBooks(Data.Status);
+        setBorrowed(Status.Borrowed_Book.length);
+        setReturned(Status.Returned_Book.length);
+      } else {
+        console.log("error");
       }
     };
-    FetchData();
+
+    LoadData();
 
     // Scroll event listener for Back to Top button
     const handleScroll = () => {
@@ -346,7 +346,7 @@ const Profile = () => {
                 </span>
               </div>
               <div className="space-y-3 sm:space-y-4">
-                {borrowingHistory.slice(0, 4).map((item, index) => (
+                {books.slice(0, 4).map((item, index) => (
                   <motion.div
                     key={item.id}
                     initial={{ opacity: 0, x: -20 }}
@@ -419,21 +419,21 @@ const Profile = () => {
                 {[
                   {
                     label: "Total Books Borrowed",
-                    value: stats.totalBorrowed,
+                    value: borrowed,
                     icon: BookOpen,
                     color: "from-blue-500 to-cyan-500",
                     description: "All time",
                   },
                   {
                     label: "Currently Borrowed",
-                    value: stats.currentlyBorrowed,
+                    value: borrowed,
                     icon: Clock,
                     color: "from-purple-500 to-pink-500",
                     description: "Active",
                   },
                   {
                     label: "On-time Returns",
-                    value: stats.onTimeReturns,
+                    value: returned,
                     icon: Award,
                     color: "from-green-500 to-emerald-500",
                     description: "Perfect record",

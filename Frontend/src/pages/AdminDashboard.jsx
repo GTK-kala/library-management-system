@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FetchBooksStatus, FetchBooks, count_active } from "../services/api.js";
+import {
+  FetchBooks,
+  FetchBooksStatus,
+  FetchActiveUsers,
+} from "../services/api.js";
 import {
   Bar,
   Pie,
@@ -49,6 +53,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const recentActivities = activity;
   const [book, setBook] = useState(0);
+  const [user, setUser] = useState(0);
   const [overdue, setOverdue] = useState(0);
   const [borrowed, setBorrowed] = useState(0);
   const [returned, setReturned] = useState(0);
@@ -67,7 +72,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Active Members",
-      value: count_active,
+      value: user,
       icon: User,
       color: "from-green-500 to-emerald-500",
       change: "+8%",
@@ -151,7 +156,9 @@ const AdminDashboard = () => {
     setLoading(false);
     const Load_Books = async () => {
       const Book = await FetchBooks();
+      const user = await FetchActiveUsers();
       const status = await FetchBooksStatus();
+      setUser(user);
       setBook(Book.length);
       setOverdue(status.Overdue_Book.length);
       setBorrowed(status.Borrowed_Book.length);

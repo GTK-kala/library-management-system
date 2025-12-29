@@ -3,7 +3,7 @@
 const API = import.meta.env.VITE_API_URL;
 
 ////////// FETCH ACTIVE USERS
-const FetchActiveUsers = async () => {
+export const FetchActiveUsers = async () => {
   try {
     const res = await fetch(`${API}/api/user`);
     const data = await res.json();
@@ -17,7 +17,6 @@ const FetchActiveUsers = async () => {
     console.log(error);
   }
 };
-export const count_active = FetchActiveUsers();
 
 /////////////////////////////////////////////////////
 

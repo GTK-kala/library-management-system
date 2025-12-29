@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { FetchBooksStatus, FetchBooks, count_active } from "../services/api.js";
+import {
+  FetchBooks,
+  FetchBooksStatus,
+  FetchActiveUsers,
+} from "../services/api.js";
 import {
   Eye,
   User,
@@ -21,6 +25,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Dashboard = () => {
+  const [user, setUser] = useState(0);
   const [books, setBooks] = useState([]);
   const [stats, setStats] = useState(null);
   const [Overdue, setOverdue] = useState(0);
@@ -42,7 +47,7 @@ const Dashboard = () => {
     },
     {
       title: "Active Members",
-      value: count_active,
+      value: user,
       icon: User,
       color: "from-green-500 to-emerald-500",
       change: "+12.1%",
@@ -68,16 +73,18 @@ const Dashboard = () => {
 
   useEffect(() => {
     setLoading(false);
-    const loadBooks = async () => {
+    const loaData = async () => {
       const data = await FetchBooks();
+      const user = await FetchActiveUsers();
       const status = await FetchBooksStatus();
+      setUser(user);
       setBooks(data.splice(0, 5));
       setOverdue(status.Overdue_Book.length);
       setBorrowed(status.Borrowed_Book.length);
       setReturned(status.Returned_Book.length);
     };
 
-    loadBooks();
+    loaData();
 
     // Scroll event listener for Back to Top button
     const handleScroll = () => {

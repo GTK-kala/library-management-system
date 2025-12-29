@@ -74,11 +74,11 @@ const Dashboard = () => {
   useEffect(() => {
     setLoading(false);
     const loaData = async () => {
-      const data = await FetchBooks();
+      const books = await FetchBooks();
       const user = await FetchActiveUsers();
       const status = await FetchBooksStatus();
       setUser(user);
-      setBooks(data.splice(0, 5));
+      setBooks(books.slice(0, 5));
       setOverdue(status.Overdue_Book.length);
       setBorrowed(status.Borrowed_Book.length);
       setReturned(status.Returned_Book.length);

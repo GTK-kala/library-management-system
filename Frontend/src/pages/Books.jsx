@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { useState, useEffect, useMemo } from "react"; // Added useMemo
-import { FetchBooksStatus, FetchBooks } from "../services/api.js";
 import { genres } from "../assets/Data/data.js";
+import { useState, useEffect, useMemo } from "react";
+import { HandleClick } from "../services/BookApi.js";
+import { FetchBooksStatus, FetchBooks } from "../services/api.js";
 import {
   Eye,
   User,
@@ -170,6 +171,7 @@ const Books = () => {
 
         <div className="px-4 pb-4 sm:px-6 sm:pb-6">
           <button
+            onClick={() => HandleClick(book.id)}
             className={`w-full py-2.5 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl font-medium transition-colors ${
               book.is_available
                 ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg"
@@ -251,6 +253,7 @@ const Books = () => {
             </div>
 
             <button
+              onClick={() => HandleClick(book.id)}
               className={`w-full py-2.5 text-sm rounded-lg font-medium transition-colors ${
                 book.is_available
                   ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg"
@@ -315,6 +318,7 @@ const Books = () => {
                   <Eye className="w-5 h-5 text-gray-400 hover:text-blue-500" />
                 </button>
                 <button
+                  onClick={() => HandleClick(book.id)}
                   className={`px-6 py-2 text-sm rounded-xl font-medium transition-colors ${
                     book.is_available
                       ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg"

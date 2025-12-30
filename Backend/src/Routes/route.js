@@ -17,6 +17,7 @@ import { GetBooksStatus } from "../Controller/Book/GetBooksStatus.js";
 
 // BOOKS ROUTE FUNCTIONS
 import { GetBooks } from "../Controller/Book/GetBooks.js";
+import { BorrowBooks } from "../Controller/Book/BorrowBooks.js";
 import { verifyToken, AddBooks } from "../Controller/Book/AddBooks.js";
 
 // ADMIN ROUTES FUNCTIONS
@@ -35,6 +36,7 @@ route.put("/user/edit/:id", UpDateUser);
 
 // BOOKS ROUTE
 route.get("/books", GetBooks);
+route.put("/book/borrow/:id", BorrowBooks);
 route.get("/book/status/:id", GetBooksStatus);
 route.post("/book/add/:id", upload.single("cover"), verifyToken, AddBooks);
 

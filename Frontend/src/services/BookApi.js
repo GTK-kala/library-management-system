@@ -4,19 +4,20 @@ const API = import.meta.env.VITE_API_URL;
 
 export const HandleClick = async (id) => {
   try {
-    const res = await fetch(`${API}/books/borrow/:${id}`, {
+    const res = await fetch(`${API}/api/book/borrow/${id}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
       },
       credentials: "include",
     });
+    const data = await res.json();
     if (!res.ok) {
-      toast.error("Error");
+      console.log(data.message);
     } else {
-      toast.success("Ok");
+      toast.success(data.message);
     }
   } catch (error) {
-    toast.error("error");
+    console.log(error);
   }
 };

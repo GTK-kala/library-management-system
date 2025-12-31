@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { genres } from "../assets/Data/data.js";
-import { useState, useEffect, useMemo } from "react";
+import { FetchBooks } from "../services/api.js";
 import { HandleClick } from "../services/BookApi.js";
-import { FetchBooksStatus, FetchBooks } from "../services/api.js";
+import { useState, useEffect, useMemo } from "react";
 import {
   Eye,
   User,
@@ -41,11 +41,11 @@ const Books = () => {
 
   useEffect(() => {
     const BookStatus = async () => {
-      const Status = await FetchBooksStatus();
       const books = await FetchBooks();
       setBooks(books);
       setCount(books.length);
-      setAvailable(Status.Returned_Book.length);
+      const available = books.filter((book) => book.is_available).length;
+      setAvailable(available);
     };
 
     BookStatus();

@@ -6,7 +6,10 @@ export const FetchUserData = async () => {
   try {
     const id = localStorage.getItem("id");
     const API = import.meta.env.VITE_API_URL;
-    const res = await fetch(`${API}/api/user/${id}`);
+    const res = await fetch(`${API}/api/user/${id}`, {
+      method: "GET",
+      credentials: "include",
+    });
     const data = await res.json();
     const Data = data.result;
     if (!res.ok) {

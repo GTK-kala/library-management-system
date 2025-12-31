@@ -17,7 +17,6 @@ const Register = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("member");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +49,7 @@ const Register = () => {
       return;
     }
 
-    const value = { name, email, role, password };
+    const value = { name, email, password };
 
     try {
       const API = import.meta.env.VITE_API_URL;
@@ -74,7 +73,6 @@ const Register = () => {
       setName("");
       setEmail("");
       setPassword("");
-      setRole("member");
       setLoading(false);
       setConfirmPassword("");
       setAcceptedTerms(false);
@@ -270,37 +268,6 @@ const Register = () => {
                     required
                   />
                 </div>
-              </motion.div>
-
-              {/* Role */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 }}
-              >
-                <label
-                  htmlFor="type"
-                  className="block mb-1.5 sm:mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Account Type
-                </label>
-                <div className="relative">
-                  <select
-                    id="type"
-                    name="role"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base transition-all duration-300 border border-gray-300 outline-none bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:border-gray-600 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="member">Member</option>
-                    <option value="admin">Administrator</option>
-                  </select>
-                </div>
-                <p className="mt-1.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                  {role === "admin"
-                    ? "Admin accounts can manage books and users"
-                    : "Member accounts can borrow books and view their history"}
-                </p>
               </motion.div>
 
               {/* Password */}

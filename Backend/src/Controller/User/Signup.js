@@ -3,15 +3,14 @@ import connection from "../../Config/db.js";
 
 export const SignUpUser = (req, res) => {
   try {
-    const { name, email, role, password } = req.body;
+    const { name, email, password } = req.body;
+    const role = "member";
 
     if (!name || !email || !password) {
       return res.status(400).json({
         message: "All required fields must be provided",
       });
     }
-
-    const userRole = role || "member";
 
     const sqlEmail = "SELECT id FROM users WHERE email = ?";
 
@@ -38,7 +37,7 @@ export const SignUpUser = (req, res) => {
 
       connection.query(
         sqlInsert,
-        [name, email, userRole, hashedPassword, membership_id],
+        [name, email, role, hashedPassword, membership_id],
         (err, result) => {
           if (err) {
             return res.status(500).json({

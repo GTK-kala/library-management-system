@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import connection from "../../Config/db.js";
 
-export const verifyToken = (req, res, next) => {
+export const verifyTokens = (req, res, next) => {
   try {
     const token = req.cookies.token;
 

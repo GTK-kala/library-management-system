@@ -10,15 +10,15 @@ const route = express.Router();
 
 // USER ROUTE FUNCTIONS
 import { Login } from "../Controller/User/Login.js";
-import { GetUser } from "../Controller/User/GetUser.js";
 import { SignUpUser } from "../Controller/User/Signup.js";
 import { UpDateUser } from "../Controller/User/UpDateUser.js";
-import { GetBooksStatus } from "../Controller/Book/GetBooksStatus.js";
+import { verifyUser, verifyToken } from "../Controller/User/GetUser.js";
 
 // BOOKS ROUTE FUNCTIONS
 import { GetBooks } from "../Controller/Book/GetBooks.js";
 import { BorrowBooks } from "../Controller/Book/BorrowBooks.js";
-import { verifyToken, AddBooks } from "../Controller/Book/AddBooks.js";
+import { GetBooksStatus } from "../Controller/Book/GetBooksStatus.js";
+import { verifyTokens, AddBooks } from "../Controller/Book/AddBooks.js";
 
 // ADMIN ROUTES FUNCTIONS
 import { GetUsers } from "../Controller/Admin/GetUsers.js";
@@ -30,14 +30,14 @@ route.get("/book/status", GetBookStatus);
 
 // USER ROUTE
 route.post("/login", Login);
-route.get("/user/:id", GetUser);
 route.post("/register", SignUpUser);
 route.put("/user/edit/:id", UpDateUser);
+route.get("/user/:id", verifyToken, verifyUser);
 
 // BOOKS ROUTE
 route.get("/books", GetBooks);
 route.put("/book/borrow/:id", BorrowBooks);
 route.get("/book/status/:id", GetBooksStatus);
-route.post("/book/add/:id", upload.single("cover"), verifyToken, AddBooks);
+route.post("/book/add/:id", upload.single("cover"), verifyTokens, AddBooks);
 
 export default route;

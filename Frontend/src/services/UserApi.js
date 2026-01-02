@@ -44,3 +44,25 @@ export const GetBookStatus = async () => {
     console.log(error);
   }
 };
+
+export const GetUserBooks = async () => {
+  try {
+    const id = localStorage.getItem("id");
+    const res = await fetch(`${API}/api/user/books/${id}`);
+    const data = await res.json();
+    const Data = data.result;
+    if (!res.ok) {
+      console.log(data.message);
+    } else {
+      const NewData = Data.map((book) => ({
+        title: book.title,
+        author: book.author,
+        status: book.status,
+        due: new Date(book.due).toLocaleDateString(),
+      }));
+      return NewData;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

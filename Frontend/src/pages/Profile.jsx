@@ -2,7 +2,11 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { GetBookStatus, FetchUserData } from "../services/UserApi.js";
+import {
+  GetUserBooks,
+  GetBookStatus,
+  FetchUserData,
+} from "../services/UserApi.js";
 import {
   User,
   Mail,
@@ -86,12 +90,13 @@ const Profile = () => {
   useEffect(() => {
     const LoadData = async () => {
       const Data = await FetchUserData();
+      const Books = await GetUserBooks();
       const Status = await GetBookStatus();
-      if (Data || Status) {
+      if (Data || Status || Books) {
         setId(Data.id);
+        setBooks(Books);
         setName(Data.name);
         setEmail(Data.email);
-        setBooks(Status.Data);
         setBorrowed(Status.Borrowed_Book.length);
         setReturned(Status.Returned_Book.length);
       } else {
@@ -342,7 +347,7 @@ const Profile = () => {
                   Borrowing History
                 </h2>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {books.length} books
+                  {books.length} books total
                 </span>
               </div>
               <div className="space-y-3 sm:space-y-4">
@@ -367,9 +372,9 @@ const Profile = () => {
                             {item.author}
                           </p>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs text-gray-500">
+                            {/* <span className="text-xs text-gray-500">
                               Borrowed: {item.borrowed}
-                            </span>
+                            </span> */}
                             {item.status === "returned" ? (
                               <span className="text-xs text-green-600">
                                 ✓ Returned

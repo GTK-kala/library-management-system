@@ -10,15 +10,16 @@ const route = express.Router();
 
 // USER ROUTE FUNCTIONS
 import { Login } from "../Controller/User/Login.js";
+import { GetBook } from "../Controller/User/GetBooks.js";
 import { SignUpUser } from "../Controller/User/Signup.js";
 import { UpDateUser } from "../Controller/User/UpDateUser.js";
 import { verifyUser, verifyToken } from "../Controller/User/GetUser.js";
 
 // BOOKS ROUTE FUNCTIONS
 import { GetBooks } from "../Controller/Book/GetBooks.js";
-import { BorrowBooks, VerifyUser } from "../Controller/Book/BorrowBooks.js";
 import { GetBooksStatus } from "../Controller/Book/GetBooksStatus.js";
 import { verifyTokens, AddBooks } from "../Controller/Book/AddBooks.js";
+import { BorrowBooks, VerifyUser } from "../Controller/Book/BorrowBooks.js";
 
 // ADMIN ROUTES FUNCTIONS
 import { GetUsers } from "../Controller/Admin/GetUsers.js";
@@ -32,6 +33,7 @@ route.get("/book/status", GetBookStatus);
 route.post("/login", Login);
 route.post("/register", SignUpUser);
 route.put("/user/edit/:id", UpDateUser);
+route.get("/user/books/:id", GetBook);
 route.get("/user/:id", verifyToken, verifyUser);
 
 // BOOKS ROUTE

@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
   GetUserBooks,
@@ -25,6 +26,7 @@ import {
 import { borrowingHistory, stats } from "../assets/Data/data.js";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [id, setId] = useState(null);
   const [name, setName] = useState("");
@@ -353,11 +355,12 @@ const Profile = () => {
               <div className="space-y-3 sm:space-y-4">
                 {books.slice(0, 4).map((item, index) => (
                   <motion.div
+                    onClick={() => navigate("/my-books")}
                     key={item.id}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="p-3 transition-colors rounded-lg sm:p-4 sm:rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    className="p-3 transition-colors rounded-lg sm:p-4 sm:rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 hover:cursor-pointer"
                   >
                     <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
                       <div className="flex items-start gap-3 sm:items-center sm:gap-4">

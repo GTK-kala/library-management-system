@@ -1,4 +1,3 @@
-// src/App.jsx
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,7 +16,7 @@ import { useEffect, useState } from "react";
 import CalenderView from "./pages/CalendarView";
 import Navbar from "./components/common/Navbar";
 import ManageMembers from "./pages/ManageMembers";
-// import Layout from "./components/common/Layout";
+import BorrowedBooks from "./pages/BorrowedBooks";
 import GenerateReport from "./pages/GenerateReport";
 import AdminDashboard from "./pages/AdminDashboard";
 import { AuthProvider } from "./context/AuthContext";
@@ -114,6 +113,14 @@ const App = () => {
                           element={
                             <PrivateRoute>
                               <Profile />
+                            </PrivateRoute>
+                          }
+                        />
+                        <Route
+                          path="/my-books"
+                          element={
+                            <PrivateRoute>
+                              <BorrowedBooks />
                             </PrivateRoute>
                           }
                         />

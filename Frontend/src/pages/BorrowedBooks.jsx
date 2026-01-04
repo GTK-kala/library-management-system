@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import { GetUserBooks } from "../services/UserApi.js";
 import {
   Eye,
@@ -19,171 +19,122 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 
-const BorrowedBooks = () => {
-  const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState("dueDate"); // dueDate, title, borrowedDate
-  const [selectedBook, setSelectedBook] = useState(null);
-  const [borrowedBooks, setBorrowedBooks] = useState([]);
-  const [showBackToTop, setShowBackToTop] = useState(false);
-  const [showRenewModal, setShowRenewModal] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState("all"); // all, active, overdue, returned
-  const [showReturnModal, setShowReturnModal] = useState(false);
+// Helper functions outside component
+const getStatusColor = (status) => {
+  switch (status) {
+    case "active":
+      return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300";
+    case "overdue":
+      return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300";
+    case "returned":
+      return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300";
+    default:
+      return "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300";
+  }
+};
 
-  useEffect(() => {
-    const LoadData = async () => {
-      const books = await GetUserBooks();
-      if (books) {
-        console.log(books);
-        setBorrowedBooks(books);
-        setLoading(false);
-      }
-    };
-    LoadData();
+const getStatusIcon = (status) => {
+  switch (status) {
+    case "active":
+      return <CheckCircle className="w-4 h-4" />;
+    case "overdue":
+      return <AlertCircle className="w-4 h-4" />;
+    case "returned":
+      return <CheckCircle className="w-4 h-4" />;
+    default:
+      return null;
+  }
+};
 
-    // Back to Top scroll listener
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 300);
-    };
+const formatDate = (dateString) => {
+  if (!dateString) return "N/A";
+  return new Date(dateString).toLocaleDateString("en-US", {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Filter and sort books
-  const filteredBooks = borrowedBooks
-    .filter((book) => {
-      if (selectedFilter === "all") return true;
-      if (selectedFilter === "active") return book.status === "active";
-      if (selectedFilter === "overdue") return book.status === "overdue";
-      if (selectedFilter === "returned") return book.status === "returned";
-      return true;
-    })
-    .sort((a, b) => {
-      if (sortBy === "dueDate")
-        return new Date(a.dueDate) - new Date(b.dueDate);
-      if (sortBy === "title") return a.title.localeCompare(b.title);
-      if (sortBy === "borrowedDate")
-        return new Date(b.borrowedDate) - new Date(a.borrowedDate);
-      return 0;
-    });
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleReturnBook = (book) => {
-    setSelectedBook(book);
-    setShowReturnModal(true);
-  };
-
-  const handleRenewBook = (book) => {
-    setSelectedBook(book);
-    setShowRenewModal(true);
-  };
-
-  const confirmReturn = () => {
-    setBorrowedBooks(
-      borrowedBooks.map((book) =>
-        book.id === selectedBook.id
-          ? {
-              ...book,
-              status: "returned",
-              returnDate: new Date().toISOString().split("T")[0],
-            }
-          : book
-      )
-    );
-    toast.success(`"${selectedBook.title}" returned successfully!`);
-    setShowReturnModal(false);
-    setSelectedBook(null);
-  };
-
-  const confirmRenew = () => {
-    const newDueDate = new Date(selectedBook.dueDate);
-    newDueDate.setDate(newDueDate.getDate() + 14); // Add 14 days
-
-    setBorrowedBooks(
-      borrowedBooks.map((book) =>
-        book.id === selectedBook.id
-          ? {
-              ...book,
-              dueDate: book.due,
-              renewalsLeft: book.renewalsLeft - 1,
-              daysRemaining: 14,
-            }
-          : book
-      )
-    );
-    toast.success(
-      `"${
-        selectedBook.title
-      }" renewed successfully! New due date: ${newDueDate.toLocaleDateString()}`
-    );
-    setShowRenewModal(false);
-    setSelectedBook(null);
-  };
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300";
-      case "overdue":
-        return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300";
-      case "returned":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300";
-    }
-  };
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case "active":
-        return <CheckCircle className="w-4 h-4" />;
-      case "overdue":
-        return <AlertCircle className="w-4 h-4" />;
-      case "returned":
-        return <CheckCircle className="w-4 h-4" />;
-      default:
-        return null;
-    }
-  };
-
-  const StatsCard = ({ title, value, icon, color, change }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="p-4 bg-white dark:bg-gray-800 rounded-xl"
-    >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">{title}</p>
-          <p className="mt-1 text-2xl font-bold">{value}</p>
-          {change && (
-            <p className="mt-1 text-xs text-green-600 dark:text-green-400">
-              {change}
-            </p>
-          )}
-        </div>
-        <div className={`p-3 rounded-lg ${color}`}>{icon}</div>
+// Memoized StatsCard component
+const StatsCard = memo(({ title, value, icon, color, change }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="p-4 bg-white dark:bg-gray-800 rounded-xl"
+  >
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-sm text-gray-600 dark:text-gray-400">{title}</p>
+        <p className="mt-1 text-2xl font-bold">{value}</p>
+        {change && (
+          <p className="mt-1 text-xs text-green-600 dark:text-green-400">
+            {change}
+          </p>
+        )}
       </div>
-    </motion.div>
-  );
+      <div className={`p-3 rounded-lg ${color}`}>{icon}</div>
+    </div>
+  </motion.div>
+));
 
-  const BookCard = ({ book }) => (
+StatsCard.displayName = "StatsCard";
+
+// Memoized BookCard component
+const BookCard = memo(({ book, onReturn, onRenew }) => {
+  const getCoverColor = useCallback(() => {
+    const colors = [
+      "from-blue-500 to-cyan-500",
+      "from-green-500 to-emerald-500",
+      "from-purple-500 to-pink-500",
+      "from-orange-500 to-red-500",
+      "from-yellow-500 to-amber-500",
+    ];
+    const index = (book.id || 0) % colors.length;
+    return colors[index];
+  }, [book.id]);
+
+  const coverColor = book.coverColor || getCoverColor();
+
+  const calculateProgress = useMemo(() => {
+    if (!book.borrowed || !book.due) return 50;
+
+    const borrowedDate = new Date(book.borrowed);
+    const dueDate = new Date(book.due);
+    const today = new Date();
+
+    const totalDays = Math.floor(
+      (dueDate - borrowedDate) / (1000 * 60 * 60 * 24)
+    );
+    const daysPassed = Math.floor(
+      (today - borrowedDate) / (1000 * 60 * 60 * 24)
+    );
+
+    if (totalDays <= 0) return 100;
+    if (daysPassed <= 0) return 0;
+    if (daysPassed >= totalDays) return 100;
+
+    return Math.round((daysPassed / totalDays) * 100);
+  }, [book.borrowed, book.due]);
+
+  const calculateDaysRemaining = useMemo(() => {
+    if (!book.due) return 0;
+    const dueDate = new Date(book.due);
+    const today = new Date();
+    const diffTime = dueDate - today;
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }, [book.due]);
+
+  const daysRemaining = book.days_left || calculateDaysRemaining;
+  const progress = book.progress || calculateProgress;
+  const isOverdue = daysRemaining < 0;
+
+  return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5 }}
+      transition={{ duration: 0.2 }}
       className="overflow-hidden bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl"
     >
       <div className="p-6">
@@ -191,7 +142,7 @@ const BorrowedBooks = () => {
           {/* Book Cover */}
           <div className="flex-shrink-0">
             <div
-              className={`relative w-full h-48 lg:w-40 lg:h-56 rounded-xl overflow-hidden bg-gradient-to-br ${book.coverColor}`}
+              className={`relative w-full h-48 lg:w-40 lg:h-56 rounded-xl overflow-hidden bg-gradient-to-br ${coverColor}`}
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <BookOpen className="w-16 h-16 text-white/90" />
@@ -204,7 +155,8 @@ const BorrowedBooks = () => {
                 >
                   {getStatusIcon(book.status)}
                   <span className="ml-1">
-                    {book.status.charAt(0).toUpperCase() + book.status.slice(1)}
+                    {book.status?.charAt(0)?.toUpperCase() +
+                      book.status?.slice(1) || "Unknown"}
                   </span>
                 </span>
               </div>
@@ -232,14 +184,14 @@ const BorrowedBooks = () => {
                           <Star
                             key={i}
                             className={`w-4 h-4 ${
-                              i < Math.floor(book.rating)
+                              i < Math.floor(book.rating || 0)
                                 ? "text-yellow-500 fill-yellow-500"
                                 : "text-gray-300 dark:text-gray-600"
                             }`}
                           />
                         ))}
                         <span className="ml-1 text-sm text-gray-600 dark:text-gray-400">
-                          {book.rating}
+                          {book.rating || "N/A"}
                         </span>
                       </div>
                     </div>
@@ -247,14 +199,14 @@ const BorrowedBooks = () => {
                   {book.fine > 0 && (
                     <div className="mt-2 sm:mt-0">
                       <span className="px-3 py-1 text-sm font-medium text-red-600 rounded-full bg-red-50 dark:bg-red-900/20 dark:text-red-400">
-                        Fine: ${book.fine.toFixed(2)}
+                        Fine: ${(book.fine || 0).toFixed(2)}
                       </span>
                     </div>
                   )}
                 </div>
 
                 <p className="mb-4 text-gray-600 dark:text-gray-400">
-                  {book.description}
+                  {book.description || "No description available."}
                 </p>
 
                 {/* Progress Bar */}
@@ -264,21 +216,23 @@ const BorrowedBooks = () => {
                       Loan Progress
                     </span>
                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                      {book.days_left > 0
-                        ? `${book.days_left} days left`
-                        : `${Math.abs(book.days_left)} days overdue`}
+                      {daysRemaining > 0
+                        ? `${daysRemaining} days left`
+                        : `${Math.abs(daysRemaining)} days overdue`}
                     </span>
                   </div>
                   <div className="w-full h-2 bg-gray-200 rounded-full dark:bg-gray-700">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
-                        book.status === "overdue"
+                        isOverdue
                           ? "bg-red-500"
                           : book.status === "returned"
                           ? "bg-blue-500"
                           : "bg-green-500"
                       }`}
-                      style={{ width: `${book.progress}%` }}
+                      style={{
+                        width: `${Math.min(100, Math.max(0, progress))}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -300,7 +254,7 @@ const BorrowedBooks = () => {
                       <p className="text-xs text-gray-500">Due Date</p>
                       <p
                         className={`text-sm font-medium ${
-                          book.due ? "text-red-600 dark:text-red-400" : ""
+                          isOverdue ? "text-red-600 dark:text-red-400" : ""
                         }`}
                       >
                         {formatDate(book.due)}
@@ -326,21 +280,25 @@ const BorrowedBooks = () => {
                 {book.status === "active" && (
                   <>
                     <button
-                      onClick={() => handleReturnBook(book)}
+                      onClick={() => onReturn(book)}
                       className="px-4 py-2 text-sm font-medium text-white rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:shadow-lg"
                     >
                       Return Book
                     </button>
                     <button
-                      onClick={() => handleRenewBook(book)}
-                      disabled={!book.isRenewable || book.renewalsLeft <= 0}
+                      onClick={() => onRenew(book)}
+                      disabled={
+                        !(book.isRenewable ?? true) ||
+                        (book.renewalsLeft || 0) <= 0
+                      }
                       className={`px-4 py-2 text-sm font-medium rounded-lg ${
-                        book.isRenewable && book.renewalsLeft > 0
+                        (book.isRenewable ?? true) &&
+                        (book.renewalsLeft || 0) > 0
                           ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30"
                           : "text-gray-500 bg-gray-100 dark:bg-gray-700 cursor-not-allowed"
                       }`}
                     >
-                      Renew ({book.renewalsLeft} left)
+                      Renew ({book.renewalsLeft || 0} left)
                     </button>
                   </>
                 )}
@@ -361,6 +319,189 @@ const BorrowedBooks = () => {
       </div>
     </motion.div>
   );
+});
+
+BookCard.displayName = "BookCard";
+
+// Loading Skeleton Component
+const LoadingSkeleton = memo(() => (
+  <div className="space-y-4">
+    {[1, 2, 3].map((i) => (
+      <div
+        key={i}
+        className="p-6 bg-white dark:bg-gray-800 rounded-xl animate-pulse"
+      >
+        <div className="flex gap-6">
+          <div className="w-40 h-56 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+          <div className="flex-1 space-y-4">
+            <div className="w-3/4 h-6 bg-gray-200 rounded dark:bg-gray-700"></div>
+            <div className="w-1/2 h-4 bg-gray-200 rounded dark:bg-gray-700"></div>
+            <div className="w-full h-2 bg-gray-200 rounded dark:bg-gray-700"></div>
+            <div className="w-1/3 h-8 bg-gray-200 rounded dark:bg-gray-700"></div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+));
+
+LoadingSkeleton.displayName = "LoadingSkeleton";
+
+// Main Component
+const BorrowedBooks = () => {
+  const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState("dueDate");
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [borrowedBooks, setBorrowedBooks] = useState([]);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showRenewModal, setShowRenewModal] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [showReturnModal, setShowReturnModal] = useState(false);
+
+  // Load data once on mount
+  useEffect(() => {
+    let mounted = true;
+    let scrollTimeout;
+
+    const LoadData = async () => {
+      try {
+        const books = await GetUserBooks();
+        if (mounted && books) {
+          setBorrowedBooks(Array.isArray(books) ? books : []);
+        }
+      } catch (error) {
+        console.error("Error loading books:", error);
+        if (mounted) {
+          setBorrowedBooks([]);
+        }
+      } finally {
+        if (mounted) {
+          setTimeout(() => setLoading(false), 300);
+        }
+      }
+    };
+
+    LoadData();
+
+    // Throttle scroll handler
+    const handleScroll = () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        setShowBackToTop(window.scrollY > 300);
+      }, 50);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      mounted = false;
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Memoize filtered books
+  const filteredBooks = useMemo(() => {
+    return borrowedBooks
+      .filter((book) => {
+        if (selectedFilter === "all") return true;
+        return book.status === selectedFilter;
+      })
+      .sort((a, b) => {
+        if (sortBy === "dueDate") {
+          const dateA = a.due ? new Date(a.due).getTime() : 0;
+          const dateB = b.due ? new Date(b.due).getTime() : 0;
+          return dateA - dateB;
+        }
+        if (sortBy === "title")
+          return (a.title || "").localeCompare(b.title || "");
+        if (sortBy === "borrowedDate") {
+          const dateA = a.borrowed ? new Date(a.borrowed).getTime() : 0;
+          const dateB = b.borrowed ? new Date(b.borrowed).getTime() : 0;
+          return dateB - dateA;
+        }
+        return 0;
+      });
+  }, [borrowedBooks, selectedFilter, sortBy]);
+
+  // Memoize stats
+  const stats = useMemo(() => {
+    const activeLoans = borrowedBooks.filter(
+      (b) => b.status === "active"
+    ).length;
+    const overdueBooks = borrowedBooks.filter(
+      (b) => b.status === "overdue"
+    ).length;
+    const totalFines = borrowedBooks.reduce(
+      (sum, book) => sum + (book.fine || 0),
+      0
+    );
+    const booksRead = borrowedBooks.filter(
+      (b) => b.status === "returned"
+    ).length;
+
+    return { activeLoans, overdueBooks, totalFines, booksRead };
+  }, [borrowedBooks]);
+
+  // Memoize event handlers
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  const handleReturnBook = useCallback((book) => {
+    setSelectedBook(book);
+    setShowReturnModal(true);
+  }, []);
+
+  const handleRenewBook = useCallback((book) => {
+    setSelectedBook(book);
+    setShowRenewModal(true);
+  }, []);
+
+  const confirmReturn = useCallback(() => {
+    if (!selectedBook) return;
+
+    setBorrowedBooks((prev) =>
+      prev.map((book) =>
+        book.id === selectedBook.id
+          ? {
+              ...book,
+              status: "returned",
+              returnDate: new Date().toISOString().split("T")[0],
+            }
+          : book
+      )
+    );
+    toast.success(`"${selectedBook.title}" returned successfully!`);
+    setShowReturnModal(false);
+    setSelectedBook(null);
+  }, [selectedBook]);
+
+  const confirmRenew = useCallback(() => {
+    if (!selectedBook) return;
+
+    const newDueDate = new Date(selectedBook.due);
+    newDueDate.setDate(newDueDate.getDate() + 14);
+
+    setBorrowedBooks((prev) =>
+      prev.map((book) =>
+        book.id === selectedBook.id
+          ? {
+              ...book,
+              due: newDueDate.toISOString().split("T")[0],
+              renewalsLeft: (book.renewalsLeft || 1) - 1,
+            }
+          : book
+      )
+    );
+    toast.success(
+      `"${
+        selectedBook.title
+      }" renewed successfully! New due date: ${newDueDate.toLocaleDateString()}`
+    );
+    setShowRenewModal(false);
+    setSelectedBook(null);
+  }, [selectedBook]);
 
   return (
     <div className="min-h-screen px-3 pt-5 pb-6 sm:px-4 sm:pt-5 sm:pb-8 bg-gray-50 dark:bg-gray-900">
@@ -369,11 +510,11 @@ const BorrowedBooks = () => {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
           className="mb-6 sm:mb-8"
         >
           <div className="flex flex-col justify-between gap-4 mb-6 sm:flex-row sm:items-center">
             <div>
-              {/* Back Button */}
               <div className="flex items-center gap-3 mb-3">
                 <Link
                   to="/dashboard"
@@ -407,38 +548,35 @@ const BorrowedBooks = () => {
         <div className="grid grid-cols-2 gap-3 mb-6 lg:grid-cols-4 sm:gap-4 sm:mb-8">
           <StatsCard
             title="Active Loans"
-            value={borrowedBooks.filter((b) => b.status === "active").length}
+            value={stats.activeLoans}
             icon={<BookOpen className="w-6 h-6 text-blue-600" />}
             color="bg-blue-100 dark:bg-blue-900/30"
           />
           <StatsCard
             title="Overdue Books"
-            value={borrowedBooks.filter((b) => b.status === "overdue").length}
+            value={stats.overdueBooks}
             icon={<AlertCircle className="w-6 h-6 text-red-600" />}
             color="bg-red-100 dark:bg-red-900/30"
-            change="+1 this week"
+            change={stats.overdueBooks > 0 ? "+1 this week" : ""}
           />
           <StatsCard
             title="Total Fines"
-            value={`$${borrowedBooks
-              .reduce((sum, book) => sum + book.fine, 0)
-              .toFixed(2)}`}
+            value={`$${stats.totalFines.toFixed(2)}`}
             icon={<FileText className="w-6 h-6 text-orange-600" />}
             color="bg-orange-100 dark:bg-orange-900/30"
           />
           <StatsCard
             title="Books Read"
-            value={borrowedBooks.filter((b) => b.status === "returned").length}
+            value={stats.booksRead}
             icon={<CheckCircle className="w-6 h-6 text-green-600" />}
             color="bg-green-100 dark:bg-green-900/30"
-            change="+2 this month"
+            change={stats.booksRead > 0 ? "+2 this month" : ""}
           />
         </div>
 
         {/* Filters and Sort */}
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col gap-4 lg:flex-row">
-            {/* Filter Buttons */}
             <div className="flex-1">
               <div className="flex flex-wrap gap-2">
                 {["all", "active", "overdue", "returned"].map((filter) => (
@@ -457,7 +595,6 @@ const BorrowedBooks = () => {
               </div>
             </div>
 
-            {/* Sort Dropdown */}
             <div className="flex items-center gap-3">
               <span className="text-sm text-gray-600 dark:text-gray-400">
                 Sort by:
@@ -477,29 +614,17 @@ const BorrowedBooks = () => {
 
         {/* Borrowed Books List */}
         {loading ? (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="p-6 bg-white dark:bg-gray-800 rounded-xl animate-pulse"
-              >
-                <div className="flex gap-6">
-                  <div className="w-40 h-56 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
-                  <div className="flex-1 space-y-4">
-                    <div className="w-3/4 h-6 bg-gray-200 rounded dark:bg-gray-700"></div>
-                    <div className="w-1/2 h-4 bg-gray-200 rounded dark:bg-gray-700"></div>
-                    <div className="w-full h-2 bg-gray-200 rounded dark:bg-gray-700"></div>
-                    <div className="w-1/3 h-8 bg-gray-200 rounded dark:bg-gray-700"></div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <LoadingSkeleton />
         ) : (
           <div className="space-y-4 sm:space-y-6">
             {filteredBooks.length > 0 ? (
               filteredBooks.map((book) => (
-                <BookCard key={book.id} book={book} />
+                <BookCard
+                  key={book.id || book._id || Math.random()}
+                  book={book}
+                  onReturn={handleReturnBook}
+                  onRenew={handleRenewBook}
+                />
               ))
             ) : (
               <div className="p-8 text-center bg-white dark:bg-gray-800 rounded-xl">
@@ -577,8 +702,9 @@ const BorrowedBooks = () => {
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
           onClick={scrollToTop}
-          className="fixed z-40 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-110"
+          className="fixed z-40 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-105"
           aria-label="Back to top"
         >
           <ChevronRight className="w-5 h-5 transform rotate-270" />
@@ -595,9 +721,7 @@ const BorrowedBooks = () => {
           >
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div
-                  className={`p-3 rounded-xl bg-gradient-to-r ${selectedBook.coverColor}`}
-                >
+                <div className="p-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500">
                   <BookOpen className="w-8 h-8 text-white" />
                 </div>
                 <div>
@@ -642,9 +766,7 @@ const BorrowedBooks = () => {
           >
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div
-                  className={`p-3 rounded-xl bg-gradient-to-r ${selectedBook.coverColor}`}
-                >
+                <div className="p-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500">
                   <RefreshCw className="w-8 h-8 text-white" />
                 </div>
                 <div>
@@ -659,7 +781,7 @@ const BorrowedBooks = () => {
               <div className="p-4 mb-6 rounded-lg bg-blue-50 dark:bg-blue-900/20">
                 <p className="text-sm text-blue-700 dark:text-blue-300">
                   Renewing will extend the due date by 14 days. You have{" "}
-                  {selectedBook.renewalsLeft} renewal(s) left.
+                  {selectedBook.renewalsLeft || 0} renewal(s) left.
                 </p>
               </div>
               <div className="mb-6 space-y-3">
@@ -668,7 +790,7 @@ const BorrowedBooks = () => {
                     Current due date:
                   </span>
                   <span className="font-medium">
-                    {formatDate(selectedBook.dueDate)}
+                    {formatDate(selectedBook.due)}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -677,8 +799,8 @@ const BorrowedBooks = () => {
                   </span>
                   <span className="font-medium text-green-600 dark:text-green-400">
                     {formatDate(
-                      new Date(selectedBook.dueDate).setDate(
-                        new Date(selectedBook.dueDate).getDate() + 14
+                      new Date(selectedBook.due).setDate(
+                        new Date(selectedBook.due).getDate() + 14
                       )
                     )}
                   </span>
@@ -693,14 +815,14 @@ const BorrowedBooks = () => {
                 </button>
                 <button
                   onClick={confirmRenew}
-                  disabled={selectedBook.renewalsLeft <= 0}
+                  disabled={(selectedBook.renewalsLeft || 0) <= 0}
                   className={`flex-1 px-4 py-3 text-sm font-medium rounded-lg ${
-                    selectedBook.renewalsLeft > 0
+                    (selectedBook.renewalsLeft || 0) > 0
                       ? "text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg"
                       : "text-gray-500 bg-gray-100 dark:bg-gray-700 cursor-not-allowed"
                   }`}
                 >
-                  {selectedBook.renewalsLeft > 0
+                  {(selectedBook.renewalsLeft || 0) > 0
                     ? "Confirm Renewal"
                     : "No Renewals Left"}
                 </button>

@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {
-  FetchBooks,
-  FetchBooksStatus,
-  FetchActiveUsers,
-} from "../services/api.js";
+import { FetchBooks, FetchBooksStatus, FetchActiveUsers } from "../Api/api.js";
 import {
   Eye,
   User,

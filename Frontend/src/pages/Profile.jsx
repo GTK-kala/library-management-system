@@ -3,11 +3,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import {
-  GetUserBooks,
-  GetBookStatus,
-  FetchUserData,
-} from "../services/UserApi.js";
+import { GetUserBooks, GetBookStatus, FetchUserData } from "../Api/UserApi.js";
 import {
   User,
   Mail,

@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  FetchBooks,
-  FetchBooksStatus,
-  FetchActiveUsers,
-} from "../services/api.js";
+import { FetchBooks, FetchBooksStatus, FetchActiveUsers } from "../Api/api.js";
 import {
   Bar,
   Pie,

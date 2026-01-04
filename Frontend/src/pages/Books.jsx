@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
+import { FetchBooks } from "../Api/api.js";
 import { genres } from "../assets/Data/data.js";
-import { FetchBooks } from "../services/api.js";
-import { HandleClick } from "../services/BookApi.js";
+import { HandleClick } from "../Api/BookApi.js";
 import { useState, useEffect, useMemo } from "react";
 import {
   Eye,

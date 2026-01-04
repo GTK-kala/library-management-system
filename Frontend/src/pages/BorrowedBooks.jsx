@@ -1,146 +1,44 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { GetUserBooks } from "../services/UserApi.js";
 import {
+  Eye,
+  Star,
+  Clock,
   BookOpen,
   Calendar,
-  Clock,
   Download,
+  FileText,
   ArrowLeft,
+  RefreshCw,
+  BookMarked,
   CheckCircle,
   AlertCircle,
   ChevronRight,
-  Eye,
-  RefreshCw,
-  FileText,
-  Star,
-  BookMarked,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
-// Mock data for borrowed books
-const mockBorrowedBooks = [
-  {
-    id: 1,
-    title: "The Silent Patient",
-    author: "Alex Michaelides",
-    coverColor: "from-blue-500 to-cyan-500",
-    borrowedDate: "2024-01-15",
-    dueDate: "2024-02-15",
-    returnDate: null,
-    status: "active", // active, overdue, returned
-    isOverdue: false,
-    daysRemaining: 5,
-    totalDays: 30,
-    progress: 83,
-    fine: 0,
-    rating: 4.5,
-    genre: "Mystery",
-    description:
-      "A psychological thriller about a woman who shoots her husband and then stops speaking.",
-    isRenewable: true,
-    renewalsLeft: 2,
-  },
-  {
-    id: 2,
-    title: "Atomic Habits",
-    author: "James Clear",
-    coverColor: "from-green-500 to-emerald-500",
-    borrowedDate: "2024-01-20",
-    dueDate: "2024-01-30",
-    returnDate: null,
-    status: "overdue",
-    isOverdue: true,
-    daysRemaining: -3,
-    totalDays: 10,
-    progress: 100,
-    fine: 1.5,
-    rating: 4.8,
-    genre: "Self-Help",
-    description: "A guide to building good habits and breaking bad ones.",
-    isRenewable: true,
-    renewalsLeft: 1,
-  },
-  {
-    id: 3,
-    title: "Project Hail Mary",
-    author: "Andy Weir",
-    coverColor: "from-purple-500 to-pink-500",
-    borrowedDate: "2024-01-05",
-    dueDate: "2024-01-25",
-    returnDate: "2024-01-22",
-    status: "returned",
-    isOverdue: false,
-    daysRemaining: 0,
-    totalDays: 20,
-    progress: 100,
-    fine: 0,
-    rating: 4.7,
-    genre: "Science Fiction",
-    description:
-      "A lone astronaut must save humanity in this high-stakes sci-fi thriller.",
-    isRenewable: false,
-    renewalsLeft: 0,
-  },
-  {
-    id: 4,
-    title: "The Midnight Library",
-    author: "Matt Haig",
-    coverColor: "from-orange-500 to-red-500",
-    borrowedDate: "2024-01-25",
-    dueDate: "2024-02-24",
-    returnDate: null,
-    status: "active",
-    isOverdue: false,
-    daysRemaining: 20,
-    totalDays: 30,
-    progress: 33,
-    fine: 0,
-    rating: 4.3,
-    genre: "Fiction",
-    description:
-      "Between life and death there is a library where you can experience all the lives you could have lived.",
-    isRenewable: true,
-    renewalsLeft: 3,
-  },
-  {
-    id: 5,
-    title: "Klara and the Sun",
-    author: "Kazuo Ishiguro",
-    coverColor: "from-yellow-500 to-amber-500",
-    borrowedDate: "2024-01-18",
-    dueDate: "2024-02-17",
-    returnDate: null,
-    status: "active",
-    isOverdue: false,
-    daysRemaining: 12,
-    totalDays: 30,
-    progress: 60,
-    fine: 0,
-    rating: 4.2,
-    genre: "Science Fiction",
-    description: "An AI friend observes human behavior in this poignant novel.",
-    isRenewable: true,
-    renewalsLeft: 2,
-  },
-];
-
 const BorrowedBooks = () => {
   const [loading, setLoading] = useState(true);
-  const [borrowedBooks, setBorrowedBooks] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState("all"); // all, active, overdue, returned
   const [sortBy, setSortBy] = useState("dueDate"); // dueDate, title, borrowedDate
-  const [showReturnModal, setShowReturnModal] = useState(false);
-  const [showRenewModal, setShowRenewModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showRenewModal, setShowRenewModal] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("all"); // all, active, overdue, returned
+  const [showReturnModal, setShowReturnModal] = useState(false);
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setBorrowedBooks(mockBorrowedBooks);
-      setLoading(false);
-    }, 800);
+    const LoadData = async () => {
+      const books = await GetUserBooks();
+      if (books) {
+        console.log(books);
+        setBorrowedBooks(books);
+        setLoading(false);
+      }
+    };
+    LoadData();
 
     // Back to Top scroll listener
     const handleScroll = () => {
@@ -209,7 +107,7 @@ const BorrowedBooks = () => {
         book.id === selectedBook.id
           ? {
               ...book,
-              dueDate: newDueDate.toISOString().split("T")[0],
+              dueDate: book.due,
               renewalsLeft: book.renewalsLeft - 1,
               daysRemaining: 14,
             }
@@ -366,9 +264,9 @@ const BorrowedBooks = () => {
                       Loan Progress
                     </span>
                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                      {book.daysRemaining > 0
-                        ? `${book.daysRemaining} days left`
-                        : `${Math.abs(book.daysRemaining)} days overdue`}
+                      {book.days_left > 0
+                        ? `${book.days_left} days left`
+                        : `${Math.abs(book.days_left)} days overdue`}
                     </span>
                   </div>
                   <div className="w-full h-2 bg-gray-200 rounded-full dark:bg-gray-700">
@@ -392,7 +290,7 @@ const BorrowedBooks = () => {
                     <div>
                       <p className="text-xs text-gray-500">Borrowed</p>
                       <p className="text-sm font-medium">
-                        {formatDate(book.borrowedDate)}
+                        {formatDate(book.borrowed)}
                       </p>
                     </div>
                   </div>
@@ -402,10 +300,10 @@ const BorrowedBooks = () => {
                       <p className="text-xs text-gray-500">Due Date</p>
                       <p
                         className={`text-sm font-medium ${
-                          book.isOverdue ? "text-red-600 dark:text-red-400" : ""
+                          book.due ? "text-red-600 dark:text-red-400" : ""
                         }`}
                       >
-                        {formatDate(book.dueDate)}
+                        {formatDate(book.due)}
                       </p>
                     </div>
                   </div>

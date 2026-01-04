@@ -57,8 +57,16 @@ export const GetUserBooks = async () => {
       const NewData = Data.map((book) => ({
         title: book.title,
         author: book.author,
+        rating: book.rating,
+        description: book.description,
+        cover_image_url: book.cover_image_url,
+        borrow_duration_days: book.borrow_duration_days,
+        days_left: book.days_left,
+        genre: book.genre,
         status: book.status,
         due: new Date(book.due).toLocaleDateString(),
+        borrowed: new Date(book.borrowed).toLocaleDateString(),
+        id: book.id,
       }));
       return NewData;
     }

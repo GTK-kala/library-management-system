@@ -5,7 +5,7 @@ const API = import.meta.env.VITE_API_URL;
 ////////// FETCH ACTIVE USERS
 export const FetchActiveUsers = async () => {
   try {
-    const res = await fetch(`${API}/api/user`);
+    const res = await fetch(`${API}/api/users`);
     const data = await res.json();
     const Data = data.result;
     if (!res.ok) {

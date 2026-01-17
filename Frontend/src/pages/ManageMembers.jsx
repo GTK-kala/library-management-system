@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { FetchAllUsers } from "../Api/UserApi";
 import { mockMembers, roles, statuses, stats1 } from "../assets/Data/data";
 import {
   Edit,
@@ -38,11 +39,15 @@ const ManageMembers = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setMembers(mockMembers);
+    // Get all users from the backend
+    const LoadData = async () => {
+      setLoading(true);
+      const user = await FetchAllUsers();
+      console.log(user);
+      setMembers(user);
       setLoading(false);
-    }, 1000);
+    };
+    LoadData();
   }, []);
 
   // Back to Top functionality
@@ -359,7 +364,7 @@ const ManageMembers = () => {
                             </div>
                             <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
                               <Hash className="w-3 h-3 mr-1" />
-                              {member.membershipId}
+                              {member.membership_id}
                             </div>
                           </div>
                         </div>
@@ -404,9 +409,7 @@ const ManageMembers = () => {
                               ? "text-red-600 dark:text-red-400"
                               : "text-green-600 dark:text-green-400"
                           }`}
-                        >
-                          ${member.fine.toFixed(2)}
-                        </div>
+                        ></div>
                         {member.fine > 0 && (
                           <div className="text-xs text-gray-500 dark:text-gray-400">
                             Payment pending

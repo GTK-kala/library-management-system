@@ -1,7 +1,27 @@
-/////////////////// USER API LOGIC ////////////
+/////////////////// USER API LOGIC ////////////////
 const API = import.meta.env.VITE_API_URL;
 
-///////////// GET USER DATA ///////////
+/////////////////// GET ALL USERS ////////////////
+
+export const FetchAllUsers = async () => {
+  try {
+    const res = await fetch(`${API}/api/users`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const data = await res.json();
+    const Data = data.result;
+    if (!res.ok) {
+      console.log(data.message);
+    } else {
+      return Data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+///////////// GET USER DATA ////////////////////
 export const FetchUserData = async () => {
   try {
     const id = localStorage.getItem("id");
@@ -22,7 +42,7 @@ export const FetchUserData = async () => {
   }
 };
 
-////////////// GET BOOK STATUS ///////////
+////////////// GET BOOK STATUS /////////////////
 export const GetBookStatus = async () => {
   try {
     const id = localStorage.getItem("id");
@@ -44,7 +64,7 @@ export const GetBookStatus = async () => {
     console.log(error);
   }
 };
-
+/////////////// GET USER BOOKS ////////////////////////
 export const GetUserBooks = async () => {
   try {
     const id = localStorage.getItem("id");

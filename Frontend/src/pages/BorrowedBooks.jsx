@@ -12,10 +12,10 @@ import {
   FileText,
   ArrowLeft,
   RefreshCw,
+  ChevronUp,
   BookMarked,
   CheckCircle,
   AlertCircle,
-  ChevronRight,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -707,7 +707,7 @@ const BorrowedBooks = () => {
           className="fixed z-40 p-3 text-white transition-all duration-300 rounded-full shadow-lg bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl hover:scale-105"
           aria-label="Back to top"
         >
-          <ChevronRight className="w-5 h-5 transform rotate-270" />
+          <ChevronUp className="w-5 h-5 transform rotate-270" />
         </motion.button>
       )}
 

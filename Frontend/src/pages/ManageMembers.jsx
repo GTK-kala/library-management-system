@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { stats1 } from "../assets/Data/data";
 import { FetchAllUsers } from "../Api/UserApi";
-import { mockMembers, roles, statuses, stats1 } from "../assets/Data/data";
 import {
   Edit,
   Lock,
@@ -43,7 +43,6 @@ const ManageMembers = () => {
     const LoadData = async () => {
       setLoading(true);
       const user = await FetchAllUsers();
-      console.log(user);
       setMembers(user);
       setLoading(false);
     };
@@ -93,7 +92,7 @@ const ManageMembers = () => {
   const startIndex = (currentPage - 1) * membersPerPage;
   const currentMembers = filteredMembers.slice(
     startIndex,
-    startIndex + membersPerPage
+    startIndex + membersPerPage,
   );
 
   // Handle member actions
@@ -112,12 +111,14 @@ const ManageMembers = () => {
   const handleToggleStatus = (member) => {
     const newStatus = member.status === "active" ? "inactive" : "active";
     setMembers(
-      members.map((m) => (m.id === member.id ? { ...m, status: newStatus } : m))
+      members.map((m) =>
+        m.id === member.id ? { ...m, status: newStatus } : m,
+      ),
     );
     toast.success(
       `Member ${
         newStatus === "active" ? "activated" : "deactivated"
-      } successfully`
+      } successfully`,
     );
     setIsActionMenuOpen(null);
   };
@@ -373,7 +374,7 @@ const ManageMembers = () => {
                         <div className="space-y-2">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(
-                              member.role
+                              member.role,
                             )}`}
                           >
                             {member.role.charAt(0).toUpperCase() +
@@ -382,7 +383,7 @@ const ManageMembers = () => {
                           <div className="flex items-center">
                             <span
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-                                member.status
+                                member.status,
                               )}`}
                             >
                               {getStatusIcon(member.status)}
@@ -423,7 +424,7 @@ const ManageMembers = () => {
                               setIsActionMenuOpen(
                                 isActionMenuOpen === member.id
                                   ? null
-                                  : member.id
+                                  : member.id,
                               )
                             }
                             className="p-2 text-gray-400 rounded-lg hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -489,7 +490,7 @@ const ManageMembers = () => {
                   Showing {startIndex + 1} to{" "}
                   {Math.min(
                     startIndex + membersPerPage,
-                    filteredMembers.length
+                    filteredMembers.length,
                   )}{" "}
                   of {filteredMembers.length} members
                 </div>

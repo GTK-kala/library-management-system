@@ -21,6 +21,8 @@ export const FetchAllUsers = async () => {
   }
 };
 
+export const All_Users = await FetchAllUsers();
+
 ///////////// GET USER DATA ////////////////////
 export const FetchUserData = async () => {
   try {

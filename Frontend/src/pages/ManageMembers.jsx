@@ -44,6 +44,7 @@ const ManageMembers = () => {
       setLoading(true);
       const user = await FetchAllUsers();
       setMembers(user);
+      console.log(user);
       setLoading(false);
     };
     LoadData();
@@ -397,10 +398,10 @@ const ManageMembers = () => {
                       </td>
                       <td className="px-4 py-4">
                         <div className="text-sm text-gray-900 dark:text-white">
-                          {member.borrowedBooks} current
+                          {member.borrowed_count} current
                         </div>
                         <div className="text-xs text-gray-500 dark:text-gray-400">
-                          {member.totalBorrowed} total
+                          {member.borrowed_count} total
                         </div>
                       </td>
                       <td className="px-4 py-4">

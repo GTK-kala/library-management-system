@@ -8,7 +8,19 @@ export const GetAllUsers = (req, res) => {
         message: "No token found",
       });
     }
-    const sql = "SELECT * FROM users";
+    const sql = `SELECT 
+          u.id,
+          u.name,
+          u.email,
+          u.role,
+          u.status,
+          u.membership_id,
+          COUNT(bb.id) AS borrowed_count
+          FROM users u
+          LEFT JOIN borrowings bb 
+          ON u.id = bb.user_id
+          GROUP BY u.id, u.name, u.email, u.role;
+      `;
     db.query(sql, (err, result) => {
       if (err) {
         return res.status(500).json({

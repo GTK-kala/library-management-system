@@ -22,11 +22,13 @@ import { verifyTokens, AddBooks } from "../Controller/Book/AddBooks.js";
 import { BorrowBooks, VerifyUser } from "../Controller/Book/BorrowBooks.js";
 
 // ADMIN ROUTES FUNCTIONS
+import { AddMember } from "../Controller/Admin/AddMember.js";
 import { GetAllUsers } from "../Controller/Admin/GetAllUsers.js";
 import { GetBookStatus } from "../Controller/Admin/GetBookStatus.js";
 
 // ADMIN ROUTE
 route.get("/users", GetAllUsers);
+route.post("/admin/register", AddMember);
 route.get("/book/status", GetBookStatus);
 
 // USER ROUTE

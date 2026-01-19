@@ -25,8 +25,12 @@ import {
 import toast from "react-hot-toast";
 
 const ManageMembers = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [members, setMembers] = useState([]);
+  const [role, setRole] = useState("member");
   const [loading, setLoading] = useState(true);
+  const [password, setPassword] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRole, setSelectedRole] = useState("all");
@@ -38,13 +42,50 @@ const ManageMembers = () => {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  const AddMember = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const newMember = {
+      name,
+      email,
+      password,
+      role,
+    };
+    try {
+      const API = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${API}/api/admin/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMember),
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log("Error Response Data:", data);
+        toast.error("Failed to add member. Please try again.");
+      } else {
+        toast.success("Member added successfully");
+        console.log("New Member", newMember);
+      }
+    } catch (error) {
+      console.error("Error adding member:", error);
+    }
+    setName("");
+    setEmail("");
+    setPassword("");
+    setRole("member");
+    setLoading(false);
+    setIsAddModalOpen(false);
+  };
+
   useEffect(() => {
     // Get all users from the backend
     const LoadData = async () => {
       setLoading(true);
       const user = await FetchAllUsers();
       setMembers(user);
-      console.log(user);
       setLoading(false);
     };
     LoadData();
@@ -627,6 +668,8 @@ const ManageMembers = () => {
                         </label>
                         <input
                           type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
                           placeholder="Enter full name"
                         />
@@ -637,6 +680,8 @@ const ManageMembers = () => {
                         </label>
                         <input
                           type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
                           placeholder="Enter email"
                         />
@@ -644,19 +689,25 @@ const ManageMembers = () => {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Phone
+                            Password
                           </label>
                           <input
-                            type="tel"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
-                            placeholder="Phone number"
+                            placeholder="Enter password"
                           />
                         </div>
                         <div>
                           <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
                             Role
                           </label>
-                          <select className="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                          <select
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                          >
                             <option value="member">Member</option>
                             <option value="premium">Premium</option>
                             <option value="admin">Admin</option>
@@ -669,7 +720,8 @@ const ManageMembers = () => {
               </div>
               <div className="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
-                  onClick={() => setIsAddModalOpen(false)}
+                  type="button"
+                  onClick={(e) => AddMember(e)}
                   className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-600 border border-transparent rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Add Member

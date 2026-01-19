@@ -150,18 +150,38 @@ const ManageMembers = () => {
     setIsActionMenuOpen(null);
   };
 
-  const handleToggleStatus = (member) => {
-    const newStatus = member.status === "active" ? "inactive" : "active";
-    setMembers(
-      members.map((m) =>
-        m.id === member.id ? { ...m, status: newStatus } : m,
-      ),
-    );
-    toast.success(
-      `Member ${
-        newStatus === "active" ? "activated" : "deactivated"
-      } successfully`,
-    );
+  const handleToggleStatus = async (member, e) => {
+    e.preventDefault();
+    try {
+      const id = member.id;
+      const API = import.meta.env.VITE_API_URL;
+      const newStatus = member.status === "active" ? "inactive" : "active";
+      const res = await fetch(`${API}/api/admin/user/status/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setMembers(
+          members.map((m) =>
+            m.id === member.id ? { ...m, status: newStatus } : m,
+          ),
+        );
+        toast.success(
+          `Member ${
+            newStatus === "active" ? "activated" : "deactivated"
+          } successfully`,
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
     setIsActionMenuOpen(null);
   };
 
@@ -484,7 +504,7 @@ const ManageMembers = () => {
                                 Edit Member
                               </button>
                               <button
-                                onClick={() => handleToggleStatus(member)}
+                                onClick={(e) => handleToggleStatus(member, e)}
                                 className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                               >
                                 {member.status === "active" ? (

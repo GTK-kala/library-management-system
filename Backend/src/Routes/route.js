@@ -23,6 +23,7 @@ import { BorrowBooks, VerifyUser } from "../Controller/Book/BorrowBooks.js";
 
 // ADMIN ROUTES FUNCTIONS
 import { AddMember } from "../Controller/Admin/AddMember.js";
+import { UserStatus } from "../Controller/Admin/UserStatus.js";
 import { GetAllUsers } from "../Controller/Admin/GetAllUsers.js";
 import { GetBookStatus } from "../Controller/Admin/GetBookStatus.js";
 
@@ -30,6 +31,7 @@ import { GetBookStatus } from "../Controller/Admin/GetBookStatus.js";
 route.get("/users", GetAllUsers);
 route.post("/admin/register", AddMember);
 route.get("/book/status", GetBookStatus);
+route.put("/admin/user/status/:id", UserStatus);
 
 // USER ROUTE
 route.post("/login", Login);

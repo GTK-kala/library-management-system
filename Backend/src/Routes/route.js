@@ -25,6 +25,7 @@ import { BorrowBooks, VerifyUser } from "../Controller/Book/BorrowBooks.js";
 import { AddMember } from "../Controller/Admin/AddMember.js";
 import { UserStatus } from "../Controller/Admin/UserStatus.js";
 import { GetAllUsers } from "../Controller/Admin/GetAllUsers.js";
+import { DeleteMember } from "../Controller/Admin/DeleteMember.js";
 import { GetBookStatus } from "../Controller/Admin/GetBookStatus.js";
 
 // ADMIN ROUTE
@@ -32,6 +33,7 @@ route.get("/users", GetAllUsers);
 route.post("/admin/register", AddMember);
 route.get("/book/status", GetBookStatus);
 route.put("/admin/user/status/:id", UserStatus);
+route.delete("/admin/deleteMember/:id", DeleteMember);
 
 // USER ROUTE
 route.post("/login", Login);

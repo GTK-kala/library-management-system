@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { stats1 } from "../assets/Data/data";
+import { DeleteMember } from "../Api/AdminApi";
 import { FetchAllUsers } from "../Api/UserApi";
 import {
   Edit,
@@ -144,7 +145,7 @@ const ManageMembers = () => {
     setIsActionMenuOpen(null);
   };
 
-  const handleDeleteMember = (member) => {
+  const handleDeleteMember = async (member) => {
     setSelectedMember(member);
     setIsDeleteModalOpen(true);
     setIsActionMenuOpen(null);
@@ -192,6 +193,7 @@ const ManageMembers = () => {
 
   const handleConfirmDelete = () => {
     setMembers(members.filter((m) => m.id !== selectedMember.id));
+    DeleteMember(selectedMember);
     toast.success(`Member ${selectedMember.name} deleted successfully`);
     setIsDeleteModalOpen(false);
     setSelectedMember(null);
@@ -788,7 +790,9 @@ const ManageMembers = () => {
               </div>
               <div className="px-4 py-3 bg-gray-50 dark:bg-gray-700/50 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
-                  onClick={handleConfirmDelete}
+                  onClick={() => {
+                    handleConfirmDelete();
+                  }}
                   className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-lg shadow-sm hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
                 >
                   Delete

@@ -5,7 +5,7 @@ export const GetAllUsers = (req, res) => {
     const toke = req.cookies.token || req.headers.authorization;
     if (!toke) {
       return res.status(401).json({
-        message: "No token found",
+        message: "No token found!!!",
       });
     }
     const sql = `SELECT 

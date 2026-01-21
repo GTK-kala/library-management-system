@@ -4,9 +4,11 @@ const API = import.meta.env.VITE_API_URL;
 /////////////////// GET ALL USERS ////////////////
 
 export const FetchAllUsers = async () => {
+  const id = localStorage.getItem("id");
   try {
     const res = await fetch(`${API}/api/users`, {
       method: "GET",
+      headers: { authorization: id },
       credentials: "include",
     });
     const data = await res.json();
@@ -14,7 +16,7 @@ export const FetchAllUsers = async () => {
     if (!res.ok) {
       console.log(data.message);
     } else {
-      return Data;
+      return Data.filter((user) => user.role !== "admin");
     }
   } catch (error) {
     console.log(error);

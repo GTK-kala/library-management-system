@@ -5,11 +5,11 @@ dotenv.config();
 
 //////// PRODUCTION DATABASE
 const connection = mysql.createConnection({
-  port: process.env.MYSQLPORT,
-  user: process.env.MYSQLUSER,
-  host: process.env.MYSQLHOST,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 connection.connect(() => {
